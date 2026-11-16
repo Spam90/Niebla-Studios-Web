@@ -233,4 +233,89 @@ wireChannels();
 $("year").textContent = String(new Date().getFullYear());
 initSymbols();
 initProgress();
+
+/* ---------- Sistema de movimiento inmersivo ---------- */
+function initMotion(){
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  const revealTargets = [
+    ...document.querySelectorAll("#servicios .section-head, #servicios .service-group"),
+    ...document.querySelectorAll("#proyectos .section-head, #proyectos .project"),
+    ...document.querySelectorAll("#nosotros .about-grid > *"),
+    ...document.querySelectorAll("#proceso .section-head, #proceso .step"),
+    ...document.querySelectorAll("#contacto .section-head, #contacto .form"),
+    ...document.querySelectorAll(".footer-grid > *")
+  ];
+  revealTargets.forEach((el,i) => {
+    el.dataset.reveal = el.classList.contains("project") && i % 2 ? "right" : "up";
+    el.style.setProperty("--reveal-delay", (el.classList.contains("step") ? (i % 4) * 110 : el.classList.contains("project") ? (i % 3) * 120 : 50) + "ms");
+  });
+
+  if (reduce){
+    revealTargets.forEach(el => el.classList.add("is-visible"));
+  }else if ("IntersectionObserver" in window){
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      });
+    },{threshold:.12,rootMargin:"0px 0px -7% 0px"});
+    revealTargets.forEach(el => revealObserver.observe(el));
+  }else{
+    revealTargets.forEach(el => el.classList.add("is-visible"));
+  }
+
+  document.querySelectorAll(".svc").forEach(card => {
+    card.addEventListener("pointermove",e => {
+      const r=card.getBoundingClientRect();
+      card.style.setProperty("--mx",(e.clientX-r.left)+"px");
+      card.style.setProperty("--my",(e.clientY-r.top)+"px");
+    },{passive:true});
+  });
+
+  if(finePointer && !reduce){
+    document.querySelectorAll(".project").forEach(card => {
+      card.addEventListener("pointermove",e => {
+        const r=card.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width;
+        const y=(e.clientY-r.top)/r.height;
+        card.style.setProperty("--tilt-x",((.5-y)*4).toFixed(2)+"deg");
+        card.style.setProperty("--tilt-y",((x-.5)*5).toFixed(2)+"deg");
+        card.style.setProperty("--mx",(x*100)+"%");
+        card.style.setProperty("--my",(y*100)+"%");
+        const media=card.querySelector(".project-media");
+        if(media){
+          media.style.setProperty("--mx",(x*100)+"%");
+          media.style.setProperty("--my",(y*100)+"%");
+        }
+      },{passive:true});
+      card.addEventListener("pointerleave",()=>{
+        card.style.setProperty("--tilt-x","0deg");
+        card.style.setProperty("--tilt-y","0deg");
+        card.style.setProperty("--mx","50%");
+        card.style.setProperty("--my","50%");
+      });
+    });
+  }
+
+  const navLinks=[...document.querySelectorAll('.site-nav a[href^="#"]')];
+  const observedSections=navLinks.map(a=>document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  if("IntersectionObserver" in window){
+    const navObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting)return;
+        navLinks.forEach(a=>{
+          if(a.getAttribute("href")==="#"+entry.target.id) a.setAttribute("aria-current","location");
+          else a.removeAttribute("aria-current");
+        });
+      });
+    },{rootMargin:"-42% 0px -48% 0px",threshold:0});
+    observedSections.forEach(section=>navObserver.observe(section));
+  }
+  document.documentElement.classList.add("motion-ready");
+}
+
+initMotion();
 })();
