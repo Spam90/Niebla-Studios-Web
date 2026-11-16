@@ -1363,6 +1363,23 @@ body::before{
   opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0);
 }
 
+/* Las tarjetas combinan el reveal de entrada con la inclinación 3D del cursor.
+   Se especifica aquí para evitar que [data-reveal] anule el transform de .project. */
+.project[data-reveal]{
+  transform:translate3d(0,54px,0) scale(.985) perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+}
+.project[data-reveal="right"]{
+  transform:translate3d(64px,18px,0) scale(.985) perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+}
+.project[data-reveal].is-visible{
+  transform:translate3d(0,0,0) scale(1) perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+}
+@media(max-width:860px){
+  .project[data-reveal],.project[data-reveal="right"],.project[data-reveal].is-visible{
+    transform:none!important;
+  }
+}
+
 /* Servicios: superficies con luz dinámica y respuesta al cursor. */
 .svc{
   --mx:50%;--my:50%;
