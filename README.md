@@ -1,67 +1,42 @@
-# Niebla Studios — web oficial
+# Niebla Studios — sitio web oficial
 
-Sitio estático en HTML5, CSS3 y JavaScript puro. Sin frameworks ni pasos de compilación.
+Sitio estático desarrollado con HTML, CSS y JavaScript vanilla. No requiere framework ni proceso de compilación.
 
-## Archivos
-- `index.html` — página única: inicio, servicios, proyectos, nosotros, proceso y contacto.
-- `css/styles.css` — diseño visual y responsive, con `prefers-reduced-motion`.
-- `js/config.js` — **configuración centralizada** (dominio, contacto, endpoint del formulario).
-- `js/main.js` — menú móvil con foco atrapado, validación, envío del formulario y canales de contacto.
-- `js/symbol-3d.js` — símbolo 3D del hero en WebGL, construido a partir de `assets/logo.png`.
-- `assets/logo.png` — logo oficial, sin modificar.
-- `assets/simbolo.png`, `assets/simbolo-transparente.png` — recortes del mismo símbolo para cabecera, pie e icono.
-- `robots.txt`, `sitemap.xml` — rastreo básico.
+## Archivos principales
+- `index.html`: contenido y estructura de la página.
+- `styles.css`: sistema visual y adaptación responsive. El diseño editorial está aprobado y no debe modificarse sin autorización.
+- `main.js`: navegación móvil, canales de contacto, símbolo 3D y comportamiento de la página.
+- `config.js`: configuración centralizada del nombre y los canales oficiales.
+- `symbol-3d.js`: símbolo 3D WebGL y su alternativa de respaldo.
+- `assets/logo.png` y `assets/simbolo-transparente.png`: recursos gráficos utilizados por el sitio.
 
-## Configuración (`js/config.js`)
-Todos los datos del sitio se completan en ese único archivo:
+## Estado real de la agencia y reglas de contenido
+Niebla Studios todavía no tiene clientes. Por tanto:
+- No publicar testimonios, reseñas, logotipos de clientes, cifras de proyectos, estadísticas ni casos de éxito inventados.
+- La sección pública se denomina **Demos y exploraciones**. Sus tres piezas son demostraciones conceptuales, no trabajos contratados ni proyectos de clientes.
+- Mantener todos los servicios de desarrollo web y software aprobados. Describir el alcance con precisión y no afirmar experiencia, resultados o funcionalidades que no se hayan comprobado.
+- La sección Nosotros puede explicar el equipo, el enfoque y el proceso sin fingir trayectoria comercial.
+- El proceso de trabajo explica cómo se atenderán futuros proyectos; no representa experiencia acumulada.
+- No añadir secciones de prueba social hasta disponer de material auténtico y autorización para publicarlo.
 
-| Campo | Uso | Estado |
-|---|---|---|
-| `site.domain` | Canonical, Open Graph, Schema.org, sitemap | PENDIENTE |
-| `site.twitterHandle` | Tarjeta de Twitter/X (opcional) | PENDIENTE |
-| `contact.email` | Enlaces de correo | PENDIENTE |
-| `contact.whatsapp` | Enlace wa.me (solo dígitos, con prefijo de país) | PENDIENTE |
-| `form.endpoint` | Recepción del formulario (POST JSON) | PENDIENTE |
+## Contacto
+El correo oficial confirmado es `nieblastudiosrd@gmail.com`. El enlace se genera desde `config.js`.
 
-Mientras un campo esté vacío, el canal correspondiente aparece deshabilitado y marcado como pendiente. El formulario valida los datos, pero no simula un envío: si no hay endpoint, lo indica al visitante.
+WhatsApp todavía no está configurado. El sitio oculta el canal mientras el número oficial no exista; no debe mostrarse un botón deshabilitado ni sustituirse por un número personal sin autorización.
 
-Los metadatos SEO, Open Graph y Schema.org están escritos directamente en `index.html`, porque los rastreadores los leen sin ejecutar JavaScript. Al publicar, sustituir `[DOMINIO]` y los textos de `[DESCRIPCIÓN SEO]` / `[SUBTÍTULO SEO]`.
+El formulario anterior fue retirado porque no tenía un endpoint real y no podía enviar mensajes. La página ofrece contacto directo por correo hasta que se implemente y pruebe una integración real. No volver a mostrar un formulario sin verificar recepción, errores y protección de datos.
 
-## Marcadores de contenido pendientes
-`index.html` contiene 65 marcadores entre corchetes. Son textos que redacta ChatGPT, no se han inventado. Agrupados:
+## Configuración
+En `config.js`:
+- `site.domain`: dominio definitivo; pendiente.
+- `contact.email`: correo oficial confirmado.
+- `contact.whatsapp`: número oficial en formato internacional, solo dígitos; pendiente.
+- `contact.whatsappMessage`: texto inicial del enlace de WhatsApp.
 
-- **SEO y metadatos:** `[SUBTÍTULO SEO]`, `[DESCRIPCIÓN SEO]`, `[DOMINIO]`.
-- **Navegación y hero:** `[TEXTO BOTÓN SOLICITAR PROYECTO]`, `[ETIQUETA]`, `[TITULAR PRINCIPAL]`, `[DESCRIPCIÓN DE LA AGENCIA]`, `[TEXTO BOTÓN PRINCIPAL]`, `[TEXTO BOTÓN SECUNDARIO]`.
-- **Servicios:** títulos de sección, descripción y resultado para el cliente de cada uno de los seis servicios.
-- **Proyectos:** título de sección, nota, y para cada proyecto: tipo (cliente o demostración), nombre, descripción, enlace y captura.
-- **Nosotros:** título y dos párrafos.
-- **Proceso:** título y descripción de los cuatro pasos.
-- **Contacto:** título, texto, botón de envío.
-- **Pie:** descripción breve.
+Los marcadores de dominio en canonical, Open Graph y Schema.org deben sustituirse cuando se confirme el dominio definitivo.
 
-Para integrar contenido sin romper el diseño, cada texto debe tener una longitud parecida al marcador que sustituye.
-
-## Pruebas realizadas
-- Enlaces internos: 22 anclas, ninguna rota. Todos los recursos locales existen.
-- Escritorio y móvil sin errores de JavaScript. El único error es la carga de Google Fonts, que el entorno de prueba no puede alcanzar.
-- Menú móvil: apertura, cierre con Escape, foco atrapado, sin desbordamiento horizontal.
-- Formulario: validación con mensajes accesibles; envío correcto con endpoint simulado; aviso sin endpoint.
-- Canales de contacto: enlaces `wa.me` y `mailto:` generados desde la configuración.
-- Símbolo 3D: renderiza en WebGL; sin WebGL se muestra `assets/logo.png`.
-- Movimiento reducido: sin entradas animadas ni giro automático.
-
-## Pendiente antes de publicar
-- Probar en Safari y en un teléfono real.
-- Conectar el endpoint del formulario.
-- Sustituir todos los marcadores con el contenido definitivo.
-
-## Rediseño visual (noviembre 2026)
-- `styles.css`: sistema editorial nuevo (paleta, Sora e Inter sin cambios). Servicios como índice en filas, proyectos en composición asimétrica, proceso como línea de tiempo, formulario con campos subrayados.
-- `symbol-3d.js`: misma geometría del remolino, sin tocar proporciones. Solo se añadieron opciones (`zoom`, `spin`, `angle`, `tilt`, `scroll`, `pointer`) y se centró el pivote de giro.
-- `main.js`: el símbolo 3D se monta en el hero (gira y avanza con el scroll), en la cabecera y en el pie. Si no hay WebGL, se usa `assets/simbolo-transparente.png` o `assets/logo.png`.
-- `index.html`: misma estructura, ids y marcadores de contenido. No se escribió texto nuevo.
-- Nota: el ZIP recibido no incluía la carpeta `assets/`; los archivos están en una sola carpeta. Las imágenes de respaldo y el favicon necesitan `assets/` junto a `index.html`.
-
-## Segunda versión del rediseño
-- El símbolo 3D es ahora un escenario fijo (`#stage`): cada sección declara su pose en `data-pose` (x, y, zoom, ry, a) y `main.js` la aplica al entrar en vista. `symbol-3d.js` expone `pose()`.
-- Los textos de hero, servicios, nosotros, proceso y contacto son una **propuesta de copy** basada solo en lo documentado (los seis servicios y los cuatro pasos). Edítalos libremente en `index.html`. Siguen como marcadores los textos de Proyectos y los datos de contacto.
+## Criterios de cambios
+- No rediseñar ni alterar CSS, composición, animaciones o símbolo 3D sin petición expresa.
+- Diferenciar demo, proyecto personal, trabajo contratado y caso de éxito.
+- No afirmar que la web está publicada o que un canal funciona sin comprobarlo.
+- Registrar decisiones relevantes también en el repositorio central `Spam90/Agencia-del-goat`.
