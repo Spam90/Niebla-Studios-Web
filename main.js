@@ -5,15 +5,12 @@
 
 const CONFIG = window.NIEBLA_CONFIG || {};
 const CONTACT = CONFIG.contact || {};
-const FORM_ENDPOINT = (CONFIG.form && CONFIG.form.endpoint) || "";
+
 
 const $ = id => document.getElementById(id);
 const header = $("siteHeader");
 const menuToggle = $("menuToggle");
 const siteNav = $("siteNav");
-const form = $("contactForm");
-const submitBtn = $("submitBtn");
-const formStatus = $("formStatus");
 
 /* ---------- Cabecera al hacer scroll ---------- */
 function onScroll(){ header.classList.toggle("scrolled", window.scrollY > 8); }
@@ -56,16 +53,18 @@ document.addEventListener("keydown", e => {
 window.matchMedia("(min-width: 861px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
 
 /* ---------- Canales de contacto ---------- */
-function setChannel(el, href, pendingText){
+function setChannel(el, href){
+  if (!el) return;
   if (href){
     el.href = href;
+    el.hidden = false;
     el.removeAttribute("aria-disabled");
     el.removeAttribute("tabindex");
   } else {
-    el.href = "#contacto";
+    el.hidden = true;
+    el.removeAttribute("href");
     el.setAttribute("aria-disabled", "true");
     el.setAttribute("tabindex", "-1");
-    if (pendingText) el.textContent = pendingText;
   }
 }
 
@@ -77,85 +76,10 @@ function wireChannels(){
   const mailHref = CONTACT.email ? `mailto:${CONTACT.email}` : "";
 
   setChannel($("whatsappLink"), waHref);
-  setChannel($("footerWhatsapp"), waHref, "WhatsApp: pendiente");
+  setChannel($("footerWhatsapp"), waHref);
   setChannel($("emailLink"), mailHref);
-  setChannel($("footerEmail"), mailHref, "Correo: pendiente");
+  setChannel($("footerEmail"), mailHref);
 }
-
-/* ---------- Validación del formulario ---------- */
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const rules = {
-  fName: { check: v => v.trim().length >= 2, msg: "Escribe tu nombre." },
-  fEmail: { check: v => EMAIL_RE.test(v.trim()), msg: "Escribe un correo válido." },
-  fMessage: { check: v => v.trim().length >= 10, msg: "Cuéntanos un poco más (mínimo 10 caracteres)." }
-};
-
-function validateField(input){
-  const rule = rules[input.id];
-  if (!rule) return true;
-  const ok = rule.check(input.value);
-  const wrap = input.closest(".field");
-  const err = $("e" + input.id.slice(1));
-  wrap.dataset.invalid = ok ? "false" : "true";
-  input.setAttribute("aria-invalid", String(!ok));
-  err.textContent = ok ? "" : rule.msg;
-  return ok;
-}
-
-Object.keys(rules).forEach(id => {
-  const input = $(id);
-  input.addEventListener("blur", () => validateField(input));
-  input.addEventListener("input", () => {
-    if (input.closest(".field").dataset.invalid === "true") validateField(input);
-  });
-});
-
-function setStatus(text, kind){
-  formStatus.textContent = text;
-  formStatus.className = "form-status" + (kind ? " " + kind : "");
-}
-
-form.addEventListener("submit", async e => {
-  e.preventDefault();
-
-  let firstInvalid = null;
-  Object.keys(rules).map($).forEach(f => {
-    if (!validateField(f) && !firstInvalid) firstInvalid = f;
-  });
-  if (firstInvalid){
-    firstInvalid.focus();
-    setStatus("Revisa los campos marcados.", "err");
-    return;
-  }
-
-  if (!FORM_ENDPOINT){
-    setStatus("El formulario todavía no está conectado. Escríbenos por correo o WhatsApp mientras tanto.", "err");
-    return;
-  }
-
-  const data = Object.fromEntries(new FormData(form).entries());
-  submitBtn.disabled = true;
-  submitBtn.setAttribute("aria-busy", "true");
-  setStatus("Enviando…");
-
-  try{
-    const res = await fetch(FORM_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    form.reset();
-    Object.keys(rules).forEach(id => $(id).closest(".field").dataset.invalid = "false");
-    setStatus("Mensaje enviado. Te responderemos pronto.", "ok");
-  }catch(err){
-    console.error(err);
-    setStatus("No pudimos enviar el mensaje. Inténtalo de nuevo o escríbenos por otro canal.", "err");
-  }finally{
-    submitBtn.disabled = false;
-    submitBtn.removeAttribute("aria-busy");
-  }
-});
 
 /* ---------- Símbolo 3D con alternativa ---------- */
 function mountSymbol(canvas, host, opts){
