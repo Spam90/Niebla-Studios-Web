@@ -20,14 +20,4 @@ window.NIEBLA_CONFIG = {
     endpoint: ""                // URL que recibe el formulario por POST (JSON). PENDIENTE
   }
 
-  /*
-   PENDIENTES DE CONTENIDO (redactados por ChatGPT, no incluidos en la configuración):
-   - Textos de cada [MARCADOR] en index.html.
-   - Descripciones de servicios y resultados para el cliente.
-   - Proyectos reales o de demostración, con capturas, nombre, tipo y enlace.
-   - Texto de la sección Nosotros.
-   - Textos del proceso de trabajo.
-   - Metadatos SEO: título, descripción y subtítulo (también en Open Graph y Schema.org).
-   Ver README.md para el listado completo.
-  */
 };
