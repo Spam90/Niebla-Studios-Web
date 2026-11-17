@@ -1,5 +1,5 @@
 /* Niebla Studios — comportamiento de la web.
-   Los datos del sitio se toman de js/config.js (window.NIEBLA_CONFIG). */
+   Los datos de contacto y configuración se toman de ./config.js (window.NIEBLA_CONFIG). */
 (function(){
 "use strict";
 
