@@ -5,14 +5,14 @@ window.NIEBLA_CONFIG = {
 
   site: {
     name: "Niebla Studios",
-    domain: "",                 // Ej: "nieblastudios.com" (sin https://). PENDIENTE
-    locale: "es_DO",            // Configuración regional para Open Graph
-    twitterHandle: ""           // Ej: "@nieblastudios". Opcional. PENDIENTE
+    domain: "",                 // Dominio definitivo. PENDIENTE
+    locale: "es_DO",
+    twitterHandle: ""           // Opcional. PENDIENTE
   },
 
   contact: {
-    email: "",                  // Correo de contacto público. PENDIENTE
-    whatsapp: "",               // Solo dígitos con prefijo de país. Ej: "18090000000". PENDIENTE
+    email: "nieblastudiosrd@gmail.com",
+    whatsapp: "",               // Número oficial de la agencia. PENDIENTE
     whatsappMessage: "Hola, quiero solicitar un proyecto con Niebla Studios."
   },
 
