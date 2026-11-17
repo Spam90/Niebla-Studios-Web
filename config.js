@@ -16,8 +16,4 @@ window.NIEBLA_CONFIG = {
     whatsappMessage: "Hola, quiero solicitar un proyecto con Niebla Studios."
   },
 
-  form: {
-    endpoint: ""                // URL que recibe el formulario por POST (JSON). PENDIENTE
-  }
-
 };
