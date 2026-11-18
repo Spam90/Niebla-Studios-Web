@@ -218,6 +218,7 @@ wireChannels();
 $("year").textContent = String(new Date().getFullYear());
 initSymbols();
 initProgress();
+initHeroLetterField();
 
 /* ---------- Sistema de movimiento inmersivo ---------- */
 function initMotion(){
