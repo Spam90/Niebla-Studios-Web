@@ -164,7 +164,7 @@ function initHeroLetterField(){
   nodes.forEach(node=>{
     const fragment=document.createDocumentFragment();
     for(const char of node.nodeValue){
-      if(/\\s/.test(char)){ fragment.append(document.createTextNode(char)); continue; }
+      if(/\s/.test(char)){ fragment.append(document.createTextNode(char)); continue; }
       const letter=document.createElement("span");
       letter.className="hero-letter";
       letter.setAttribute("aria-hidden","true");
@@ -214,7 +214,8 @@ function initHeroLetterField(){
       letter.style.setProperty("--lr","0deg");
     });
   });
-}\n/* ---------- Arranque ---------- */
+}
+/* ---------- Arranque ---------- */
 wireChannels();
 $("year").textContent = String(new Date().getFullYear());
 initSymbols();
