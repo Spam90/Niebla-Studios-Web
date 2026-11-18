@@ -1979,3 +1979,114 @@ img,canvas,svg{max-width:100%}
   #proceso .step-num{margin-bottom:10px}
   #contacto .contact-grid .section-note{font-size:9px;line-height:1.45}
 }
+
+
+/* HORIZONTAL DESKTOP — second scale correction.
+   The previous compact rules were being overridden by later ID-level art direction.
+   These scoped selectors intentionally win without changing the mobile layout. */
+@media (min-width:861px) and (hover:hover) and (pointer:fine){
+  body.horizontal-active .horizontal-panel.section{
+    padding-top:104px;
+    padding-bottom:22px;
+  }
+  body.horizontal-active #servicios.horizontal-panel,
+  body.horizontal-active #enfoque.horizontal-panel,
+  body.horizontal-active #proyectos.horizontal-panel,
+  body.horizontal-active #nosotros.horizontal-panel,
+  body.horizontal-active #proceso.horizontal-panel,
+  body.horizontal-active #contacto.horizontal-panel{
+    padding-top:104px;
+    padding-bottom:22px;
+  }
+  body.horizontal-active .horizontal-panel.section h2,
+  body.horizontal-active #servicios h2,
+  body.horizontal-active #enfoque h2,
+  body.horizontal-active #proyectos .section-head h2,
+  body.horizontal-active #nosotros .about-grid h2,
+  body.horizontal-active #proceso h2,
+  body.horizontal-active #contacto .section-head h2{
+    font-size:clamp(2.55rem,4.25vw,4.15rem);
+    line-height:.94;
+    letter-spacing:-.075em;
+  }
+  body.horizontal-active .horizontal-panel .section-head{margin-bottom:20px;gap:22px}
+  body.horizontal-active #servicios h2{max-width:12ch;margin-bottom:18px}
+  body.horizontal-active #servicios .service-group{grid-template-columns:120px minmax(0,1fr);gap:14px 20px;margin-top:16px}
+  body.horizontal-active #servicios .service-group + .service-group{margin-top:28px}
+  body.horizontal-active #servicios .group-title{font-size:9px;padding:8px 0 0 12px}
+  body.horizontal-active #servicios .svc-list{gap:8px}
+  body.horizontal-active #servicios .svc{min-height:132px;padding:12px}
+  body.horizontal-active #servicios .svc h4{font-size:clamp(1rem,1.35vw,1.3rem);line-height:1.08}
+  body.horizontal-active #servicios .svc-desc{margin-top:9px;font-size:10px;line-height:1.4}
+  body.horizontal-active #enfoque .method-intro{gap:12px}
+  body.horizontal-active #enfoque .method-intro h2{max-width:13ch}
+  body.horizontal-active #enfoque .method-intro .section-note{font-size:11px;line-height:1.5}
+  body.horizontal-active #enfoque .method-grid{gap:14px;margin-top:24px}
+  body.horizontal-active #enfoque .method-step{min-height:0;padding:18px 16px 16px 0}
+  body.horizontal-active #enfoque .method-step h3{font-size:1.1rem;margin:10px 0 6px}
+  body.horizontal-active #enfoque .method-step p{font-size:10px;line-height:1.5}
+  body.horizontal-active #proyectos .section-head h2{font-size:clamp(2.6rem,4.1vw,4rem)}
+  body.horizontal-active #proyectos .section-note{font-size:10px;line-height:1.45}
+  body.horizontal-active #proyectos .project-grid{gap:16px}
+  body.horizontal-active #proyectos .project-media,
+  body.horizontal-active #proyectos .project:first-child .project-media{aspect-ratio:1.9/1}
+  body.horizontal-active #proyectos .project{gap:7px}
+  body.horizontal-active #proyectos .project h3{font-size:1.15rem}
+  body.horizontal-active #proyectos .project p{font-size:10px;line-height:1.4}
+  body.horizontal-active #proyectos .project .badge{margin-top:8px;font-size:9px}
+  body.horizontal-active #proyectos .project .text-link{margin-top:4px;font-size:10px}
+  body.horizontal-active #nosotros .about-grid{grid-template-columns:minmax(0,1.1fr) minmax(250px,.9fr);gap:28px}
+  body.horizontal-active #nosotros .about-grid h2{font-size:clamp(2.8rem,4.4vw,4.2rem)}
+  body.horizontal-active #nosotros .about-body{font-size:11px;gap:12px;padding-left:16px}
+  body.horizontal-active #nosotros .about-body p:first-child{font-size:1.15rem;line-height:1.25}
+  body.horizontal-active #nosotros .about-body p:last-child{font-size:10px;line-height:1.5}
+  body.horizontal-active #proceso h2{margin-bottom:20px}
+  body.horizontal-active #proceso .steps{margin-top:30px;gap:0}
+  body.horizontal-active #proceso .step{min-height:0;padding:24px 14px 0 0}
+  body.horizontal-active #proceso .step+.step{padding-left:14px}
+  body.horizontal-active #proceso .step-num{font-size:clamp(2.4rem,3.5vw,3.6rem);margin-bottom:10px}
+  body.horizontal-active #proceso .step h3{font-size:1rem;margin-bottom:7px}
+  body.horizontal-active #proceso .step p{font-size:10px;line-height:1.45}
+  body.horizontal-active #contacto .contact-grid{grid-template-columns:minmax(0,1fr) minmax(280px,.9fr);gap:24px}
+  body.horizontal-active #contacto .contact-grid .section-head h2{font-size:clamp(2.6rem,4vw,3.9rem)}
+  body.horizontal-active #contacto .contact-grid .lead{font-size:12px;line-height:1.5;margin-top:12px}
+  body.horizontal-active #contacto .contact-grid .section-note{font-size:9px;line-height:1.4;margin-top:8px}
+  body.horizontal-active #contacto .contact-channels{margin-top:16px;gap:8px}
+  body.horizontal-active #contacto .form{padding:16px;gap:10px}
+  body.horizontal-active #contacto .field input,
+  body.horizontal-active #contacto .field textarea{padding:7px 0;font-size:12px}
+  body.horizontal-active #contacto .form .btn{min-height:38px}
+  body.horizontal-active .horizontal-panel.site-footer{padding:34px var(--gutter) 18px}
+  body.horizontal-active .horizontal-panel.site-footer .footer-grid{gap:18px}
+  body.horizontal-active .horizontal-panel.site-footer .footer-bottom{margin-top:20px}
+  body.horizontal-active .horizontal-panel.site-footer .wordmark{font-size:clamp(3.5rem,8vw,6.5rem);margin-bottom:12px}
+}
+@media (min-width:861px) and (max-height:780px) and (hover:hover) and (pointer:fine){
+  body.horizontal-active .horizontal-panel.section,
+  body.horizontal-active #servicios.horizontal-panel,
+  body.horizontal-active #enfoque.horizontal-panel,
+  body.horizontal-active #proyectos.horizontal-panel,
+  body.horizontal-active #nosotros.horizontal-panel,
+  body.horizontal-active #proceso.horizontal-panel,
+  body.horizontal-active #contacto.horizontal-panel{
+    padding-top:94px;
+    padding-bottom:14px;
+  }
+  body.horizontal-active .horizontal-panel.section h2,
+  body.horizontal-active #servicios h2,
+  body.horizontal-active #enfoque h2,
+  body.horizontal-active #proyectos .section-head h2,
+  body.horizontal-active #nosotros .about-grid h2,
+  body.horizontal-active #proceso h2,
+  body.horizontal-active #contacto .section-head h2{
+    font-size:clamp(2.3rem,3.8vw,3.6rem);
+  }
+  body.horizontal-active #servicios .svc{min-height:116px;padding:10px}
+  body.horizontal-active #enfoque .method-grid{margin-top:16px}
+  body.horizontal-active #proyectos .section-head{margin-bottom:12px}
+  body.horizontal-active #proyectos .project-media,
+  body.horizontal-active #proyectos .project:first-child .project-media{aspect-ratio:2.15/1}
+  body.horizontal-active #proceso .steps{margin-top:20px}
+  body.horizontal-active #proceso .step-num{font-size:2.4rem}
+  body.horizontal-active #contacto .form{padding:12px;gap:8px}
+}
