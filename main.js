@@ -201,7 +201,7 @@ function initHeroLetterField(){
     }
   }
 
-  window.addEventListener("pointermove",e=>{
+  document.addEventListener("pointermove",e=>{
     if(e.pointerType==="touch") return;
     pointer={x:e.clientX,y:e.clientY};
     if(!frame) frame=requestAnimationFrame(update);
