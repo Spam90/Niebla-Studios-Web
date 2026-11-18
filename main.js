@@ -98,16 +98,19 @@ function initSymbols(){
   const stage = $("stage");
   const canvas = $("heroCanvas");
   let api = null;
-  /* El escenario se monta dentro de la sección activa para respetar su capa visual. */
+
+  /* El escenario es global y persistente: nunca se mueve entre secciones. */
+  if (stage && stage.parentElement !== document.body) document.body.append(stage);
+
   if (canvas){
-    stage.addEventListener("symbol-fallback", () => {});
     canvas.addEventListener("symbol-fallback", () => stage.classList.add("no-webgl"));
     try{
       api = window.NieblaSymbol && NieblaSymbol.init(canvas, { scroll: 0.0012, stage: true });
       if (!api) stage.classList.add("no-webgl");
     }catch(err){ console.error(err); stage.classList.add("no-webgl"); }
   }
-  /* Marca de la cabecera y del pie: mismo símbolo 3D, pose fija. */
+
+  /* Marca de la cabecera y del pie: símbolo 3D independiente, pose fija. */
   document.querySelectorAll("canvas[data-mark]").forEach(c => {
     const host = c.parentElement;
     c.addEventListener("symbol-fallback", () => host.classList.add("no-webgl"));
@@ -117,9 +120,9 @@ function initSymbols(){
   });
   if (!api) return;
 
-  /* El símbolo cambia de posición, escala y brillo según la sección visible. */
+  /* Solo cambia la pose; el canvas permanece montado en el mismo nodo. */
   const sections = [...document.querySelectorAll("[data-pose]")];
-  let current = null, hover = null;
+  let current = sections[0] || null, hover = null;
   function poseFor(sec){
     const p = JSON.parse(sec.dataset.pose);
     const portrait = window.innerWidth < 860;
@@ -128,26 +131,46 @@ function initSymbols(){
   }
   function apply(){
     if (!current) return;
-    if (stage && stage.parentElement !== current) current.prepend(stage);
     const p = poseFor(current);
     if (hover !== null) p.ry += hover * 0.55 + 0.4;
     api.pose(p);
   }
-  const io = new IntersectionObserver(entries => {
-    /* Durante el desplazamiento horizontal pueden cruzar el umbral dos paneles.
-       Elegimos el más visible, no el último evento recibido. */
-    const visible = entries.filter(e => e.isIntersecting)
-      .sort((a,b) => b.intersectionRatio - a.intersectionRatio);
-    if (visible.length && visible[0].target !== current){
-      current = visible[0].target;
-      apply();
-    }
-  }, { rootMargin: "-8% 0px -8% 0px", threshold: [0, 0.15, 0.3, 0.5, 0.75] });
-  sections.forEach(s => io.observe(s));
-  current = sections[0]; apply();
-  window.addEventListener("resize", apply);
 
-  /* Responde a la acción: al recorrer un servicio, el símbolo gira. */
+  /* La navegación horizontal ya conoce el panel activo; escuchamos su cambio
+     mediante el hash, sin IntersectionObserver ni reparenting del canvas. */
+  let lastHash = location.hash;
+  const onHashChange = () => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    const target = id && document.getElementById(id);
+    const section = target && (target.matches("[data-pose]") ? target : target.closest("[data-pose]"));
+    if (section && section !== current){ current = section; apply(); }
+  };
+  window.addEventListener("hashchange", onHashChange);
+  window.addEventListener("popstate", onHashChange);
+
+  /* La rueda y el teclado actualizan history.replaceState, que no dispara hashchange.
+     Detectamos el panel visible por la transformación del track, no por el canvas. */
+  const track = document.querySelector(".horizontal-track");
+  let activeIndex = 0;
+  const updateFromTrack = () => {
+    if (!track || !sections.length) return;
+    const x = Math.abs(new DOMMatrixReadOnly(getComputedStyle(track).transform).m41);
+    const panels = [...track.children];
+    const panel = panels.reduce((best, item) =>
+      Math.abs(item.offsetLeft - x) < Math.abs(best.offsetLeft - x) ? item : best, panels[0]);
+    const section = sections.includes(panel) ? panel : null;
+    if (section && section !== current){ current = section; apply(); }
+  };
+  if (track){
+    const observer = new MutationObserver(updateFromTrack);
+    observer.observe(track, { attributes:true, attributeFilter:["style"] });
+    const transitionEnd = () => updateFromTrack();
+    track.addEventListener("transitionend", transitionEnd);
+    window.addEventListener("resize", updateFromTrack);
+  }
+  current = sections[0] || null;
+  apply();
+
   document.querySelectorAll(".svc").forEach(el => {
     el.addEventListener("pointerenter", () => { hover = Number(el.dataset.i); apply(); });
     el.addEventListener("pointerleave", () => { hover = null; apply(); });
