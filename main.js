@@ -263,28 +263,50 @@ function initMotion(){
     },{passive:true});
   });
 
-  if(finePointer && !reduce){
+  if(!reduce){
     document.querySelectorAll(".project").forEach(card => {
-      card.addEventListener("pointermove",e => {
-        const r=card.getBoundingClientRect();
-        const x=(e.clientX-r.left)/r.width;
-        const y=(e.clientY-r.top)/r.height;
-        card.style.setProperty("--tilt-x",((.5-y)*4).toFixed(2)+"deg");
-        card.style.setProperty("--tilt-y",((x-.5)*5).toFixed(2)+"deg");
-        card.style.setProperty("--mx",(x*100)+"%");
-        card.style.setProperty("--my",(y*100)+"%");
-        const media=card.querySelector(".project-media");
-        if(media){
-          media.style.setProperty("--mx",(x*100)+"%");
-          media.style.setProperty("--my",(y*100)+"%");
-        }
-      },{passive:true});
-      card.addEventListener("pointerleave",()=>{
+      const media=card.querySelector(".project-media");
+      const reset=()=>{
         card.style.setProperty("--tilt-x","0deg");
         card.style.setProperty("--tilt-y","0deg");
         card.style.setProperty("--mx","50%");
         card.style.setProperty("--my","50%");
-      });
+        card.classList.remove("is-touch-active");
+      };
+      const moveHighlight=(x,y)=>{
+        card.style.setProperty("--mx",(x*100)+"%");
+        card.style.setProperty("--my",(y*100)+"%");
+        if(media){
+          media.style.setProperty("--mx",(x*100)+"%");
+          media.style.setProperty("--my",(y*100)+"%");
+        }
+      };
+
+      if(finePointer){
+        card.addEventListener("pointermove",e=>{
+          if(e.pointerType!=="mouse") return;
+          const r=card.getBoundingClientRect();
+          const x=clamp((e.clientX-r.left)/r.width,0,1);
+          const y=clamp((e.clientY-r.top)/r.height,0,1);
+          card.style.setProperty("--tilt-x",((.5-y)*5).toFixed(2)+"deg");
+          card.style.setProperty("--tilt-y",((x-.5)*6).toFixed(2)+"deg");
+          moveHighlight(x,y);
+        },{passive:true});
+        card.addEventListener("pointerleave",reset);
+      }else{
+        card.addEventListener("pointerdown",e=>{
+          if(e.pointerType!=="touch") return;
+          const r=card.getBoundingClientRect();
+          const x=clamp((e.clientX-r.left)/r.width,0,1);
+          const y=clamp((e.clientY-r.top)/r.height,0,1);
+          card.classList.add("is-touch-active");
+          card.style.setProperty("--tilt-x",((.5-y)*2.8).toFixed(2)+"deg");
+          card.style.setProperty("--tilt-y",((x-.5)*3.4).toFixed(2)+"deg");
+          moveHighlight(x,y);
+        },{passive:true});
+        card.addEventListener("pointerup",reset,{passive:true});
+        card.addEventListener("pointercancel",reset,{passive:true});
+      }
     });
   }
 
