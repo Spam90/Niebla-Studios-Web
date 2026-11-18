@@ -234,7 +234,8 @@ function init(canvas,opts){
   };
   const onResize=()=>{resize(); start();};
   const onVis=()=>{document.hidden?stop():start();};
-  const io=new IntersectionObserver(es=>{visible=es[0].isIntersecting; visible?start():stop();});
+  /* El canvas es una capa persistente de viewport: no debe pausarse por
+     IntersectionObserver ni por el recorte temporal de un panel horizontal. */
   const onLost=e=>{e.preventDefault(); stop(); canvas.dispatchEvent(new CustomEvent('symbol-fallback'));};
 
   window.addEventListener('pointermove',onPointer,{passive:true});
@@ -242,14 +243,13 @@ function init(canvas,opts){
   window.addEventListener('resize',onResize);
   document.addEventListener('visibilitychange',onVis);
   canvas.addEventListener('webglcontextlost',onLost);
-  io.observe(canvas);
   resize();
   start();
 
   return {
     pose(p){Object.assign(T,p);start();},
     destroy(){
-      stop(); io.disconnect();
+      stop();
       window.removeEventListener('pointermove',onPointer);
       window.removeEventListener('scroll',onScroll);
       window.removeEventListener('resize',onResize);
