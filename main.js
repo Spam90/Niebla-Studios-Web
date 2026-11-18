@@ -443,7 +443,7 @@ function initHorizontalNavigation(){
     if(next === active && !locked) return;
     active = next;
     panels[active].scrollTop = 0;
-    track.style.transform = "translate3d(" + (-active*100) + "vw,0,0)";
+    track.style.transform = "translate3d(" + (-panels[active].offsetLeft) + "px,0,0)";
     updateNavigation();
     if(updateHash && panels[active].id){
       history.replaceState(null,"","#"+panels[active].id);
@@ -535,7 +535,7 @@ function initHorizontalNavigation(){
   const initialTarget=initialId && document.getElementById(initialId);
   const initialPanel=initialTarget && (initialTarget.classList.contains("horizontal-panel") ? initialTarget : initialTarget.closest(".horizontal-panel"));
   if(initialPanel && panels.includes(initialPanel)) active=panels.indexOf(initialPanel);
-  track.style.transform="translate3d("+(-active*100)+"vw,0,0)";
+  track.style.transform="translate3d("+(-panels[active].offsetLeft)+"px,0,0)";
   updateNavigation();
 }
 
