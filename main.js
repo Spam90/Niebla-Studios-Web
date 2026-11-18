@@ -399,7 +399,7 @@ function initHorizontalNavigation(){
     }
     locked = true;
     window.clearTimeout(lockTimer);
-    lockTimer = window.setTimeout(()=>{locked=false;}, reduceMotion ? 80 : 820);
+    lockTimer = window.setTimeout(()=>{locked=false;}, reduceMotion ? 80 : 1120);
   }
 
   function canScrollInside(panel, delta){
@@ -409,17 +409,47 @@ function initHorizontalNavigation(){
     return panel.scrollTop > 3;
   }
 
+  /* El wheel requiere intención acumulada: un roce o un tick aislado no cambia de sección. */
+  let wheelAccumulated = 0;
+  let wheelDirection = 0;
+  let lastWheelNavigation = 0;
+  const wheelThreshold = 150;
+  const wheelCooldown = 1250;
+
   window.addEventListener("wheel", event => {
     if(!document.body.classList.contains("horizontal-active")) return;
     const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
-    if(Math.abs(delta) < 8 || locked) {
-      if(locked) event.preventDefault();
+    if(Math.abs(delta) < 4) return;
+
+    if(locked) {
+      event.preventDefault();
       return;
     }
+
     const panel = panels[active];
-    if(canScrollInside(panel,delta)) return;
+    if(canScrollInside(panel,delta)) {
+      wheelAccumulated = 0;
+      wheelDirection = 0;
+      return;
+    }
+
     event.preventDefault();
-    goTo(active + (delta > 0 ? 1 : -1));
+    const direction = delta > 0 ? 1 : -1;
+    if(direction !== wheelDirection) {
+      wheelAccumulated = 0;
+      wheelDirection = direction;
+    }
+    wheelAccumulated += Math.abs(delta);
+
+    if(wheelAccumulated < wheelThreshold) return;
+    if(performance.now() - lastWheelNavigation < wheelCooldown) {
+      wheelAccumulated = 0;
+      return;
+    }
+
+    wheelAccumulated = 0;
+    lastWheelNavigation = performance.now();
+    goTo(active + direction);
   },{passive:false});
 
   document.addEventListener("click",event=>{
