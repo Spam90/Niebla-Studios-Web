@@ -358,6 +358,9 @@ function initHorizontalNavigation(){
   viewport.append(track);
   sections.forEach(section => {
     section.classList.add("horizontal-panel");
+    section.addEventListener("scroll", () => {
+      if(header && panels[active] === section) header.classList.toggle("scrolled", active > 0 || section.scrollTop > 8);
+    }, {passive:true});
     track.append(section);
   });
   footer.classList.add("horizontal-panel");
@@ -375,6 +378,7 @@ function initHorizontalNavigation(){
 
   function updateNavigation(){
     const currentId = panels[active].id;
+    if(header) header.classList.toggle("scrolled", active > 0 || panels[active].scrollTop > 8);
     document.querySelectorAll('.site-nav a[href^="#"]').forEach(link => {
       if(link.getAttribute("href") === "#" + currentId) link.setAttribute("aria-current","location");
       else link.removeAttribute("aria-current");
