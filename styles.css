@@ -112,7 +112,7 @@ main,.site-footer{position:relative;z-index:1}
 .section h2{max-width:9ch;font-size:clamp(3.2rem,7vw,7.5rem);line-height:.88;letter-spacing:-.085em;text-wrap:balance}
 .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:clamp(56px,8vw,116px)}
 .section-note{max-width:40ch;color:var(--muted);font-size:12px;line-height:1.75}
-.glass{background:linear-gradient(105deg,rgba(17,25,39,.88),rgba(8,10,15,.3) 75%);border-block:1px solid var(--line)}
+.glass{background:linear-gradient(105deg,rgba(17,25,39,.68),rgba(8,10,15,.18) 75%);border-block:1px solid var(--line)}
 .glass::before{content:"";position:absolute;z-index:-1;right:-10vw;top:50%;width:min(46vw,680px);aspect-ratio:1;transform:translateY(-50%);border:1px solid rgba(141,184,255,.12);border-radius:50%;box-shadow:0 0 0 48px rgba(141,184,255,.018),0 0 0 110px rgba(141,184,255,.012);pointer-events:none}
 
 /* Services — Uiverse-inspired layered cards, not plain rows */
