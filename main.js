@@ -8,6 +8,7 @@ const CONTACT = CONFIG.contact || {};
 
 
 const $ = id => document.getElementById(id);
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const header = $("siteHeader");
 const menuToggle = $("menuToggle");
 const siteNav = $("siteNav");
