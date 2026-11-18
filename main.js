@@ -245,6 +245,57 @@ function initMotion(){
     ...document.querySelectorAll("#contacto .section-head, #contacto .form"),
     ...document.querySelectorAll(".footer-grid > *")
   ];
+  /* Tipografía cinética: los títulos entran palabra por palabra al aparecer. */
+  const kineticHeadings = [...document.querySelectorAll(
+    "main h2, main h3, main h4, .site-footer .footer-title"
+  )].filter(el => el.id !== "heroTitle" && !el.closest(".project-media"));
+
+  const kineticObserver = !reduce && "IntersectionObserver" in window
+    ? new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("kinetic-visible");
+          kineticObserver.unobserve(entry.target);
+        });
+      }, { threshold: .35, rootMargin: "0px 0px -5% 0px" })
+    : null;
+
+  kineticHeadings.forEach(heading => {
+    const originalText = heading.textContent.replace(/\\s+/g, " ").trim();
+    if (!originalText) return;
+    heading.setAttribute("aria-label", originalText);
+    const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    while (walker.nextNode()) {
+      if (walker.currentNode.nodeValue.trim()) textNodes.push(walker.currentNode);
+    }
+    let wordIndex = 0;
+    textNodes.forEach(node => {
+      const fragment = document.createDocumentFragment();
+      const parts = node.nodeValue.split(/(\\s+)/);
+      parts.forEach(part => {
+        if (!part) return;
+        if (/^\\s+$/.test(part)) {
+          fragment.append(document.createTextNode(part));
+          return;
+        }
+        const clip = document.createElement("span");
+        const word = document.createElement("span");
+        clip.className = "kinetic-word-clip";
+        word.className = "kinetic-word";
+        clip.setAttribute("aria-hidden", "true");
+        word.textContent = part;
+        word.style.setProperty("--word-index", wordIndex++);
+        clip.append(word);
+        fragment.append(clip);
+      });
+      node.parentNode.replaceChild(fragment, node);
+    });
+    heading.classList.add("kinetic-heading");
+    if (reduce || !kineticObserver) heading.classList.add("kinetic-visible");
+    else kineticObserver.observe(heading);
+  });
+
   revealTargets.forEach((el,i) => {
     el.dataset.reveal = el.classList.contains("project") && i % 2 ? "right" : "up";
     el.style.setProperty("--reveal-delay", (el.classList.contains("step") ? (i % 4) * 110 : el.classList.contains("project") ? (i % 3) * 120 : 50) + "ms");
