@@ -138,7 +138,6 @@ function initSymbols(){
 
   /* La navegación horizontal ya conoce el panel activo; escuchamos su cambio
      mediante el hash, sin IntersectionObserver ni reparenting del canvas. */
-  let lastHash = location.hash;
   const onHashChange = () => {
     const id = decodeURIComponent(location.hash.slice(1));
     const target = id && document.getElementById(id);
@@ -151,7 +150,6 @@ function initSymbols(){
   /* La rueda y el teclado actualizan history.replaceState, que no dispara hashchange.
      Detectamos el panel visible por la transformación del track, no por el canvas. */
   const track = document.querySelector(".horizontal-track");
-  let activeIndex = 0;
   const updateFromTrack = () => {
     if (!track || !sections.length) return;
     const x = Math.abs(new DOMMatrixReadOnly(getComputedStyle(track).transform).m41);
@@ -161,14 +159,26 @@ function initSymbols(){
     const section = sections.includes(panel) ? panel : null;
     if (section && section !== current){ current = section; apply(); }
   };
-  if (track){
+  if (track && window.matchMedia("(min-width: 861px) and (hover: hover) and (pointer: fine)").matches){
     const observer = new MutationObserver(updateFromTrack);
     observer.observe(track, { attributes:true, attributeFilter:["style"] });
-    const transitionEnd = () => updateFromTrack();
-    track.addEventListener("transitionend", transitionEnd);
+    track.addEventListener("transitionend", updateFromTrack);
     window.addEventListener("resize", updateFromTrack);
+  }else{
+    /* En móvil la navegación es vertical: observar secciones, nunca el canvas. */
+    const poseObserver = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting)
+        .sort((a,b) => b.intersectionRatio - a.intersectionRatio);
+      if (visible.length && visible[0].target !== current){
+        current = visible[0].target;
+        apply();
+      }
+    }, { rootMargin:"-18% 0px -18% 0px", threshold:[0.15,0.3,0.5,0.7] });
+    sections.forEach(section => poseObserver.observe(section));
   }
-  current = sections[0] || null;
+  const initialId = decodeURIComponent(location.hash.slice(1));
+  const initialTarget = initialId && document.getElementById(initialId);
+  current = sections.includes(initialTarget) ? initialTarget : (sections[0] || null);
   apply();
 
   document.querySelectorAll(".svc").forEach(el => {
