@@ -225,10 +225,11 @@ function init(canvas,opts){
 
   const onScroll=()=>{ if(!scrollK||reduce) return; tS=window.scrollY*scrollK; start(); };
   const onPointer=e=>{
-    if(opts.pointer===false||e.pointerType!=='mouse') return;
+    if(opts.pointer===false||(e.pointerType!=='mouse'&&e.pointerType!=='touch')) return;
     const r=canvas.getBoundingClientRect();
-    tX=clamp(((e.clientX-(r.left+r.width/2))/window.innerWidth)*0.6,-0.3,0.3);
-    tY=clamp(((e.clientY-(r.top+r.height/2))/window.innerHeight)*0.4,-0.2,0.2);
+    const sensitivity=e.pointerType==='touch'?0.82:0.6;
+    tX=clamp(((e.clientX-(r.left+r.width/2))/window.innerWidth)*sensitivity,-0.3,0.3);
+    tY=clamp(((e.clientY-(r.top+r.height/2))/window.innerHeight)*(e.pointerType==='touch'?0.52:0.4),-0.2,0.2);
     start();
   };
   const onResize=()=>{resize(); start();};
