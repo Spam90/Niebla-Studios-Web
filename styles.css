@@ -1673,3 +1673,79 @@ img,canvas,svg{max-width:100%}
 @media(prefers-reduced-motion:reduce){
  .hero-art *,.project-media *{animation:none!important;transition:none!important}
 }
+
+
+/* ---------------------------------------------------------
+   3D RESTORE — keep the authored symbol as the hero signature.
+   The editorial treatment stays; the real WebGL mark returns.
+---------------------------------------------------------- */
+.stage{
+ display:block!important;
+ position:absolute!important;
+ z-index:1!important;
+ inset:7% 0 10% 39%!important;
+ width:auto!important;height:auto!important;
+ opacity:1!important;
+ overflow:visible;
+ pointer-events:none;
+}
+.stage-canvas{
+ display:block!important;
+ opacity:1!important;
+ filter:drop-shadow(0 24px 58px rgba(37,99,235,.2)) drop-shadow(0 4px 18px rgba(225,234,248,.12));
+}
+.stage-fallback{
+ display:none;
+ right:3%;top:50%;
+ width:min(43vw,620px);
+ opacity:.46;
+ filter:drop-shadow(0 18px 55px rgba(37,99,235,.28));
+}
+.stage.no-webgl .stage-canvas{display:none!important}
+.stage.no-webgl .stage-fallback{display:block!important}
+.hero-copy{position:relative;z-index:2}
+.hero-bottom{position:relative;z-index:2}
+
+/* A single restrained geometry cue frames the 3D mark without
+   bringing back the old stack of decorative orbit effects. */
+.hero-art::before{display:none}
+.hero-art::after{display:none}
+.hero-art-grid{
+ display:block!important;
+ opacity:.22;
+ background-size:clamp(54px,6vw,92px) clamp(54px,6vw,92px);
+ mask-image:linear-gradient(90deg,transparent,#000 35%,#000 78%,transparent);
+}
+.hero-orbit{display:none}
+.hero-orbit-a{
+ display:block;
+ width:min(59vw,850px);
+ right:-7vw;top:5%;
+ border-color:rgba(141,184,255,.12);
+ border-left-color:transparent;
+ border-bottom-color:rgba(141,184,255,.06);
+ box-shadow:0 0 0 42px rgba(141,184,255,.012),inset 0 0 90px rgba(37,99,235,.025);
+ animation:none;
+}
+.hero-art-line{display:block;opacity:.42}
+.hero::before,.hero::after{display:none!important}
+@media(max-width:900px){
+ .stage{inset:10% -12% 12% 24%!important;opacity:.68!important}
+ .stage-canvas{filter:drop-shadow(0 16px 42px rgba(37,99,235,.2))}
+ .hero-orbit-a{width:78vw;right:-29vw;top:9%}
+ .hero-art-grid{opacity:.14}
+}
+@media(max-width:640px){
+ .stage{inset:13% -42% 23% 8%!important;opacity:.36!important}
+ .stage-fallback{width:72vw;right:-4%;opacity:.26}
+ .hero-orbit-a{width:92vw;right:-48vw;top:10%}
+ .hero-art-grid{opacity:.09}
+ .hero-art-line{display:none}
+}
+@media(max-height:720px) and (min-width:901px){
+ .stage{inset:5% -2% 12% 43%!important}
+ .hero-orbit-a{top:1%;width:min(54vw,740px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-orbit-a{animation:none!important}
+}
