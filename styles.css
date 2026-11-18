@@ -1281,3 +1281,275 @@ body{background:#080a0f;color:#f5f7fb}
  .method-step:first-child{border-top:0}
  .method-step h3{margin:22px 0 9px}
 }
+
+
+/* RESPONSIVE REPAIR — mobile and compact laptop layouts */
+/* Keep the existing identity; repair only layout, scale and spacing. */
+html{overflow-x:clip}
+body{min-width:320px;overflow-x:clip}
+.container{width:min(calc(100% - var(--gutter)*2),var(--max))}
+.hero-copy,.hero-foot,.section-head,.service-group,.about-grid,.contact-grid,
+.project,.method-intro,.method-step,.step,.footer-grid>*{min-width:0}
+.hero h1,.section h2,.about-grid h2,.method-intro h2{overflow-wrap:normal;word-break:normal}
+img,canvas,svg{max-width:100%}
+
+/* Compact desktop and laptop screens (including 1366×768 and 1280×720). */
+@media (min-width:861px) and (max-height:820px){
+  .hero{
+    min-height:100svh;
+    padding:112px 0 28px;
+    justify-content:center;
+  }
+  .hero-copy{padding-top:0;padding-bottom:34px}
+  .eyebrow{margin-bottom:24px}
+  .hero h1{
+    width:min(70%,900px);
+    font-size:clamp(4.2rem,8vw,7.1rem);
+    line-height:.82;
+  }
+  .hero-foot{
+    max-width:790px;
+    margin-top:30px;
+    gap:22px 34px;
+    grid-template-columns:minmax(210px,.9fr) minmax(220px,1fr);
+  }
+  .hero-foot .lead{font-size:14px;line-height:1.55}
+  .hero-actions .btn{min-height:46px;padding-inline:16px;font-size:9px}
+  .hero-bottom{padding-block:14px;font-size:8px}
+  .stage{inset:7% -2% 8% 43%}
+  .hero-art-caption{top:96px}
+  .section{padding-block:clamp(90px,10vh,140px)}
+  #servicios{padding-block:clamp(100px,11vh,150px)}
+  #proyectos,#nosotros,#proceso,#contacto{padding-block:clamp(100px,11vh,150px)}
+}
+
+/* Narrow desktop / landscape tablet. */
+@media (min-width:861px) and (max-width:1100px){
+  :root{--gutter:clamp(26px,4vw,44px)}
+  .site-header{height:76px}
+  .brand{gap:9px}
+  .brand-mark{width:38px;height:38px}
+  .brand-name{font-size:12px}
+  .site-nav{gap:14px}
+  .site-nav ul{gap:14px}
+  .site-nav ul a{font-size:9px;letter-spacing:.07em}
+  .nav-cta{min-height:42px;padding-inline:12px;font-size:8px;letter-spacing:.04em}
+  .hero h1{width:76%;font-size:clamp(4.5rem,8.6vw,6.8rem)}
+  .hero-foot{max-width:700px}
+  #servicios .service-group{grid-template-columns:1fr;gap:16px}
+  #servicios .svc-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #contacto .contact-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px}
+  #contacto .section-head h2{font-size:clamp(3.8rem,7vw,5.5rem)}
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Tablet and mobile navigation. */
+@media (max-width:860px){
+  :root{--header-h:72px;--gutter:clamp(22px,5vw,36px)}
+  .site-header{height:var(--header-h)}
+  .nav-wrap{gap:14px}
+  .brand{gap:10px}
+  .brand-mark{width:38px;height:38px}
+  .brand-name{font-size:13px}
+  .menu-toggle{display:block;flex:none}
+  .site-nav{
+    position:fixed;inset:var(--header-h) 0 0;
+    display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;
+    gap:28px;padding:34px var(--gutter) max(34px,env(safe-area-inset-bottom));
+    overflow-y:auto;background:rgba(7,10,16,.98);
+    border-top:1px solid var(--line);
+    opacity:0;visibility:hidden;transform:translateY(-8px);
+    transition:opacity .22s,transform .22s,visibility .22s;
+  }
+  .site-nav.open{opacity:1;visibility:visible;transform:none}
+  .site-nav ul{width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+  .site-nav ul a{font-size:clamp(1.45rem,5vw,2.1rem);letter-spacing:-.04em;text-transform:none}
+  .site-nav .nav-cta{width:100%;max-width:360px}
+  .hero{
+    min-height:100svh;min-height:100dvh;
+    padding:calc(var(--header-h) + 58px) 0 0;
+    justify-content:center;
+  }
+  .hero-copy{z-index:2;padding:0 0 36px}
+  .eyebrow{font-size:8px;letter-spacing:.16em;margin-bottom:26px}
+  .hero h1{width:min(100%,760px);font-size:clamp(4.1rem,10.5vw,6.5rem);line-height:.86}
+  .hero-foot{grid-template-columns:1fr;max-width:560px;gap:20px;margin-top:28px}
+  .hero-foot .lead{max-width:48ch;font-size:14px;line-height:1.65}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:10px}
+  .hero-actions .btn{min-height:48px;padding-inline:16px;font-size:9px}
+  .hero-bottom{padding-block:16px;gap:12px;font-size:8px;flex-wrap:wrap}
+  .stage{inset:5% -24% 32% 20%;opacity:.34}
+  .stage-fallback{width:min(65vw,440px);opacity:.3}
+  .hero-art-grid{left:24%;opacity:.4}
+  .hero-orbit-a{width:88vw;right:-38vw;top:4%}
+  .hero-orbit-b{width:70vw;right:-27vw;top:12%}
+  .hero-orbit-c{width:48vw;right:-14vw;top:22%}
+  .hero-art-caption{top:90px;right:var(--gutter);font-size:7px}
+  .hero-art-coordinate,.hero-art-line{display:none}
+  .section{padding-block:clamp(76px,11vw,112px)}
+  .section-head{gap:22px}
+  #servicios{padding-block:clamp(88px,12vw,130px)}
+  #servicios .service-group{grid-template-columns:1fr;gap:16px;margin-top:52px}
+  #servicios .svc-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  #servicios .svc{display:flex;min-height:0;padding:22px;gap:0}
+  #servicios .svc h4{font-size:clamp(1.35rem,3.2vw,1.8rem);line-height:1.08}
+  #servicios .svc-desc{margin-top:16px;font-size:12px;line-height:1.65}
+  .method-intro{grid-template-columns:1fr;gap:18px}
+  .method-intro .eyebrow{margin-bottom:0}
+  .method-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .method-step{min-height:190px;padding:22px 18px 22px 0}
+  .method-step+.method-step{padding-left:18px}
+  .method-step:nth-child(2){border-right:0}
+  .method-step:nth-child(3){padding-left:0}
+  .method-step:nth-child(n+3){border-top:1px solid rgba(190,205,228,.16)}
+  #proyectos .section-head{display:block}
+  #proyectos .section-note{max-width:58ch;margin-top:20px}
+  #proyectos .project-grid{gap:48px 20px}
+  #proyectos .project:first-child{grid-column:1/-1}
+  #proyectos .project:nth-child(2){grid-column:1/span 6}
+  #proyectos .project:nth-child(3){grid-column:7/span 6;margin-top:24px}
+  #proyectos .project h3{font-size:clamp(1.5rem,3vw,2.2rem)}
+  #nosotros .about-grid{grid-template-columns:1fr;gap:28px}
+  #nosotros .about-grid h2{max-width:11ch}
+  #nosotros .about-body{max-width:58ch;margin:0 0 0 clamp(0px,7vw,54px)}
+  #proceso .steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 0}
+  #proceso .steps::before{display:none}
+  #proceso .step{min-height:210px;padding:28px 20px 18px 0;border-top:1px solid rgba(170,193,230,.2)}
+  #proceso .step+.step{padding-left:20px}
+  #proceso .step::before{top:-5px}
+  #contacto .contact-grid{grid-template-columns:1fr;gap:34px}
+  #contacto .section-head{max-width:680px}
+  #contacto .form{width:100%;max-width:680px}
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 24px}
+  .wordmark{white-space:normal;overflow-wrap:anywhere}
+}
+
+/* Phones. */
+@media (max-width:600px){
+  :root{--gutter:22px;--header-h:68px}
+  html{scroll-padding-top:var(--header-h)}
+  .container{width:calc(100% - 44px)}
+  .site-nav{inset:var(--header-h) 0 0;padding-top:28px}
+  .hero{
+    min-height:100svh;min-height:100dvh;
+    padding-top:calc(var(--header-h) + 44px);
+  }
+  .hero-copy{padding-bottom:28px}
+  .eyebrow{font-size:7px;letter-spacing:.13em;margin-bottom:22px}
+  .hero h1{
+    width:100%;max-width:100%;
+    font-size:clamp(2.9rem,11.8vw,4.35rem);
+    line-height:.9;letter-spacing:-.085em;
+  }
+  .hero h1 .w{padding-bottom:.08em;margin-bottom:-.08em}
+  .hero-foot{margin-top:24px;gap:18px}
+  .hero-foot .lead{font-size:13px;line-height:1.6}
+  .hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .hero-actions .btn{min-width:0;min-height:48px;padding:8px 9px;font-size:8px;line-height:1.25;letter-spacing:.035em;text-align:center}
+  .hero-actions .btn span{margin-left:5px}
+  .hero-bottom{font-size:7px;letter-spacing:.09em;padding-block:14px}
+  .hero-bottom span:last-child{margin-left:auto}
+  .stage{inset:4% -38% 43% 14%;opacity:.26}
+  .stage-fallback{width:76vw;right:-3%;opacity:.24}
+  .hero-art-grid{left:8%;opacity:.25}
+  .hero-orbit-a{width:112vw;right:-56vw;top:3%}
+  .hero-orbit-b,.hero-orbit-c{display:none}
+  .hero-art-caption{top:82px;right:var(--gutter);font-size:6px;gap:10px}
+  .section{padding-block:76px}
+  .section h2{font-size:clamp(2.75rem,10.8vw,4rem);line-height:.92;letter-spacing:-.075em}
+  .section-head{display:block;margin-bottom:36px}
+  .section-note{margin-top:16px;font-size:12px;line-height:1.65}
+  #servicios{padding-block:82px}
+  #servicios h2{font-size:clamp(3rem,12vw,4.4rem);margin-bottom:28px}
+  #servicios .service-group{margin-top:38px}
+  #servicios .group-title{font-size:8px;letter-spacing:.13em}
+  #servicios .svc-list{grid-template-columns:1fr;gap:8px}
+  #servicios .svc{padding:20px;min-height:0}
+  #servicios .svc h4{font-size:1.55rem}
+  #servicios .svc-desc{margin-top:11px;font-size:11px;line-height:1.65}
+  .method-intro h2{font-size:clamp(2.85rem,11vw,4.1rem);line-height:.92}
+  .method-intro .section-note{font-size:12px}
+  .method-grid{grid-template-columns:1fr}
+  .method-step,.method-step+.method-step,.method-step:nth-child(3){
+    min-height:0;padding:20px 0;border-right:0;border-top:1px solid rgba(190,205,228,.16)
+  }
+  .method-step:first-child{border-top:0}
+  .method-step h3{margin:14px 0 8px;font-size:1.25rem}
+  .method-step p{font-size:11px}
+  #proyectos{padding-block:84px}
+  #proyectos .section-head h2{font-size:clamp(3.1rem,12vw,4.5rem);line-height:.84}
+  #proyectos .section-head h2::before{margin-bottom:22px}
+  #proyectos .section-note{font-size:11px}
+  #proyectos .project-grid{grid-template-columns:1fr;gap:42px}
+  #proyectos .project,#proyectos .project:first-child,
+  #proyectos .project:nth-child(2),#proyectos .project:nth-child(3){
+    grid-column:1/-1;margin:0
+  }
+  #proyectos .project-media,#proyectos .project:first-child .project-media,
+  #proyectos .project:nth-child(2) .project-media,#proyectos .project:nth-child(3) .project-media{
+    aspect-ratio:1.2/1
+  }
+  #proyectos .project h3{font-size:1.65rem}
+  #proyectos .project p{font-size:12px}
+  #nosotros{padding-block:88px}
+  #nosotros .about-grid{gap:22px}
+  #nosotros .about-grid h2{font-size:clamp(3.1rem,12vw,4.5rem);line-height:.88}
+  #nosotros .about-body{margin:0;padding-left:16px;font-size:13px}
+  #nosotros .about-body p:first-child{font-size:1.25rem}
+  #proceso{padding-block:84px}
+  #proceso h2{font-size:clamp(3rem,12vw,4.4rem);margin-bottom:38px}
+  #proceso .steps{grid-template-columns:1fr;gap:0;margin-top:44px}
+  #proceso .step,#proceso .step+.step{
+    min-height:0;padding:22px 0 24px 22px;border:0;border-left:1px solid rgba(170,193,230,.22)
+  }
+  #proceso .step::before{top:26px;left:-5px}
+  #proceso .step-num{font-size:3.1rem;margin-bottom:12px}
+  #proceso .step h3{font-size:1.05rem;margin-bottom:8px}
+  #proceso .step p{max-width:52ch;font-size:11px;line-height:1.7}
+  #contacto{padding-block:82px}
+  #contacto .section-head h2{font-size:clamp(3rem,11.5vw,4.2rem);line-height:.9}
+  #contacto .section-head h2::before{margin-bottom:22px}
+  #contacto .section-head .lead{font-size:13px}
+  #contacto .section-note{font-size:11px;line-height:1.7}
+  #contacto .contact-grid{gap:28px}
+  #contacto .contact-card{padding:22px 18px}
+  #contacto .contact-card h3{font-size:1.4rem}
+  #contacto .contact-card p{font-size:12px;line-height:1.65}
+  #contacto .contact-card .btn{width:100%;justify-content:center}
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 16px}
+  .footer-grid>*{overflow-wrap:anywhere}
+  .footer-brand{grid-column:1/-1}
+  .site-footer{padding-top:64px}
+  .footer-title{font-size:9px}
+  .site-footer li{font-size:11px;line-height:1.5}
+  .footer-bottom{margin-top:52px}
+  .wordmark{font-size:clamp(2.8rem,13vw,4.5rem);letter-spacing:-.09em;line-height:.95}
+}
+
+/* Very narrow phones and short landscape screens. */
+@media (max-width:360px){
+  :root{--gutter:18px}
+  .container{width:calc(100% - 36px)}
+  .hero h1{font-size:clamp(2.7rem,11.5vw,3.3rem)}
+  .hero-actions{grid-template-columns:1fr}
+  .hero-actions .btn{width:100%}
+  .hero-bottom span:first-child{max-width:55%}
+  #servicios h2,#proyectos .section-head h2,#nosotros .about-grid h2,
+  #proceso h2,#contacto .section-head h2{font-size:clamp(2.7rem,11vw,3.4rem)}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-brand{grid-column:auto}
+}
+@media (max-height:520px) and (orientation:landscape){
+  .hero{min-height:auto;padding:96px 0 20px}
+  .hero-copy{padding-bottom:20px}
+  .eyebrow{margin-bottom:16px}
+  .hero h1{font-size:clamp(3.2rem,8vw,5rem)}
+  .hero-foot{margin-top:16px}
+  .hero-bottom{display:none}
+  .stage{opacity:.2}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-orbit-b{animation:none}
+  .hero h1 .w>span{transform:none!important;animation:none!important}
+  .hero-foot,.hero-bottom{opacity:1!important;animation:none!important}
+}
