@@ -152,7 +152,68 @@ function initProgress(){
   addEventListener("scroll", f, { passive: true }); f();
 }
 
-/* ---------- Arranque ---------- */
+
+/* ---------- Campo interactivo de letras: prototipo solo en el hero ---------- */
+function initHeroLetterField(){
+  const title=$("heroTitle");
+  if(!title || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const finePointer=window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if(!finePointer) return;
+
+  const walker=document.createTreeWalker(title,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode()) if(walker.currentNode.nodeValue.trim()) nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+    const fragment=document.createDocumentFragment();
+    for(const char of node.nodeValue){
+      if(/\s/.test(char)){fragment.append(document.createTextNode(char));continue;}
+      const letter=document.createElement("span");
+      letter.className="hero-letter";
+      letter.setAttribute("aria-hidden","true");
+      letter.textContent=char;
+      fragment.append(letter);
+    }
+    node.parentNode.replaceChild(fragment,node);
+  });
+
+  const letters=[...title.querySelectorAll(".hero-letter")];
+  let frame=0, pointer=null;
+  const radius=142, maxPush=23;
+  function update(){
+    frame=0;
+    if(!pointer) return;
+    for(const letter of letters){
+      const r=letter.getBoundingClientRect();
+      const cx=r.left+r.width/2, cy=r.top+r.height/2;
+      const dx=cx-pointer.x, dy=cy-pointer.y;
+      const distance=Math.hypot(dx,dy);
+      if(distance>=radius){letter.style.setProperty("--lx","0px");letter.style.setProperty("--ly","0px");letter.style.setProperty("--lr","0deg");continue;}
+      const influence=1-distance/radius;
+      const force=influence*influence;
+      const nx=distance?dx/distance:0, ny=distance?dy/distance:-1;
+      const push=maxPush*force;
+      const swirl=push*.34;
+      const x=nx*push-ny*swirl;
+      const y=ny*push+nx*swirl;
+      letter.style.setProperty("--lx",x.toFixed(2)+"px");
+      letter.style.setProperty("--ly",y.toFixed(2)+"px");
+      letter.style.setProperty("--lr",(nx*ny*influence*9).toFixed(2)+"deg");
+    }
+  }
+  title.addEventListener("pointermove",e=>{
+    pointer={x:e.clientX,y:e.clientY};
+    if(!frame) frame=requestAnimationFrame(update);
+  });
+  title.addEventListener("pointerleave",()=>{
+    pointer=null;
+    letters.forEach(letter=>{
+      letter.style.setProperty("--lx","0px");
+      letter.style.setProperty("--ly","0px");
+      letter.style.setProperty("--lr","0deg");
+    });
+  });
+}
+\n/* ---------- Arranque ---------- */
 wireChannels();
 $("year").textContent = String(new Date().getFullYear());
 initSymbols();
