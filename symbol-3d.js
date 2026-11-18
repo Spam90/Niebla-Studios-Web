@@ -227,9 +227,9 @@ function init(canvas,opts){
   const onPointer=e=>{
     if(opts.pointer===false||(e.pointerType!=='mouse'&&e.pointerType!=='touch')) return;
     const r=canvas.getBoundingClientRect();
-    const sensitivity=e.pointerType==='touch'?0.82:0.6;
+    const sensitivity=e.pointerType==='touch'?1.05:0.9;
     tX=clamp(((e.clientX-(r.left+r.width/2))/window.innerWidth)*sensitivity,-0.3,0.3);
-    tY=clamp(((e.clientY-(r.top+r.height/2))/window.innerHeight)*(e.pointerType==='touch'?0.52:0.4),-0.2,0.2);
+    tY=clamp(((e.clientY-(r.top+r.height/2))/window.innerHeight)*(e.pointerType==='touch'?0.68:0.62),-0.2,0.2);
     start();
   };
   const onResize=()=>{resize(); start();};
