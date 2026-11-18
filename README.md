@@ -3,8 +3,9 @@
 Sitio estático desarrollado con HTML, CSS y JavaScript vanilla. No requiere framework ni proceso de compilación.
 
 ## Archivos principales
-- `index.html`: contenido y estructura de la página.
-- `styles.css`: sistema visual y adaptación responsive. El diseño editorial está aprobado y no debe modificarse sin autorización.
+- `index.html`: página principal, posicionamiento y explicación del enfoque de trabajo.
+- `demos/index.html`: laboratorio con tres prototipos interactivos (catálogo, gestión y reservas).
+- `styles.css`: sistema visual y adaptación responsive. La identidad de marca (logo, paleta y símbolo 3D) se conserva; los cambios estructurales y de contenido aprobados pueden ampliar el sistema sin alterar esa identidad.
 - `main.js`: navegación móvil, canales de contacto, símbolo 3D y comportamiento de la página.
 - `config.js`: configuración centralizada del nombre y los canales oficiales.
 - `symbol-3d.js`: símbolo 3D WebGL y su alternativa de respaldo.
@@ -13,7 +14,7 @@ Sitio estático desarrollado con HTML, CSS y JavaScript vanilla. No requiere fra
 ## Estado real de la agencia y reglas de contenido
 Niebla Studios todavía no tiene clientes. Por tanto:
 - No publicar testimonios, reseñas, logotipos de clientes, cifras de proyectos, estadísticas ni casos de éxito inventados.
-- La sección pública se denomina **Demos y exploraciones**. Sus tres piezas son demostraciones conceptuales, no trabajos contratados ni proyectos de clientes.
+- La sección pública se denomina **Demos y exploraciones**. El laboratorio contiene prototipos funcionales con datos ficticios: catálogo con carrito y administración local, panel de gestión con registros de ejemplo y exportación CSV, y flujo de reservas local. No son trabajos contratados ni proyectos de clientes. Las acciones no se envían a un backend y los datos se reinician al recargar.
 - Mantener todos los servicios de desarrollo web y software aprobados. Describir el alcance con precisión y no afirmar experiencia, resultados o funcionalidades que no se hayan comprobado.
 - La sección Nosotros puede explicar el equipo, el enfoque y el proceso sin fingir trayectoria comercial.
 - El proceso de trabajo explica cómo se atenderán futuros proyectos; no representa experiencia acumulada.
@@ -28,12 +29,12 @@ El formulario anterior fue retirado porque no tenía un endpoint real y no podí
 
 ## Configuración
 En `config.js`:
-- `site.domain`: dominio definitivo; pendiente.
+- `site.domain`: URL pública confirmada `https://nieblastudio.devs.surf`.
 - `contact.email`: correo oficial confirmado.
 - `contact.whatsapp`: número oficial en formato internacional, solo dígitos; pendiente.
 - `contact.whatsappMessage`: texto inicial del enlace de WhatsApp.
 
-Los marcadores de dominio en canonical, Open Graph y Schema.org deben sustituirse cuando se confirme el dominio definitivo.
+La URL pública está configurada en canonical, Open Graph, Schema.org y `site.domain`. La validación de DNS en Vercel y la confirmación del despliegue deben comprobarse por separado.
 
 ## Criterios de cambios
 - No rediseñar ni alterar CSS, composición, animaciones o símbolo 3D sin petición expresa.
@@ -47,3 +48,14 @@ Los marcadores de dominio en canonical, Open Graph y Schema.org deben sustituirs
 - `site.domain`, canonical, Open Graph y Schema.org utilizan esta URL.
 - El estado interno Valid Configuration/Verified de Vercel y el despliegue de este commit deben comprobarse por separado.
 - El QA completo del sitio sigue pendiente.
+
+
+## Laboratorio de demos
+
+Ruta pública: `/demos/`.
+
+- **Catálogo digital:** búsqueda, filtro por categoría, carrito de prueba y alta local de productos desde la vista administrativa.
+- **Sistema de gestión:** indicadores calculados desde registros ficticios, búsqueda, filtro por estado, cambio de estado y exportación CSV.
+- **Sistema de reservas:** selección de servicio, fecha y horario, confirmación local y prevención de duplicados de horario durante la sesión.
+
+Aviso obligatorio en la interfaz: los datos son ficticios, las acciones solo ocurren en el navegador, no existe backend ni procesamiento real y el estado se reinicia al recargar. No presentar estas demos como productos terminados, clientes o resultados comerciales.
