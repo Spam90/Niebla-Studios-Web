@@ -98,9 +98,7 @@ function initSymbols(){
   const stage = $("stage");
   const canvas = $("heroCanvas");
   let api = null;
-  /* El escenario vive dentro de main: queda por encima del fondo global y por debajo del contenido de cada sección. */
-  const main = $("main");
-  if (stage && main && stage.parentElement !== main) main.prepend(stage);
+  /* El escenario se monta dentro de la sección activa para respetar su capa visual. */
   if (canvas){
     stage.addEventListener("symbol-fallback", () => {});
     canvas.addEventListener("symbol-fallback", () => stage.classList.add("no-webgl"));
@@ -130,6 +128,7 @@ function initSymbols(){
   }
   function apply(){
     if (!current) return;
+    if (stage && stage.parentElement !== current) current.prepend(stage);
     const p = poseFor(current);
     if (hover !== null) p.ry += hover * 0.55 + 0.4;
     api.pose(p);
