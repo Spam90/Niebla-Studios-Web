@@ -123,7 +123,7 @@ function initSymbols(){
   function poseFor(sec){
     const p = JSON.parse(sec.dataset.pose);
     const portrait = window.innerWidth < 860;
-    if (portrait){ p.x = 1.25; p.y = -0.55; p.zoom *= 0.62; p.a = Math.min(p.a, 0.16); }
+    if (portrait){ p.x = 1.25; p.y = -0.55; p.zoom *= 0.62; p.a = Math.min(p.a, 0.48); }
     return p;
   }
   function apply(){
@@ -134,8 +134,15 @@ function initSymbols(){
     api.pose(p);
   }
   const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting){ current = e.target; apply(); } });
-  }, { rootMargin: "-45% 0px -45% 0px" });
+    /* Durante el desplazamiento horizontal pueden cruzar el umbral dos paneles.
+       Elegimos el más visible, no el último evento recibido. */
+    const visible = entries.filter(e => e.isIntersecting)
+      .sort((a,b) => b.intersectionRatio - a.intersectionRatio);
+    if (visible.length && visible[0].target !== current){
+      current = visible[0].target;
+      apply();
+    }
+  }, { rootMargin: "-8% 0px -8% 0px", threshold: [0, 0.15, 0.3, 0.5, 0.75] });
   sections.forEach(s => io.observe(s));
   current = sections[0]; apply();
   window.addEventListener("resize", apply);
