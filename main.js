@@ -337,5 +337,123 @@ function initMotion(){
   document.documentElement.classList.add("motion-ready");
 }
 
+
+/* ---------- Navegación horizontal por secciones (escritorio) ---------- */
+function initHorizontalNavigation(){
+  const desktop = window.matchMedia("(min-width: 861px) and (hover: hover) and (pointer: fine)");
+  if(!desktop.matches) return;
+
+  const main = $("main");
+  const footer = document.querySelector(".site-footer");
+  if(!main || !footer) return;
+
+  const sections = [...main.querySelectorAll(":scope > section")];
+  if(!sections.length) return;
+
+  const viewport = document.createElement("div");
+  viewport.className = "horizontal-viewport";
+  viewport.setAttribute("aria-label","Contenido de Niebla Studios");
+  const track = document.createElement("div");
+  track.className = "horizontal-track";
+  viewport.append(track);
+  sections.forEach(section => {
+    section.classList.add("horizontal-panel");
+    track.append(section);
+  });
+  footer.classList.add("horizontal-panel");
+  track.append(footer);
+  main.append(viewport);
+
+  const panels = [...track.children];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let active = 0;
+  let locked = false;
+  let lockTimer = 0;
+
+  document.body.classList.add("horizontal-active");
+  document.documentElement.classList.add("horizontal-ready");
+
+  function updateNavigation(){
+    const currentId = panels[active].id;
+    document.querySelectorAll('.site-nav a[href^="#"]').forEach(link => {
+      if(link.getAttribute("href") === "#" + currentId) link.setAttribute("aria-current","location");
+      else link.removeAttribute("aria-current");
+    });
+    const progress = $("progress");
+    if(progress) progress.style.transform = "scaleX(" + (panels.length > 1 ? active/(panels.length-1) : 0) + ")";
+  }
+
+  function goTo(index, updateHash=true){
+    const next = clamp(index,0,panels.length-1);
+    if(next === active && !locked) return;
+    active = next;
+    panels[active].scrollTop = 0;
+    track.style.transform = "translate3d(" + (-active*100) + "vw,0,0)";
+    updateNavigation();
+    if(updateHash && panels[active].id){
+      history.replaceState(null,"","#"+panels[active].id);
+    }
+    locked = true;
+    window.clearTimeout(lockTimer);
+    lockTimer = window.setTimeout(()=>{locked=false;}, reduceMotion ? 80 : 820);
+  }
+
+  function canScrollInside(panel, delta){
+    const max = panel.scrollHeight - panel.clientHeight;
+    if(max <= 3) return false;
+    if(delta > 0) return panel.scrollTop < max - 3;
+    return panel.scrollTop > 3;
+  }
+
+  window.addEventListener("wheel", event => {
+    if(!document.body.classList.contains("horizontal-active")) return;
+    const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+    if(Math.abs(delta) < 8 || locked) {
+      if(locked) event.preventDefault();
+      return;
+    }
+    const panel = panels[active];
+    if(canScrollInside(panel,delta)) return;
+    event.preventDefault();
+    goTo(active + (delta > 0 ? 1 : -1));
+  },{passive:false});
+
+  document.addEventListener("click",event=>{
+    const link=event.target.closest('a[href^="#"]');
+    if(!link) return;
+    const id=decodeURIComponent(link.getAttribute("href").slice(1));
+    if(!id) return;
+    const target=document.getElementById(id);
+    if(!target) return;
+    const panel=target.classList.contains("horizontal-panel") ? target : target.closest(".horizontal-panel");
+    const index=panels.indexOf(panel);
+    if(index < 0) return;
+    event.preventDefault();
+    goTo(index);
+  });
+
+  document.addEventListener("keydown",event=>{
+    if(!document.body.classList.contains("horizontal-active") || event.altKey || event.ctrlKey || event.metaKey) return;
+    const tag=event.target && event.target.tagName;
+    if(["INPUT","TEXTAREA","SELECT"].includes(tag) || event.target.isContentEditable) return;
+    let direction=0;
+    if(["ArrowDown","PageDown"].includes(event.key) || (event.key===" " && !event.shiftKey)) direction=1;
+    if(["ArrowUp","PageUp"].includes(event.key) || (event.key===" " && event.shiftKey)) direction=-1;
+    if(event.key==="Home") direction=-active;
+    if(event.key==="End") direction=panels.length-1-active;
+    if(!direction) return;
+    event.preventDefault();
+    goTo(active+direction);
+  });
+
+  const initialId=decodeURIComponent(location.hash.slice(1));
+  const initialTarget=initialId && document.getElementById(initialId);
+  const initialPanel=initialTarget && (initialTarget.classList.contains("horizontal-panel") ? initialTarget : initialTarget.closest(".horizontal-panel"));
+  if(initialPanel && panels.includes(initialPanel)) active=panels.indexOf(initialPanel);
+  track.style.transform="translate3d("+(-active*100)+"vw,0,0)";
+  updateNavigation();
+}
+
 initMotion();
+initHorizontalNavigation();
 })();
