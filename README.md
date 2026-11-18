@@ -26,14 +26,18 @@ WhatsApp todavía no está configurado. El sitio oculta el canal mientras el nú
 
 El formulario anterior fue retirado porque no tenía un endpoint real y no podía enviar mensajes. La página ofrece contacto directo por correo hasta que se implemente y pruebe una integración real. No volver a mostrar un formulario sin verificar recepción, errores y protección de datos.
 
-## Configuración
+## Dominio y configuración
+
+- **Sitio público:** https://nieblastudio.devs.surf (confirmado por el usuario: la página ya carga desde esta dirección).
+- **Proveedor DNS:** Devs.Surf; CNAME raíz y TXT `_vercel` añadidos con los valores solicitados por Vercel. La carga pública está comprobada por el usuario; el estado interno `Valid Configuration` de Vercel aún debe confirmarse.
+
 En `config.js`:
-- `site.domain`: dominio definitivo; pendiente.
+- `site.domain`: `https://nieblastudio.devs.surf`.
 - `contact.email`: correo oficial confirmado.
 - `contact.whatsapp`: número oficial en formato internacional, solo dígitos; pendiente.
 - `contact.whatsappMessage`: texto inicial del enlace de WhatsApp.
 
-Los marcadores de dominio en canonical, Open Graph y Schema.org deben sustituirse cuando se confirme el dominio definitivo.
+Canonical, Open Graph y Schema.org utilizan el dominio público confirmado. No alterar el diseño visual para este cambio.
 
 ## Criterios de cambios
 - No rediseñar ni alterar CSS, composición, animaciones o símbolo 3D sin petición expresa.
