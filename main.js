@@ -180,7 +180,7 @@ function initHeroLetterField(){
   title.classList.add("has-letter-field");
 
   let frame=0, pointer=null;
-  const radius=190, maxPush=34;
+  const radius=255, maxPush=66;
   function update(){
     frame=0;
     if(!pointer) return;
@@ -194,10 +194,10 @@ function initHeroLetterField(){
       const nx=distance?dx/distance:0;
       const ny=distance?dy/distance:-1;
       const push=maxPush*force;
-      const swirl=push*.28;
+      const swirl=push*.82;
       letter.style.setProperty("--lx",(nx*push-ny*swirl).toFixed(2)+"px");
       letter.style.setProperty("--ly",(ny*push+nx*swirl).toFixed(2)+"px");
-      letter.style.setProperty("--lr",(nx*ny*influence*12).toFixed(2)+"deg");
+      letter.style.setProperty("--lr",(nx*ny*influence*26).toFixed(2)+"deg");
     }
   }
 
@@ -207,6 +207,15 @@ function initHeroLetterField(){
     if(!frame) frame=requestAnimationFrame(update);
   },{passive:true});
 
+  const resetField=()=>{
+    pointer=null;
+    letters.forEach(letter=>{
+      letter.style.setProperty("--lx","0px");
+      letter.style.setProperty("--ly","0px");
+      letter.style.setProperty("--lr","0deg");
+    });
+  };
+  window.addEventListener("pointerleave",resetField);
   window.addEventListener("blur",()=>{
     pointer=null;
     letters.forEach(letter=>{
