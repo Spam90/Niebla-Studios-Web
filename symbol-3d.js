@@ -166,12 +166,12 @@ function init(canvas,opts){
   });
 
   gl.enable(gl.DEPTH_TEST);
-  gl.uniform3f(U.uL1,0.45,0.65,0.75);
-  gl.uniform3f(U.uL2,-0.85,-0.25,0.45);
-  gl.uniform3f(U.uAlbedo,0.55,0.60,0.70);
+  gl.uniform3f(U.uL1,0.34,0.52,0.92);
+  gl.uniform3f(U.uL2,-0.72,-0.38,0.58);
+  gl.uniform3f(U.uAlbedo,0.10,0.28,0.72);
   gl.uniform3f(U.uBlue,0.145,0.388,0.922);
   gl.uniform3f(U.uWhite,1,1,1);
-  gl.uniform3f(U.uLight,0.376,0.647,0.980);
+  gl.uniform3f(U.uLight,0.42,0.64,1.0);
 
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let angle=opts.angle||0, tX=0, tY=0, cX=0, cY=0, tS=0, cS=0, raf=0, last=0, visible=true;
