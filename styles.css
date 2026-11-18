@@ -1820,3 +1820,14 @@ img,canvas,svg{max-width:100%}
   .project-media{transform:translateZ(5px)}
   .project.is-touch-active{filter:brightness(1.08)}
 }
+
+
+/* Fix: preserve magnetic tilt after the project reveal animation completes. */
+@media(prefers-reduced-motion:no-preference){
+  html.motion-ready #proyectos .project.is-visible{
+    transform:perspective(1100px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));
+  }
+  html.motion-ready #proyectos .project.is-visible:hover{
+    transform:perspective(1100px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) translateY(-3px);
+  }
+}
