@@ -217,7 +217,7 @@ function initMotion(){
     ...document.querySelectorAll("#servicios .section-head, #servicios .service-group"),
     ...document.querySelectorAll("#proyectos .section-head, #proyectos .project"),
     ...document.querySelectorAll("#nosotros .about-grid > *"),
-    ...document.querySelectorAll("#proceso .section-head, #proceso .step"),
+    ...document.querySelectorAll("#enfoque .method-intro, #enfoque .method-step"),
     ...document.querySelectorAll("#contacto .section-head, #contacto .form"),
     ...document.querySelectorAll(".footer-grid > *")
   ];
