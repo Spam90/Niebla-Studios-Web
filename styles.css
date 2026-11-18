@@ -2161,3 +2161,127 @@ img,canvas,svg{max-width:100%}
 @media(max-width:600px){
   #inicio > .stage .stage-fallback{right:-12vw!important;width:70vw!important;opacity:.12!important}
 }
+
+
+/* ============================================================
+   NIEBLA — COLOR CHAPTERS
+   Cada sección tiene un color protagonista de la paleta oficial.
+   Se conservan las composiciones, tipografías y el símbolo 3D.
+============================================================ */
+:root{
+  --brand-black:#090B10;
+  --brand-electric:#2563EB;
+  --brand-white:#FFFFFF;
+  --brand-slate:#94A3B8;
+  --brand-sky:#60A3FA;
+}
+
+/* 00 — Inicio / Negro */
+#inicio{
+  background-color:var(--brand-black);
+  color:var(--brand-white);
+}
+
+/* 01 — Servicios / Blanco */
+#servicios{
+  --chapter-color:var(--brand-electric);
+  background:var(--brand-white);
+  color:var(--brand-black);
+}
+#servicios::before{
+  background:linear-gradient(90deg,var(--brand-electric),rgba(37,99,235,.14),transparent);
+}
+#servicios h2,
+#servicios .svc h4{color:var(--brand-black)}
+#servicios h2::before,
+#servicios .group-title{color:var(--brand-electric)}
+#servicios .group-title{border-left-color:var(--brand-electric)}
+#servicios .svc-desc{color:#475569}
+#servicios .svc:hover h4{color:var(--brand-electric)}
+
+/* 02 — Enfoque / Gris azulado */
+#enfoque{
+  --chapter-color:var(--brand-slate);
+  background:var(--brand-slate);
+  color:var(--brand-black);
+}
+#enfoque::before{
+  background:linear-gradient(90deg,var(--brand-white),rgba(9,11,16,.22),transparent);
+}
+#enfoque .eyebrow,
+#enfoque .method-step>span{color:var(--brand-electric)}
+#enfoque .method-intro .section-note,
+#enfoque .method-step p{color:#334155}
+#enfoque .method-intro h2,
+#enfoque .method-step h3{color:var(--brand-black)}
+#enfoque .method-grid,
+#enfoque .method-step{border-color:rgba(9,11,16,.22)}
+
+/* 03 — Demos / Azul claro */
+#proyectos{
+  --chapter-color:var(--brand-sky);
+  background:var(--brand-sky);
+  color:var(--brand-black);
+}
+#proyectos::before{
+  background:linear-gradient(90deg,var(--brand-white),rgba(9,11,16,.18),transparent);
+}
+#proyectos .section-head h2,
+#proyectos .project h3{color:var(--brand-black)}
+#proyectos .section-note,
+#proyectos .project p{color:#26364d}
+#proyectos .project .badge{
+  border-bottom-color:var(--brand-electric);
+  color:#173d85;
+}
+#proyectos .text-link{
+  color:var(--brand-black);
+  border-bottom-color:rgba(9,11,16,.35);
+}
+#proyectos .project-media{background-color:#10151f}
+#proyectos .project-media::after{border-color:rgba(9,11,16,.18)}
+
+/* 04 — Nosotros / Azul eléctrico */
+#nosotros{
+  --chapter-color:var(--brand-electric);
+  background:var(--brand-electric);
+  color:var(--brand-white);
+}
+#nosotros::before{background:rgba(255,255,255,.58)}
+
+/* 05 — Proceso / Negro */
+#proceso{
+  --chapter-color:var(--brand-black);
+  background:var(--brand-black);
+  color:var(--brand-white);
+}
+#proceso::before{
+  background:linear-gradient(90deg,var(--brand-sky),rgba(96,163,250,.16),transparent);
+}
+#proceso h2::before{color:var(--brand-sky)}
+
+/* 06 — Contacto / Blanco */
+#contacto{
+  --chapter-color:var(--brand-white);
+  background:var(--brand-white);
+  color:var(--brand-black);
+}
+#contacto::before{
+  background:linear-gradient(90deg,var(--brand-electric),rgba(37,99,235,.12),transparent);
+}
+#contacto .section-head h2{color:var(--brand-black)}
+#contacto .section-head h2::before{color:var(--brand-electric)}
+
+/* Cierre / Gris azulado */
+.site-footer{
+  background:var(--brand-slate);
+  color:var(--brand-black);
+  border-top-color:rgba(9,11,16,.2);
+}
+.site-footer .footer-title{color:#173d85}
+.site-footer li,
+.site-footer .muted{color:#26364d}
+.site-footer li a:hover{color:var(--brand-black)}
+.site-footer .wordmark{
+  -webkit-text-stroke-color:rgba(9,11,16,.32);
+}
