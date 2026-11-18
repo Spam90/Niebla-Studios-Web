@@ -5,7 +5,7 @@ window.NIEBLA_CONFIG = {
 
   site: {
     name: "Niebla Studios",
-    domain: "",                 // Dominio definitivo. PENDIENTE
+    domain: "https://nieblastudio.devs.surf", // Dominio público confirmado
     locale: "es_DO",
     twitterHandle: ""           // Opcional. PENDIENTE
   },
