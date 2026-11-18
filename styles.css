@@ -1803,3 +1803,20 @@ img,canvas,svg{max-width:100%}
 @media(prefers-reduced-motion:reduce){
  #heroTitle .hero-letter{transform:none!important;transition:none!important}
 }
+
+
+/* Magnetic project cards — subtle depth on desktop and tactile feedback on touch. */
+@media(prefers-reduced-motion:no-preference){
+  .project{transform-style:preserve-3d;will-change:transform}
+  .project-media{transform:translateZ(9px);transition:transform .35s var(--ease),border-color .35s,box-shadow .35s}
+  .project h3,.project p,.project>.badge,.project>.text-link{transform:translateZ(3px)}
+  .project.is-touch-active .project-media{
+    border-color:rgba(141,184,255,.72);
+    box-shadow:0 16px 38px rgba(0,0,0,.3),0 0 28px rgba(40,104,237,.12);
+  }
+}
+@media(hover:none) and (prefers-reduced-motion:no-preference){
+  .project{transition:transform .24s var(--ease)}
+  .project-media{transform:translateZ(5px)}
+  .project.is-touch-active{filter:brightness(1.08)}
+}
