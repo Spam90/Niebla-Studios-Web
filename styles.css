@@ -1250,3 +1250,34 @@ body{background:#080a0f;color:#f5f7fb}
  #proceso .step-num{font-size:4.8rem}
  #contacto .section-head h2{font-size:clamp(4rem,17vw,6rem)}
 }
+
+
+/* Niebla Studios — section that explains the studio's product-thinking approach. */
+.method-section{background:#0b1019;color:#f4f6fb}
+.method-section::before{background:linear-gradient(90deg,#3478f6,rgba(141,184,255,.18),transparent)}
+.method-intro{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(240px,.8fr);align-items:end;gap:36px 9vw;margin-bottom:clamp(54px,8vw,110px)}
+.method-intro .eyebrow{grid-column:1/-1;margin-bottom:-10px}
+.method-intro h2{max-width:11ch;font-size:clamp(3.6rem,8vw,8rem)}
+.method-intro .section-note{max-width:34ch;font-size:14px}
+.method-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid rgba(190,205,228,.2);border-bottom:1px solid rgba(190,205,228,.2)}
+.method-step{min-height:245px;padding:26px 24px 28px 0;border-right:1px solid rgba(190,205,228,.16)}
+.method-step+.method-step{padding-left:24px}
+.method-step:last-child{border-right:0}
+.method-step>span{color:#8db8ff;font:600 9px/1.4 var(--body);letter-spacing:.16em}
+.method-step h3{max-width:13ch;margin:46px 0 14px;font-size:clamp(1.2rem,2vw,1.8rem);line-height:1.08;letter-spacing:-.05em}
+.method-step p{max-width:29ch;color:#9aa6b8;font-size:12px;line-height:1.8}
+.method-footnote{max-width:70ch;margin-top:24px;color:#8190a5;font-size:11px;line-height:1.8}
+@media(max-width:860px){
+ .method-intro{grid-template-columns:1fr;gap:24px}
+ .method-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .method-step:nth-child(2){border-right:0}
+ .method-step:nth-child(n+3){border-top:1px solid rgba(190,205,228,.16)}
+ .method-step:nth-child(3){padding-left:0}
+}
+@media(max-width:600px){
+ .method-intro h2{font-size:clamp(3.3rem,14vw,5.3rem)}
+ .method-grid{grid-template-columns:1fr}
+ .method-step,.method-step+.method-step{min-height:0;padding:24px 0;border-right:0;border-top:1px solid rgba(190,205,228,.16)}
+ .method-step:first-child{border-top:0}
+ .method-step h3{margin:22px 0 9px}
+}
