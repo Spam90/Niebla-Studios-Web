@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b10">
+<title>Demos interactivas — Niebla Studios</title>
+<meta name="description" content="Prueba prototipos funcionales de catálogo digital, sistema de gestión y reservas desarrollados por Niebla Studios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#090b10;--panel:#111722;--panel2:#171f2d;--line:#273346;--blue:#2563eb;--blue2:#8db8ff;--white:#f4f6fb;--muted:#9aa6b8;--green:#65d6a1;--red:#ff8585;--title:"Sora",sans-serif;--body:"Inter",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% 0%,#14213a 0,transparent 38%),var(--bg);color:var(--white);font:14px/1.6 var(--body)}button,input,select{font:inherit}button,a{touch-action:manipulation}a{color:inherit;text-decoration:none}button{cursor:pointer}.wrap{width:min(1180px,calc(100% - 40px));margin:auto}
+.top{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:12px;align-items:center;font:600 14px var(--title);letter-spacing:.02em}.mark{width:30px;height:30px;border:1px solid #4b82ed;border-radius:50%;display:grid;place-items:center;color:var(--blue2);font-weight:700}.back{color:var(--blue2);font-size:12px}
+.hero{padding:64px 0 42px;display:flex;justify-content:space-between;gap:30px;align-items:end}.eyebrow{color:var(--blue2);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}.hero h1{max-width:700px;margin:13px 0 10px;font:600 clamp(2.5rem,6vw,5rem)/.98 var(--title);letter-spacing:-.07em}.hero p{max-width:570px;color:var(--muted);margin:0}.demo-note{max-width:250px;padding:14px;border:1px solid #3b5278;background:#101a2a;color:#afc7ef;font-size:11px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}.tab{border:1px solid var(--line);background:#10151f;color:var(--muted);padding:11px 16px;border-radius:3px;font-size:12px}.tab[aria-selected=true]{background:var(--blue);border-color:var(--blue);color:white}
+.panel{display:none;padding:28px 0 70px}.panel.active{display:block}.panel-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:22px}.panel-head h2{font:600 clamp(1.7rem,3vw,2.4rem)/1.1 var(--title);letter-spacing:-.05em;margin:0}.sub{color:var(--muted);font-size:12px;margin:7px 0 0}.btn{border:1px solid var(--line);background:#182233;color:var(--white);padding:10px 14px;border-radius:3px;font-size:11px;font-weight:600}.btn.primary{background:var(--blue);border-color:var(--blue)}.btn.ghost{background:transparent}.btn:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--blue2);outline-offset:2px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.field{background:#0d131d;border:1px solid var(--line);color:var(--white);padding:11px 12px;border-radius:3px;min-height:42px}.toolbar input{flex:1;min-width:180px}.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.product{border:1px solid var(--line);background:linear-gradient(145deg,#141d2a,#0e131c);padding:16px;display:flex;flex-direction:column;min-height:210px}.product-art{height:90px;border:1px solid #273b5d;background:radial-gradient(circle at 50% 40%,#315c9e,#14223b 58%,#101723);display:grid;place-items:center;margin-bottom:14px;color:#c6d9fa;font:600 26px var(--title)}.product small,.muted{color:var(--muted)}.product h3{font:600 15px var(--title);margin:5px 0}.product-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:14px}.price{font-weight:700}.admin-box,.cart-box,.notice{border:1px solid var(--line);background:#101722;padding:18px;margin-top:18px}.admin-box[hidden],.cart-box[hidden]{display:none}.admin-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}.admin-form{display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:9px}.cart-items{display:grid;gap:8px;margin:12px 0}.cart-row{display:flex;justify-content:space-between;color:#d9e3f4;font-size:12px}.empty{padding:32px;text-align:center;border:1px dashed var(--line);color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}.stat{padding:17px;border:1px solid var(--line);background:#111925}.stat small{color:var(--muted);font-size:10px;letter-spacing:.08em}.stat strong{display:block;font:600 27px var(--title);margin-top:7px}.table-wrap{overflow:auto;border:1px solid var(--line)}table{width:100%;border-collapse:collapse;min-width:620px}th,td{text-align:left;padding:13px 15px;border-bottom:1px solid var(--line);font-size:12px}th{color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:#111925}td{color:#dce5f3}.status{display:inline-block;padding:4px 8px;border-radius:20px;background:#20324b;color:#a9c8ff;font-size:10px}.status.done{background:#16372e;color:#83e0b6}.status.cancel{background:#3a2228;color:#ffaaaa}.row-actions{display:flex;gap:7px}.dash-toolbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.booking-layout{display:grid;grid-template-columns:1fr .8fr;gap:16px}.booking-card{border:1px solid var(--line);background:#111925;padding:22px}.booking-card h3{font:600 17px var(--title);margin:0 0 16px}.booking-form{display:grid;gap:14px}.booking-form label{display:grid;gap:6px;color:var(--muted);font-size:11px}.booking-form .field{width:100%}.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.slot{padding:10px 5px;border:1px solid var(--line);background:#0d131d;color:#dbe6f7;border-radius:3px;font-size:12px}.slot[aria-pressed=true]{background:var(--blue);border-color:var(--blue)}.slot:disabled{opacity:.3;cursor:not-allowed}.confirmation{border:1px solid #315f55;background:#10251f;padding:16px;color:#b6efd7}.confirmation[hidden]{display:none}.list-bookings{display:grid;gap:10px}.booking-item{padding:12px;border:1px solid var(--line);font-size:12px}.booking-item strong{display:block}
+.footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:20px}
+@media(max-width:760px){.hero{display:block;padding-top:45px}.demo-note{margin-top:22px;max-width:none}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}.booking-layout{grid-template-columns:1fr}.admin-form{grid-template-columns:1fr 1fr}.panel-head{align-items:start;flex-direction:column}}
+@media(max-width:480px){.wrap{width:calc(100% - 28px)}.products{grid-template-columns:1fr}.product{min-height:190px}.hero h1{font-size:2.8rem}.footer{display:block}.footer span{display:block;margin-top:6px}.admin-form{grid-template-columns:1fr}.slots{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap" style="display:flex;align-items:center;justify-content:space-between"><a class="brand" href="../index.html"><span class="mark">N.</span>Niebla Studios</a><a class="back" href="../index.html#proyectos">← Volver al sitio</a></div></header>
+<main class="wrap">
+<section class="hero"><div><span class="eyebrow">Laboratorio de producto / Demos funcionales</span><h1>Así puede funcionar tu próxima solución.</h1><p>Explora tres prototipos interactivos. Prueba las acciones principales y observa cómo una interfaz conecta datos, procesos y administración.</p></div><aside class="demo-note"><strong>ENTORNO DE DEMOSTRACIÓN</strong><br>Los datos son ficticios. Las acciones ocurren en tu navegador, no se envían a un servidor y se reinician al recargar.</aside></section>
+<nav class="tabs" aria-label="Seleccionar demostración" role="tablist"><button class="tab" data-tab="catalogo" role="tab" aria-selected="true">01 · Catálogo digital</button><button class="tab" data-tab="gestion" role="tab" aria-selected="false">02 · Gestión</button><button class="tab" data-tab="reservas" role="tab" aria-selected="false">03 · Reservas</button></nav>
+
+<section class="panel active" id="catalogo" role="tabpanel">
+<div class="panel-head"><div><h2>Catálogo digital</h2><p class="sub">Explora productos, agrega artículos al carrito y prueba el panel de administración.</p></div><div><button class="btn" id="cartToggle">Carrito · <span id="cartCount">0</span></button> <button class="btn primary" id="adminToggle">Vista administrativa</button></div></div>
+<div class="toolbar"><input class="field" id="productSearch" type="search" placeholder="Buscar producto..." aria-label="Buscar producto"><select class="field" id="categoryFilter" aria-label="Filtrar por categoría"><option value="Todas">Todas las categorías</option><option>Bebidas</option><option>Accesorios</option><option>Hogar</option></select></div>
+<div class="products" id="products"></div>
+<div class="cart-box" id="cartBox" hidden><div class="admin-head"><strong>Tu carrito</strong><button class="btn ghost" id="closeCart">Cerrar</button></div><div class="cart-items" id="cartItems"></div><div class="product-bottom"><strong>Total de prueba</strong><strong id="cartTotal">$0.00</strong></div><p class="sub">Este carrito es ilustrativo. No procesa pagos ni pedidos reales.</p></div>
+<div class="admin-box" id="adminBox" hidden><div class="admin-head"><div><strong>Administración de productos</strong><p class="sub">Agrega un producto de ejemplo a este catálogo temporal.</p></div><button class="btn ghost" id="closeAdmin">Cerrar</button></div><form class="admin-form" id="productForm"><input class="field" id="newName" required maxlength="50" placeholder="Nombre del producto"><select class="field" id="newCategory"><option>Bebidas</option><option>Accesorios</option><option>Hogar</option></select><input class="field" id="newPrice" type="number" min="1" step=".01" required placeholder="Precio"><button class="btn primary">Agregar</button></form><p class="sub" id="adminMessage" aria-live="polite"></p></div>
+</section>
+
+<section class="panel" id="gestion" role="tabpanel">
+<div class="panel-head"><div><h2>Panel de gestión</h2><p class="sub">Datos simulados para mostrar indicadores, filtros y actualización de estados.</p></div><button class="btn primary" id="addRecord">+ Crear registro de prueba</button></div>
+<div class="stats"><div class="stat"><small>REGISTROS TOTALES</small><strong id="statTotal">0</strong></div><div class="stat"><small>PENDIENTES</small><strong id="statPending">0</strong></div><div class="stat"><small>EN PROCESO</small><strong id="statProgress">0</strong></div><div class="stat"><small>COMPLETADOS</small><strong id="statDone">0</strong></div></div>
+<div class="dash-toolbar"><input class="field" id="recordSearch" type="search" placeholder="Buscar por cliente o referencia" aria-label="Buscar registros"><select class="field" id="statusFilter"><option value="Todos">Todos los estados</option><option>Pendiente</option><option>En proceso</option><option>Completado</option><option>Cancelado</option></select><button class="btn" id="exportCsv">Exportar CSV</button></div>
+<div class="table-wrap"><table><thead><tr><th>Referencia</th><th>Cliente</th><th>Concepto</th><th>Fecha</th><th>Estado</th><th>Acción</th></tr></thead><tbody id="recordRows"></tbody></table></div>
+<p class="sub" id="recordMessage" aria-live="polite">Puedes cambiar el estado de cada registro. Los cambios solo existen durante esta sesión.</p>
+</section>
+
+<section class="panel" id="reservas" role="tabpanel">
+<div class="panel-head"><div><h2>Sistema de reservas</h2><p class="sub">Selecciona un servicio, una fecha y un horario disponible para crear una reserva de prueba.</p></div></div>
+<div class="booking-layout"><div class="booking-card"><h3>Solicitar una cita</h3><form class="booking-form" id="bookingForm"><label>Nombre<input class="field" id="guestName" required maxlength="60" placeholder="Tu nombre"></label><label>Servicio<select class="field" id="bookingService"><option>Consulta inicial</option><option>Asesoría técnica</option><option>Reunión de proyecto</option></select></label><label>Fecha<input class="field" id="bookingDate" type="date" required></label><div><label>Horario disponible</label><div class="slots" id="timeSlots"><p class="sub">Selecciona una fecha para ver horarios.</p></div></div><button class="btn primary" type="submit">Confirmar reserva de prueba</button><div class="confirmation" id="bookingConfirmation" hidden aria-live="polite"></div></form></div><aside class="booking-card"><h3>Reservas de esta sesión</h3><p class="sub" style="margin:-8px 0 15px">Las reservas no se guardan en un servidor ni bloquean horarios reales.</p><div class="list-bookings" id="bookingList"><p class="sub">Todavía no hay reservas.</p></div></aside></div>
+</section>
+</main>
+<footer class="footer"><div class="wrap" style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap"><span>© <span id="year"></span> Niebla Studios</span><span>Prototipos funcionales · Datos de demostración · Sin backend</span></div></footer>
+<script>
+(()=>{"use strict";
+const $=id=>document.getElementById(id);
+const tabs=[...document.querySelectorAll("[data-tab]")];
+function activate(name,updateHash=true){tabs.forEach(b=>{const on=b.dataset.tab===name;b.setAttribute("aria-selected",String(on));$(name).classList.toggle("active",on)});if(updateHash)history.replaceState(null,"","#"+name)}
+tabs.forEach(b=>b.addEventListener("click",()=>activate(b.dataset.tab)));
+const initial=location.hash.slice(1);if(["catalogo","gestion","reservas"].includes(initial))activate(initial,false);
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(["catalogo","gestion","reservas"].includes(h))activate(h,false)});
+$("year").textContent=new Date().getFullYear();
+
+/* Catálogo: datos temporales y acciones locales. */
+let products=[
+{id:1,name:"Café de origen",category:"Bebidas",price:420,tag:"CAFÉ"},
+{id:2,name:"Botella térmica",category:"Accesorios",price:850,tag:"TERMO"},
+{id:3,name:"Vaso minimal",category:"Hogar",price:390,tag:"VASO"},
+{id:4,name:"Té artesanal",category:"Bebidas",price:280,tag:"TÉ"},
+{id:5,name:"Bolso urbano",category:"Accesorios",price:1250,tag:"BOLSO"},
+{id:6,name:"Set de mesa",category:"Hogar",price:990,tag:"SET"}
+];let cart=[];
+function money(n){return new Intl.NumberFormat("es-DO",{style:"currency",currency:"DOP",maximumFractionDigits:0}).format(n)}
+function renderProducts(){const q=$("productSearch").value.toLowerCase(),cat=$("categoryFilter").value;const list=products.filter(p=>(cat==="Todas"||p.category===cat)&&(p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)));$("products").innerHTML=list.length?list.map(p=>'<article class="product"><div class="product-art" aria-hidden="true">'+p.tag+'</div><small>'+p.category+'</small><h3>'+escapeHtml(p.name)+'</h3><div class="product-bottom"><span class="price">'+money(p.price)+'</span><button class="btn primary" data-add="'+p.id+'">Agregar</button></div></article>').join(""):'<div class="empty">No hay productos que coincidan con tu búsqueda.</div>'}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+$("products").addEventListener("click",e=>{const b=e.target.closest("[data-add]");if(!b)return;const id=Number(b.dataset.add);const item=cart.find(x=>x.id===id);item?item.qty++:cart.push({id,qty:1});renderCart()});
+$("productSearch").addEventListener("input",renderProducts);$("categoryFilter").addEventListener("change",renderProducts);
+function renderCart(){$("cartCount").textContent=cart.reduce((n,x)=>n+x.qty,0);$("cartItems").innerHTML=cart.length?cart.map(x=>{const p=products.find(y=>y.id===x.id);return '<div class="cart-row"><span>'+escapeHtml(p.name)+' × '+x.qty+'</span><strong>'+money(p.price*x.qty)+'</strong></div>'}).join(""):'<p class="sub">Tu carrito está vacío.</p>';$("cartTotal").textContent=money(cart.reduce((n,x)=>n+products.find(p=>p.id===x.id).price*x.qty,0))}
+$("cartToggle").addEventListener("click",()=>{$("cartBox").hidden=!$("cartBox").hidden;renderCart()});$("closeCart").addEventListener("click",()=>$("cartBox").hidden=true);
+$("adminToggle").addEventListener("click",()=>{$("adminBox").hidden=!$("adminBox").hidden});$("closeAdmin").addEventListener("click",()=>$("adminBox").hidden=true);
+$("productForm").addEventListener("submit",e=>{e.preventDefault();const name=$("newName").value.trim(),price=Number($("newPrice").value);if(!name||price<=0)return;products.push({id:Math.max(...products.map(p=>p.id))+1,name,category:$("newCategory").value,price,tag:"NUEVO"});e.target.reset();renderProducts();$("adminMessage").textContent="Producto agregado a la vista de catálogo. No se ha guardado en una base de datos."});
+
+/* Gestión: registros ficticios, filtros y exportación local. */
+let records=[
+{ref:"NS-1042",client:"Marina López",task:"Catálogo digital",date:"2026-11-12",status:"Pendiente"},
+{ref:"NS-1041",client:"Grupo Norte",task:"Sitio corporativo",date:"2026-11-11",status:"En proceso"},
+{ref:"NS-1040",client:"Carlos Méndez",task:"Landing page",date:"2026-11-10",status:"Completado"},
+{ref:"NS-1039",client:"Estudio Alba",task:"Sistema de reservas",date:"2026-11-08",status:"En proceso"},
+{ref:"NS-1038",client:"Comercial Uno",task:"Panel administrativo",date:"2026-11-07",status:"Cancelado"}
+];
+const statuses=["Pendiente","En proceso","Completado","Cancelado"];
+function renderRecords(){const q=$("recordSearch").value.toLowerCase(),f=$("statusFilter").value;const rows=records.filter(r=>(f==="Todos"||r.status===f)&&[r.ref,r.client,r.task].join(" ").toLowerCase().includes(q));$("recordRows").innerHTML=rows.map(r=>'<tr><td>'+r.ref+'</td><td>'+escapeHtml(r.client)+'</td><td>'+escapeHtml(r.task)+'</td><td>'+r.date+'</td><td><span class="status '+(r.status==="Completado"?"done":r.status==="Cancelado"?"cancel":"")+'">'+r.status+'</span></td><td><button class="btn" data-next="'+r.ref+'">Cambiar estado</button></td></tr>').join("")||'<tr><td colspan="6">No hay registros con estos filtros.</td></tr>';$("statTotal").textContent=records.length;$("statPending").textContent=records.filter(r=>r.status==="Pendiente").length;$("statProgress").textContent=records.filter(r=>r.status==="En proceso").length;$("statDone").textContent=records.filter(r=>r.status==="Completado").length}
+$("recordRows").addEventListener("click",e=>{const b=e.target.closest("[data-next]");if(!b)return;const r=records.find(x=>x.ref===b.dataset.next);r.status=statuses[(statuses.indexOf(r.status)+1)%statuses.length];renderRecords();$("recordMessage").textContent="Estado actualizado en memoria local para "+r.ref+"."});
+$("recordSearch").addEventListener("input",renderRecords);$("statusFilter").addEventListener("change",renderRecords);
+$("addRecord").addEventListener("click",()=>{const n=1043+records.length-5;records.unshift({ref:"NS-"+n,client:"Nuevo registro",task:"Solicitud de ejemplo",date:new Date().toISOString().slice(0,10),status:"Pendiente"});renderRecords();$("recordMessage").textContent="Registro ficticio creado correctamente."});
+$("exportCsv").addEventListener("click",()=>{const rows=[["Referencia","Cliente","Concepto","Fecha","Estado"],...records.map(r=>[r.ref,r.client,r.task,r.date,r.status])];const csv=rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n");const url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="registros-demo.csv";a.click();URL.revokeObjectURL(url)});
+renderRecords();
+
+/* Reservas: selección de fecha/horario y confirmación temporal. */
+const today=new Date();const localDate=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);$("bookingDate").min=localDate;
+const slots=["09:00","10:00","11:00","12:00","14:00","15:00","16:00","17:00","18:00"];let selectedSlot="",bookings=[];
+function renderSlots(){const date=$("bookingDate").value;if(!date){$("timeSlots").innerHTML='<p class="sub">Selecciona una fecha para ver horarios.</p>';return}const taken=bookings.filter(b=>b.date===date).map(b=>b.time);selectedSlot="";$("timeSlots").innerHTML=slots.map((t,i)=>'<button type="button" class="slot" data-slot="'+t+'" aria-pressed="false" '+(taken.includes(t)?"disabled":"")+'>'+t+(taken.includes(t)?" · Ocupado":"")+'</button>').join("")}
+$("bookingDate").addEventListener("change",renderSlots);
+$("timeSlots").addEventListener("click",e=>{const b=e.target.closest("[data-slot]");if(!b||b.disabled)return;selectedSlot=b.dataset.slot;document.querySelectorAll(".slot").forEach(x=>x.setAttribute("aria-pressed",String(x===b)))});
+$("bookingForm").addEventListener("submit",e=>{e.preventDefault();const name=$("guestName").value.trim(),date=$("bookingDate").value;if(!name||!date||!selectedSlot){$("bookingConfirmation").hidden=false;$("bookingConfirmation").textContent="Completa el nombre, la fecha y selecciona un horario disponible.";return}const booking={name,service:$("bookingService").value,date,time:selectedSlot};bookings.push(booking);$("bookingConfirmation").hidden=false;$("bookingConfirmation").innerHTML="<strong>Reserva de prueba creada.</strong><br>"+escapeHtml(name)+" · "+escapeHtml(booking.service)+"<br>"+date+" a las "+selectedSlot+"<br><small>Esta confirmación no se envió a ningún negocio.</small>";renderBookings();renderSlots();selectedSlot=""});
+function renderBookings(){$("bookingList").innerHTML=bookings.length?bookings.map(b=>'<div class="booking-item"><strong>'+escapeHtml(b.name)+'</strong>'+escapeHtml(b.service)+'<br>'+b.date+' · '+b.time+'</div>').join(""):'<p class="sub">Todavía no hay reservas.</p>'}
+renderProducts();renderCart();
+})();
+</script>
+</body></html>
