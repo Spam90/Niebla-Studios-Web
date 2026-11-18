@@ -121,7 +121,7 @@ function initSymbols(){
   function poseFor(sec){
     const p = JSON.parse(sec.dataset.pose);
     const portrait = window.innerWidth < 860;
-    if (portrait){ p.x = p.x * 0.25; p.y = p.y - 0.5; p.zoom *= 0.8; p.a = Math.min(p.a, 0.5); }
+    if (portrait){ p.x = 1.25; p.y = -0.55; p.zoom *= 0.62; p.a = Math.min(p.a, 0.16); }
     return p;
   }
   function apply(){
