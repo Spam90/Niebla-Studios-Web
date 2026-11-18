@@ -40,3 +40,10 @@ Los marcadores de dominio en canonical, Open Graph y Schema.org deben sustituirs
 - Diferenciar demo, proyecto personal, trabajo contratado y caso de éxito.
 - No afirmar que la web está publicada o que un canal funciona sin comprobarlo.
 - Registrar decisiones relevantes también en el repositorio central `Spam90/Agencia-del-goat`.
+
+## Dominio público y configuración
+
+- URL pública: https://nieblastudio.devs.surf (el usuario confirmó que la página carga).
+- `site.domain`, canonical, Open Graph y Schema.org utilizan esta URL.
+- El estado interno Valid Configuration/Verified de Vercel y el despliegue de este commit deben comprobarse por separado.
+- El QA completo del sitio sigue pendiente.
