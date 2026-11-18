@@ -1751,16 +1751,20 @@ img,canvas,svg{max-width:100%}
 }
 
 
-/* 3D POSITIONING REFINEMENT — full viewport stage, no clipping */
+/* 3D BRAND SYMBOL — mounted in the active section, behind its content */
 .stage{
- position:fixed!important;
+ position:absolute!important;
  inset:0!important;
- width:100vw!important;
- height:100svh!important;
+ width:100%!important;
+ height:100%!important;
  z-index:0!important;
  opacity:1!important;
  overflow:hidden!important;
  pointer-events:none!important;
+}
+.section > .container{position:relative;z-index:2}
+@media(max-width:860px){
+ .stage{position:fixed!important;inset:0!important;width:100vw!important;height:100svh!important}
 }
 .stage-canvas{
  position:absolute!important;
