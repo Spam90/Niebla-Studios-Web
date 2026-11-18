@@ -2285,3 +2285,22 @@ img,canvas,svg{max-width:100%}
 .site-footer .wordmark{
   -webkit-text-stroke-color:rgba(9,11,16,.32);
 }
+
+
+/* Combined approach + process: one continuous chapter in the official slate tone. */
+#enfoque{
+  background:var(--brand-slate);
+  color:var(--brand-black);
+}
+#enfoque::before{
+  background:linear-gradient(90deg,var(--brand-white),rgba(9,11,16,.22),transparent);
+}
+#enfoque .method-intro .section-note,
+#enfoque .method-step p{color:#26364d}
+#enfoque .method-intro h2,
+#enfoque .method-step h3{color:var(--brand-black)}
+#enfoque .method-grid,
+#enfoque .method-step{border-color:rgba(9,11,16,.22)}
+#enfoque .method-step>span,
+#enfoque .eyebrow{color:#173d85}
+#enfoque .method-footnote{color:#26364d;border-top-color:rgba(9,11,16,.2)}
