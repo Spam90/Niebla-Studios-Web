@@ -450,7 +450,7 @@ function initHorizontalNavigation(){
     }
     locked = true;
     window.clearTimeout(lockTimer);
-    lockTimer = window.setTimeout(()=>{locked=false;}, reduceMotion ? 80 : 1120);
+    lockTimer = window.setTimeout(()=>{locked=false;}, reduceMotion ? 80 : 850);
   }
 
   function canScrollInside(panel, delta){
@@ -465,7 +465,7 @@ function initHorizontalNavigation(){
   let wheelDirection = 0;
   let lastWheelNavigation = 0;
   const wheelThreshold = 150;
-  const wheelCooldown = 1250;
+  const wheelCooldown = 950;
 
   window.addEventListener("wheel", event => {
     if(!document.body.classList.contains("horizontal-active")) return;
