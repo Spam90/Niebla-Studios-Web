@@ -98,6 +98,8 @@ function initSymbols(){
   const stage = $("stage");
   const canvas = $("heroCanvas");
   let api = null;
+  /* El escenario debe vivir fuera del hero para acompañar todas las secciones. */
+  if (stage && stage.parentElement !== document.body) document.body.append(stage);
   if (canvas){
     stage.addEventListener("symbol-fallback", () => {});
     canvas.addEventListener("symbol-fallback", () => stage.classList.add("no-webgl"));
