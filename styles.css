@@ -1767,7 +1767,7 @@ img,canvas,svg{max-width:100%}
  inset:0!important;
  width:100%!important;
  height:100%!important;
- opacity:0!important; /* WebGL sets the final opacity from the active pose */
+ /* WebGL controls canvas opacity from the active pose */
 }
 .stage.no-webgl .stage-fallback{
  position:fixed!important;
