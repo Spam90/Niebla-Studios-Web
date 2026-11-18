@@ -826,7 +826,7 @@ body::after{
 #proyectos .section-head{align-items:flex-end}
 #proyectos .section-head h2{font-size:clamp(5rem,10vw,10.5rem)}
 .project-grid{grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(65px,9vw,132px) clamp(24px,3.5vw,56px)}
-.project{gap:15px;transform:none!important}
+.project{gap:15px}
 .project:first-child{grid-column:1/-1}
 .project:nth-child(2){grid-column:1/span 5}
 .project:nth-child(3){grid-column:7/span 6;margin-top:clamp(35px,8vw,125px)}
@@ -1797,7 +1797,7 @@ img,canvas,svg{max-width:100%}
  position:relative;
  transform:translate3d(var(--lx,0px),var(--ly,0px),0) rotate(var(--lr,0deg));
  transform-origin:50% 65%;
- transition:transform 150ms cubic-bezier(.2,.72,.22,1);
+ transition:transform 190ms cubic-bezier(.16,.8,.24,1);
  will-change:transform;
 }
 @media(prefers-reduced-motion:reduce){
