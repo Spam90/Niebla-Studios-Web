@@ -1749,3 +1749,42 @@ img,canvas,svg{max-width:100%}
 @media(prefers-reduced-motion:reduce){
  .hero-orbit-a{animation:none!important}
 }
+
+
+/* 3D POSITIONING REFINEMENT — full viewport stage, no clipping */
+.stage{
+ position:fixed!important;
+ inset:0!important;
+ width:100vw!important;
+ height:100svh!important;
+ z-index:0!important;
+ opacity:1!important;
+ overflow:hidden!important;
+ pointer-events:none!important;
+}
+.stage-canvas{
+ position:absolute!important;
+ inset:0!important;
+ width:100%!important;
+ height:100%!important;
+ opacity:0!important; /* WebGL sets the final opacity from the active pose */
+}
+.stage.no-webgl .stage-fallback{
+ position:fixed!important;
+ right:5vw!important;
+ top:50%!important;
+ width:min(38vw,540px)!important;
+ transform:translateY(-50%)!important;
+ opacity:.24!important;
+}
+.hero{isolation:isolate}
+.hero-copy,.hero-bottom{position:relative;z-index:2}
+.section{position:relative;z-index:1}
+.site-header,.site-footer{position:relative;z-index:3}
+@media(max-width:860px){
+ .stage{height:100svh!important}
+ .stage.no-webgl .stage-fallback{right:-5vw!important;width:58vw!important;opacity:.16!important}
+}
+@media(max-width:600px){
+ .stage.no-webgl .stage-fallback{right:-12vw!important;width:70vw!important;opacity:.12!important}
+}
