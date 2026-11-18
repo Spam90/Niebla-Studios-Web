@@ -97,93 +97,27 @@ function mountSymbol(canvas, host, opts){
 function initSymbols(){
   const stage = $("stage");
   const canvas = $("heroCanvas");
-  let api = null;
+  if (!stage || !canvas) return;
 
-  /* El escenario es global y persistente: nunca se mueve entre secciones. */
-  if (stage && stage.parentElement !== document.body) document.body.append(stage);
-
-  if (canvas){
-    canvas.addEventListener("symbol-fallback", () => stage.classList.add("no-webgl"));
-    try{
-      api = window.NieblaSymbol && NieblaSymbol.init(canvas, { scroll: 0.0012, stage: true });
-      if (!api) stage.classList.add("no-webgl");
-    }catch(err){ console.error(err); stage.classList.add("no-webgl"); }
+  /* El símbolo 3D vive únicamente dentro del hero. */
+  const host = stage;
+  canvas.addEventListener("symbol-fallback", () => host.classList.add("no-webgl"));
+  try{
+    if (!window.NieblaSymbol || !NieblaSymbol.init(canvas, { scroll: 0.0012, stage: true })) {
+      host.classList.add("no-webgl");
+    }
+  }catch(err){
+    console.error(err);
+    host.classList.add("no-webgl");
   }
 
-  /* Marca de la cabecera y del pie: símbolo 3D independiente, pose fija. */
+  /* Los pequeños símbolos de marca de la cabecera/pie permanecen estáticos. */
   document.querySelectorAll("canvas[data-mark]").forEach(c => {
-    const host = c.parentElement;
-    c.addEventListener("symbol-fallback", () => host.classList.add("no-webgl"));
+    const markHost = c.parentElement;
+    c.addEventListener("symbol-fallback", () => markHost.classList.add("no-webgl"));
     try{
-      if (!window.NieblaSymbol || !NieblaSymbol.init(c, { zoom: 2.15, spin: false, pointer: false, angle: 0.5, tilt: 0.12 })) host.classList.add("no-webgl");
-    }catch(err){ console.error(err); host.classList.add("no-webgl"); }
-  });
-  if (!api) return;
-
-  /* Solo cambia la pose; el canvas permanece montado en el mismo nodo. */
-  const sections = [...document.querySelectorAll("[data-pose]")];
-  let current = sections[0] || null, hover = null;
-  function poseFor(sec){
-    const p = JSON.parse(sec.dataset.pose);
-    const portrait = window.innerWidth < 860;
-    if (portrait){ p.x = 1.25; p.y = -0.55; p.zoom *= 0.62; p.a = Math.min(p.a, 0.48); }
-    return p;
-  }
-  function apply(){
-    if (!current) return;
-    const p = poseFor(current);
-    if (hover !== null) p.ry += hover * 0.55 + 0.4;
-    api.pose(p);
-  }
-
-  /* La navegación horizontal ya conoce el panel activo; escuchamos su cambio
-     mediante el hash, sin IntersectionObserver ni reparenting del canvas. */
-  const onHashChange = () => {
-    const id = decodeURIComponent(location.hash.slice(1));
-    const target = id && document.getElementById(id);
-    const section = target && (target.matches("[data-pose]") ? target : target.closest("[data-pose]"));
-    if (section && section !== current){ current = section; apply(); }
-  };
-  window.addEventListener("hashchange", onHashChange);
-  window.addEventListener("popstate", onHashChange);
-
-  /* La rueda y el teclado actualizan history.replaceState, que no dispara hashchange.
-     Detectamos el panel visible por la transformación del track, no por el canvas. */
-  const track = document.querySelector(".horizontal-track");
-  const updateFromTrack = () => {
-    if (!track || !sections.length) return;
-    const x = Math.abs(new DOMMatrixReadOnly(getComputedStyle(track).transform).m41);
-    const panels = [...track.children];
-    const panel = panels.reduce((best, item) =>
-      Math.abs(item.offsetLeft - x) < Math.abs(best.offsetLeft - x) ? item : best, panels[0]);
-    const section = sections.includes(panel) ? panel : null;
-    if (section && section !== current){ current = section; apply(); }
-  };
-  if (track && window.matchMedia("(min-width: 861px) and (hover: hover) and (pointer: fine)").matches){
-    const observer = new MutationObserver(updateFromTrack);
-    observer.observe(track, { attributes:true, attributeFilter:["style"] });
-    track.addEventListener("transitionend", updateFromTrack);
-    window.addEventListener("resize", updateFromTrack);
-  }else{
-    /* En móvil la navegación es vertical: observar secciones, nunca el canvas. */
-    const poseObserver = new IntersectionObserver(entries => {
-      const visible = entries.filter(entry => entry.isIntersecting)
-        .sort((a,b) => b.intersectionRatio - a.intersectionRatio);
-      if (visible.length && visible[0].target !== current){
-        current = visible[0].target;
-        apply();
-      }
-    }, { rootMargin:"-18% 0px -18% 0px", threshold:[0.15,0.3,0.5,0.7] });
-    sections.forEach(section => poseObserver.observe(section));
-  }
-  const initialId = decodeURIComponent(location.hash.slice(1));
-  const initialTarget = initialId && document.getElementById(initialId);
-  current = sections.includes(initialTarget) ? initialTarget : (sections[0] || null);
-  apply();
-
-  document.querySelectorAll(".svc").forEach(el => {
-    el.addEventListener("pointerenter", () => { hover = Number(el.dataset.i); apply(); });
-    el.addEventListener("pointerleave", () => { hover = null; apply(); });
+      if (!window.NieblaSymbol || !NieblaSymbol.init(c, { zoom: 2.15, spin: false, pointer: false, angle: 0.5, tilt: 0.12 })) markHost.classList.add("no-webgl");
+    }catch(err){ console.error(err); markHost.classList.add("no-webgl"); }
   });
 }
 function initProgress(){
