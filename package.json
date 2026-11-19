@@ -1,0 +1,13 @@
+{
+  "name": "niebla-studios-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official website and interactive demos for Niebla Studios",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}
