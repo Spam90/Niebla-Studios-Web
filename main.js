@@ -59,10 +59,14 @@ function setChannel(el, href){
   if (href){
     el.href = href;
     el.hidden = false;
+    const listItem = el.closest("li");
+    if (listItem) listItem.hidden = false;
     el.removeAttribute("aria-disabled");
     el.removeAttribute("tabindex");
   } else {
     el.hidden = true;
+    const listItem = el.closest("li");
+    if (listItem) listItem.hidden = true;
     el.removeAttribute("href");
     el.setAttribute("aria-disabled", "true");
     el.setAttribute("tabindex", "-1");
@@ -82,45 +86,14 @@ function wireChannels(){
   setChannel($("footerEmail"), mailHref);
 }
 
-/* ---------- Símbolo 3D con alternativa ---------- */
-function mountSymbol(canvas, host, opts){
-  if (!canvas || !host) return;
-  const showFallback = () => host.classList.add("no-webgl");
-  canvas.addEventListener("symbol-fallback", showFallback);
-  try{
-    if (!window.NieblaSymbol || !NieblaSymbol.init(canvas, opts)) showFallback();
-  }catch(err){
-    console.error(err);
-    showFallback();
-  }
-}
+/* ---------- Símbolo 3D principal; la marca pequeña usa SVG estático ---------- */
 function initSymbols(){
-  const stage = $("stage");
-  const canvas = $("heroCanvas");
-  if (!stage || !canvas) return;
-
-  /* No iniciar WebGL si el escenario está oculto por la dirección visual actual. */
-  const host = stage;
-  if (getComputedStyle(stage).display !== "none") {
-    canvas.addEventListener("symbol-fallback", () => host.classList.add("no-webgl"));
-    try{
-      if (!window.NieblaSymbol || !NieblaSymbol.init(canvas, { scroll: 0.0012, stage: true })) {
-        host.classList.add("no-webgl");
-      }
-    }catch(err){
-      console.error(err);
-      host.classList.add("no-webgl");
-    }
-  }
-
-  /* Los pequeños símbolos de marca de la cabecera/pie permanecen estáticos. */
-  document.querySelectorAll("canvas[data-mark]").forEach(c => {
-    const markHost = c.parentElement;
-    c.addEventListener("symbol-fallback", () => markHost.classList.add("no-webgl"));
-    try{
-      if (!window.NieblaSymbol || !NieblaSymbol.init(c, { zoom: 2.15, spin: false, pointer: false, angle: 0.5, tilt: 0.12 })) markHost.classList.add("no-webgl");
-    }catch(err){ console.error(err); markHost.classList.add("no-webgl"); }
-  });
+  const stage=$("stage"),canvas=$("heroCanvas");
+  if(!stage||!canvas||getComputedStyle(stage).display==="none")return;
+  const fallback=()=>stage.classList.add("no-webgl");
+  canvas.addEventListener("symbol-fallback",fallback);
+  try{if(!window.NieblaSymbol||!NieblaSymbol.init(canvas,{scroll:0.0012,stage:true}))fallback();}
+  catch(error){console.error(error);fallback();}
 }
 function initProgress(){
   const bar = $("progress");
@@ -157,7 +130,7 @@ function initHeroLetterField(){
   if(!letters.length) return;
   title.classList.add("has-letter-field");
 
-  let frame=0, pointer=null, centers=[];
+  let frame=0, pointer=null, centers=[], heroVisible=true;
   const radius=255, maxPush=66;
   const measureLetters=()=>{
     centers=letters.map(letter=>{
@@ -166,11 +139,15 @@ function initHeroLetterField(){
     });
   };
   measureLetters();
+  const observer="IntersectionObserver" in window?new IntersectionObserver(entries=>{heroVisible=entries[0].isIntersecting;if(!heroVisible)resetField();},{threshold:0}):null;
+  if(observer)observer.observe(title);
   window.addEventListener("resize",measureLetters,{passive:true});
+  window.addEventListener("scroll",()=>{if(heroVisible)measureLetters();},{passive:true});
+  if("ResizeObserver" in window){const resizeObserver=new ResizeObserver(measureLetters);resizeObserver.observe(title);}
   if(document.fonts && document.fonts.ready) document.fonts.ready.then(measureLetters);
   function update(){
     frame=0;
-    if(!pointer) return;
+    if(!pointer||!heroVisible) return;
     letters.forEach((letter,index)=>{
       const center=centers[index];
       const dx=center.x-pointer.x;
@@ -189,31 +166,27 @@ function initHeroLetterField(){
   }
 
   document.addEventListener("pointermove",e=>{
-    if(e.pointerType==="touch") return;
+    if(e.pointerType==="touch"||!heroVisible) return;
     pointer={x:e.clientX,y:e.clientY};
     if(!frame) frame=requestAnimationFrame(update);
   },{passive:true});
 
-  const resetField=()=>{
+  function resetField(){
     pointer=null;
     letters.forEach(letter=>{
       letter.style.setProperty("--lx","0px");
       letter.style.setProperty("--ly","0px");
       letter.style.setProperty("--lr","0deg");
     });
-  };
-  window.addEventListener("pointerleave",resetField);
-  window.addEventListener("blur",()=>{
-    pointer=null;
-    letters.forEach(letter=>{
-      letter.style.setProperty("--lx","0px");
-      letter.style.setProperty("--ly","0px");
-      letter.style.setProperty("--lr","0deg");
-    });
-  });
+  }
+  title.addEventListener("pointerleave",resetField);
+  document.addEventListener("pointerout",event=>{if(!event.relatedTarget)resetField();});
+  window.addEventListener("blur",resetField);
 }
 /* ---------- Arranque ---------- */
 wireChannels();
+const localeMeta=document.querySelector('meta[property="og:locale"]');
+if(localeMeta&&window.NIEBLA_CONFIG?.site?.locale)localeMeta.content=window.NIEBLA_CONFIG.site.locale;
 $("year").textContent = String(new Date().getFullYear());
 initSymbols();
 initProgress();
@@ -411,364 +384,249 @@ function initMotion(){
 
 /* ---------- Navegación horizontal por secciones (escritorio) ---------- */
 function initHorizontalNavigation(){
-  const desktop = window.matchMedia("(min-width: 861px) and (hover: hover) and (pointer: fine)");
-  if(!desktop.matches) return;
-
-  const main = $("main");
-  const footer = document.querySelector(".site-footer");
-  if(!main || !footer) return;
-
-  const sections = [...main.querySelectorAll(":scope > section")];
-  if(!sections.length) return;
-
-  const viewport = document.createElement("div");
-  viewport.className = "horizontal-viewport";
+  const desktop=window.matchMedia("(min-width: 861px) and (hover: hover) and (pointer: fine)");
+  if(!desktop.matches)return;
+  const main=$("main"),footer=document.querySelector(".site-footer"),header=$("siteHeader");
+  if(!main||!footer)return;
+  const sections=[...main.querySelectorAll(":scope > section")];
+  if(!sections.length)return;
+  const viewport=document.createElement("div");
+  viewport.className="horizontal-viewport";
+  viewport.setAttribute("role","region");
   viewport.setAttribute("aria-label","Contenido de Niebla Studios");
-  const track = document.createElement("div");
-  track.className = "horizontal-track";
+  const track=document.createElement("div");
+  track.className="horizontal-track";
   viewport.append(track);
-  sections.forEach(section => {
-    section.classList.add("horizontal-panel");
-    section.addEventListener("scroll", () => {
-      if(header && panels[active] === section) header.classList.toggle("scrolled", active > 0 || section.scrollTop > 8);
-    }, {passive:true});
-    track.append(section);
-  });
-  footer.classList.add("horizontal-panel");
-  track.append(footer);
+  const panels=[...sections,footer];
+  panels.forEach(panel=>{panel.classList.add("horizontal-panel");track.append(panel);});
   main.append(viewport);
-
-  const panels = [...track.children];
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let active = 0;
-  let locked = false;
-  let lockTimer = 0;
-
+  const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let active=0,locked=false,lockTimer=0;
+  const headerHeight=()=>header?header.getBoundingClientRect().height:0;
   document.body.classList.add("horizontal-active");
   document.documentElement.classList.add("horizontal-ready");
 
-  function updateNavigation(){
-    const currentId = panels[active].id;
-    if(header) header.classList.toggle("scrolled", active > 0 || panels[active].scrollTop > 8);
-    document.querySelectorAll('.site-nav a[href^="#"]').forEach(link => {
-      if(link.getAttribute("href") === "#" + currentId) link.setAttribute("aria-current","location");
+  function position(){track.style.transform="translate3d("+(-panels[active].offsetLeft)+"px,0,0)";}
+  function update(){
+    const id=panels[active].id;
+    if(header)header.classList.toggle("scrolled",active>0||panels[active].scrollTop>8);
+    document.querySelectorAll('.site-nav a[href^="#"]').forEach(link=>{
+      if(link.getAttribute("href")==="#"+id)link.setAttribute("aria-current","location");
       else link.removeAttribute("aria-current");
     });
-    const progress = $("progress");
-    if(progress) progress.style.transform = "scaleX(" + (panels.length > 1 ? active/(panels.length-1) : 0) + ")";
+    const progress=$("progress");
+    if(progress)progress.style.transform="scaleX("+(panels.length>1?active/(panels.length-1):0)+")";
   }
-
-  function goTo(index, updateHash=true){
-    const next = clamp(index,0,panels.length-1);
-    if(next === active) return;
-    active = next;
-    panels[active].scrollTop = 0;
-    track.style.transform = "translate3d(" + (-panels[active].offsetLeft) + "px,0,0)";
-    updateNavigation();
-    if(updateHash && panels[active].id){
-      history.replaceState(null,"","#"+panels[active].id);
-    }
-    locked = true;
-    window.clearTimeout(lockTimer);
-    lockTimer = window.setTimeout(()=>{locked=false;}, reduceMotion ? 80 : 850);
+  function scrollTarget(target,panel){
+    if(!target||!panel)return;
+    if(target===panel){panel.scrollTo({top:0,behavior:reduce?"auto":"smooth"});return;}
+    const top=target.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop-headerHeight()-18;
+    panel.scrollTo({top:Math.max(0,top),behavior:reduce?"auto":"smooth"});
   }
-
-  function canScrollInside(panel, delta){
-    const max = panel.scrollHeight - panel.clientHeight;
-    if(max <= 3) return false;
-    if(delta > 0) return panel.scrollTop < max - 3;
-    return panel.scrollTop > 3;
+  function writeHash(id){
+    if(id&&location.hash!=="#"+id)history.pushState({section:id},"",location.pathname+location.search+"#"+id);
   }
-
-  /* Una secuencia física de rueda/touchpad solo puede cambiar una sección.
-     La inercia posterior al primer cambio se descarta hasta que el gesto termina. */
-  let wheelAccumulated = 0;
-  let wheelDirection = 0;
-  let wheelGestureConsumed = false;
-  let wheelEndTimer = 0;
-  let boundaryIntentDirection = 0;
-  let boundaryIntentAt = 0;
-  const wheelThreshold = 150;
-  const wheelGestureEndDelay = 220;
-  const boundaryIntentWindow = 5000;
-
-  function resetWheelGesture(){
-    wheelAccumulated = 0;
-    wheelDirection = 0;
-    wheelGestureConsumed = false;
-    wheelEndTimer = 0;
+  function goTo(index,hashTarget=null,updateHistory=true){
+    const next=clamp(index,0,panels.length-1),previous=active;
+    const target=hashTarget?document.getElementById(hashTarget):null;
+    if(next!==active){
+      if(panels[previous].contains(document.activeElement))document.activeElement.blur();
+      active=next;
+      panels.forEach((panel,i)=>{panel.inert=i!==active;});
+      if(!target)panels[active].scrollTop=0;
+      position();update();
+      locked=true;clearTimeout(lockTimer);
+      lockTimer=setTimeout(()=>{locked=false;},reduce?80:650);
+    }
+    if(target)scrollTarget(target,panels[active]);
+    else if(next===previous&&hashTarget)panels[active].scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+    if(updateHistory)writeHash(hashTarget||panels[active].id);
   }
-
-  window.addEventListener("wheel", event => {
-    if(!desktop.matches || !document.body.classList.contains("horizontal-active")) return;
-    const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
-    if(Math.abs(delta) < 4) return;
-
-    window.clearTimeout(wheelEndTimer);
-    wheelEndTimer = window.setTimeout(resetWheelGesture,wheelGestureEndDelay);
-
-    if(wheelGestureConsumed) {
-      event.preventDefault();
-      return;
+  function canScroll(panel,delta,target){
+    let node=target instanceof Element?target:null;
+    while(node&&node!==panel){
+      const style=getComputedStyle(node);
+      if(["auto","scroll"].includes(style.overflowY)&&node.scrollHeight>node.clientHeight+3){
+        if(delta>0&&node.scrollTop<node.scrollHeight-node.clientHeight-3)return true;
+        if(delta<0&&node.scrollTop>3)return true;
+      }
+      node=node.parentElement;
     }
+    const max=panel.scrollHeight-panel.clientHeight;
+    return max>3&&(delta>0?panel.scrollTop<max-3:panel.scrollTop>3);
+  }
+  panels.forEach((panel,i)=>{
+    panel.inert=i!==active;
+    panel.addEventListener("scroll",()=>{if(i===active&&header)header.classList.toggle("scrolled",active>0||panel.scrollTop>8);},{passive:true});
+  });
 
-    if(locked) {
-      event.preventDefault();
-      wheelGestureConsumed = true;
-      return;
-    }
-
-    const panel = panels[active];
-    if(canScrollInside(panel,delta)) {
-      wheelAccumulated = 0;
-      wheelDirection = 0;
-      boundaryIntentDirection = 0;
-      boundaryIntentAt = 0;
-      return;
-    }
-
+  let accumulated=0,direction=0,consumed=false,endTimer=0,boundaryDirection=0,boundaryAt=0;
+  function resetWheel(){accumulated=0;direction=0;consumed=false;endTimer=0;}
+  window.addEventListener("wheel",event=>{
+    if(!desktop.matches||!document.body.classList.contains("horizontal-active")||event.ctrlKey)return;
+    const delta=Math.abs(event.deltaY)>=Math.abs(event.deltaX)?event.deltaY:event.deltaX;
+    if(Math.abs(delta)<4)return;
+    clearTimeout(endTimer);endTimer=setTimeout(resetWheel,220);
+    if(consumed){event.preventDefault();return;}
+    if(locked){event.preventDefault();consumed=true;return;}
+    if(canScroll(panels[active],delta,event.target)){accumulated=0;direction=0;boundaryDirection=0;boundaryAt=0;return;}
     event.preventDefault();
-    const direction = delta > 0 ? 1 : -1;
-    if(direction !== wheelDirection) {
-      wheelAccumulated = 0;
-      wheelDirection = direction;
-    }
-    wheelAccumulated += Math.abs(delta);
-
-    if(wheelAccumulated < wheelThreshold) return;
-
-    wheelGestureConsumed = true;
-    wheelAccumulated = 0;
-
-    // En el borde se exige una segunda intención de desplazamiento independiente.
-    // El primer gesto arma el cambio; el siguiente, en la misma dirección,
-    // lo confirma. Así la inercia o un gesto accidental no cambian de sección.
-    const now = Date.now();
-    const confirmsBoundaryIntent =
-      boundaryIntentDirection === direction &&
-      now - boundaryIntentAt <= boundaryIntentWindow;
-
-    if(!confirmsBoundaryIntent) {
-      boundaryIntentDirection = direction;
-      boundaryIntentAt = now;
-      return;
-    }
-
-    boundaryIntentDirection = 0;
-    boundaryIntentAt = 0;
-    goTo(active + direction);
+    const nextDirection=delta>0?1:-1;
+    if(nextDirection!==direction){accumulated=0;direction=nextDirection;}
+    accumulated+=Math.abs(delta);
+    if(accumulated<150)return;
+    consumed=true;accumulated=0;
+    const now=Date.now();
+    if(boundaryDirection!==nextDirection||now-boundaryAt>5000){boundaryDirection=nextDirection;boundaryAt=now;return;}
+    boundaryDirection=0;boundaryAt=0;goTo(active+nextDirection);
   },{passive:false});
 
   document.addEventListener("click",event=>{
-    if(!desktop.matches)return;
-    const link=event.target.closest('a[href^="#"]');
-    if(!link) return;
-    const id=decodeURIComponent(link.getAttribute("href").slice(1));
-    if(!id) return;
-    const target=document.getElementById(id);
-    if(!target) return;
-    const panel=target.classList.contains("horizontal-panel") ? target : target.closest(".horizontal-panel");
-    const index=panels.indexOf(panel);
-    if(index < 0) return;
-    event.preventDefault();
-    goTo(index);
+    const link=event.target.closest('a[href^="#"]');if(!link)return;
+    const id=decodeURIComponent(link.getAttribute("href").slice(1));if(!id)return;
+    const target=document.getElementById(id);if(!target)return;
+    const panel=panels.find(item=>item===target||item.contains(target));
+    const index=panels.indexOf(panel);if(index<0)return;
+    event.preventDefault();goTo(index,id);
   });
+  function syncHash(){
+    const id=decodeURIComponent(location.hash.slice(1)),target=id&&document.getElementById(id);
+    if(!target)return;
+    const panel=panels.find(item=>item===target||item.contains(target)),index=panels.indexOf(panel);
+    if(index>=0)goTo(index,id,false);
+  }
+  addEventListener("popstate",syncHash);addEventListener("hashchange",syncHash);
 
   document.addEventListener("keydown",event=>{
-    if(!desktop.matches || !document.body.classList.contains("horizontal-active") || event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
-    const tag=event.target && event.target.tagName;
-    if(["INPUT","TEXTAREA","SELECT"].includes(tag) || event.target.isContentEditable) return;
-    let direction=0;
-    if(["ArrowDown","PageDown"].includes(event.key) || (event.key===" " && !event.shiftKey)) direction=1;
-    if(["ArrowUp","PageUp"].includes(event.key) || (event.key===" " && event.shiftKey)) direction=-1;
-    if(event.key==="Home") direction=-active;
-    if(event.key==="End") direction=panels.length-1-active;
-    if(!direction) return;
-    event.preventDefault();
-    if(locked) return;
-    goTo(active+direction);
+    if(!desktop.matches||event.altKey||event.ctrlKey||event.metaKey||event.repeat)return;
+    const target=event.target instanceof Element?event.target:null;
+    if(target&&target.closest("a,button,summary,input,textarea,select,[contenteditable='true'],[role='button'],[role='tab']"))return;
+    const panel=panels[active];
+    if(event.key==="Home"||event.key==="End"){
+      event.preventDefault();panel.scrollTo({top:event.key==="Home"?0:panel.scrollHeight,behavior:reduce?"auto":"smooth"});return;
+    }
+    let dir=0;
+    if(["ArrowDown","PageDown"].includes(event.key)||(event.key===" "&&!event.shiftKey))dir=1;
+    if(["ArrowUp","PageUp"].includes(event.key)||(event.key===" "&&event.shiftKey))dir=-1;
+    if(!dir||canScroll(panel,dir,target))return;
+    event.preventDefault();if(!locked)goTo(active+dir);
   });
 
-  const initialId=decodeURIComponent(location.hash.slice(1));
-  const initialTarget=initialId && document.getElementById(initialId);
-  const initialPanel=initialTarget && (initialTarget.classList.contains("horizontal-panel") ? initialTarget : initialTarget.closest(".horizontal-panel"));
-  if(initialPanel && panels.includes(initialPanel)) active=panels.indexOf(initialPanel);
-  track.style.transform="translate3d("+(-panels[active].offsetLeft)+"px,0,0)";
-  updateNavigation();
-
-  // Si el usuario reduce la ventana hasta el breakpoint móvil, devuelve las
-  // secciones al flujo vertical y restaura el footer fuera del viewport horizontal.
+  const initialId=decodeURIComponent(location.hash.slice(1)),initialTarget=initialId&&document.getElementById(initialId);
+  const initialPanel=initialTarget&&panels.find(panel=>panel===initialTarget||panel.contains(initialTarget));
+  if(initialPanel)active=panels.indexOf(initialPanel);
+  panels.forEach((panel,i)=>{panel.inert=i!==active;});
+  position();update();
+  if(initialTarget&&initialTarget!==initialPanel)requestAnimationFrame(()=>scrollTarget(initialTarget,initialPanel));
+  const resize=()=>requestAnimationFrame(position);
+  addEventListener("resize",resize,{passive:true});
+  if(visualViewport)visualViewport.addEventListener("resize",resize,{passive:true});
   desktop.addEventListener("change",event=>{
     if(event.matches)return;
-    const activePanel=panels[active];
-    const panelScrollTop=activePanel.scrollTop;
-    main.append(...sections);
-    viewport.remove();
-    main.after(footer);
-    sections.forEach(section=>section.classList.remove("horizontal-panel"));
-    footer.classList.remove("horizontal-panel");
-    document.body.classList.remove("horizontal-active");
-    document.documentElement.classList.remove("horizontal-ready");
-    // Conserva la sección y el desplazamiento interno al volver al flujo vertical.
-    requestAnimationFrame(()=>{
-      const top=activePanel.getBoundingClientRect().top+window.scrollY;
-      window.scrollTo(0,top+panelScrollTop);
-    });
+    const activePanel=panels[active],scrollTop=activePanel.scrollTop;
+    panels.forEach(panel=>{panel.inert=false;panel.classList.remove("horizontal-panel");});
+    main.append(...sections);viewport.remove();main.after(footer);
+    document.body.classList.remove("horizontal-active");document.documentElement.classList.remove("horizontal-ready");
+    requestAnimationFrame(()=>{const top=activePanel.getBoundingClientRect().top+scrollY;scrollTo(0,top+scrollTop);});
   });
 }
 
-
 /* ---------- Navegación horizontal táctil (móviles) ---------- */
 function initMobileSectionSwipe(){
-  const mobile = window.matchMedia("(max-width: 860px) and (pointer: coarse)");
-  if(!mobile.matches) return;
-
-  const main = $("main");
-  const footer = document.querySelector(".site-footer");
-  if(!main || !footer) return;
-
-  const sections = [...main.querySelectorAll(":scope > section")];
-  if(!sections.length) return;
-  const panels = [...sections, footer];
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const viewport = document.createElement("div");
-  viewport.className = "mobile-horizontal-viewport";
-  viewport.setAttribute("aria-label","Contenido de Niebla Studios");
-  const track = document.createElement("div");
-  track.className = "mobile-horizontal-track";
-  viewport.append(track);
-  panels.forEach(panel => {
-    panel.classList.add("mobile-horizontal-panel");
-    track.append(panel);
-  });
-  main.append(viewport);
-
-  let active = 0;
-  const swipeCue = document.createElement("div");
-  swipeCue.className = "mobile-swipe-cue";
-  swipeCue.setAttribute("aria-hidden","false");
-  swipeCue.innerHTML = '<span class="mobile-swipe-cue-label">Desliza para explorar</span><span class="mobile-swipe-cue-arrows" aria-hidden="true">← <i></i> →</span>';
-  panels[0].append(swipeCue);
-  let cueDismissed = false;
-  function dismissSwipeCue(){
-    if(cueDismissed) return;
-    cueDismissed = true;
-    swipeCue.classList.add("is-dismissed");
-    swipeCue.setAttribute("aria-hidden","true");
-  }
-  const headerHeight = () => header ? header.getBoundingClientRect().height : 0;
-
-  document.documentElement.classList.add("mobile-horizontal-ready");
-  document.body.classList.add("mobile-horizontal-active");
-
-  function updateNavigation(){
-    const currentId = panels[active].id;
-    if(header) header.classList.toggle("scrolled", active > 0 || panels[active].scrollTop > 8);
-    document.querySelectorAll('.site-nav a[href^="#"]').forEach(link => {
-      if(link.getAttribute("href") === "#" + currentId) link.setAttribute("aria-current","location");
-      else link.removeAttribute("aria-current");
+  const mobile=matchMedia("(max-width: 860px) and (pointer: coarse)");
+  if(!mobile.matches)return;
+  const main=$("main"),footer=document.querySelector(".site-footer"),header=$("siteHeader");
+  if(!main||!footer)return;
+  const sections=[...main.querySelectorAll(":scope > section")];if(!sections.length)return;
+  const panels=[...sections,footer],reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const viewport=document.createElement("div");viewport.className="mobile-horizontal-viewport";
+  viewport.setAttribute("role","region");viewport.setAttribute("aria-label","Contenido de Niebla Studios");
+  const track=document.createElement("div");track.className="mobile-horizontal-track";viewport.append(track);
+  panels.forEach(panel=>{panel.classList.add("mobile-horizontal-panel");track.append(panel);});main.append(viewport);
+  let active=0;
+  const cue=document.createElement("div");cue.className="mobile-swipe-cue";
+  cue.innerHTML='<span class="mobile-swipe-cue-label">Desliza para explorar</span><span class="mobile-swipe-cue-arrows" aria-hidden="true">← <i></i> →</span>';
+  cue.setAttribute("aria-hidden","false");panels[0].append(cue);
+  let cueDismissed=false;
+  function dismissCue(){if(cueDismissed)return;cueDismissed=true;cue.classList.add("is-dismissed");cue.setAttribute("aria-hidden","true");}
+  const headerHeight=()=>header?header.getBoundingClientRect().height:0;
+  document.documentElement.classList.add("mobile-horizontal-ready");document.body.classList.add("mobile-horizontal-active");
+  function position(){track.style.transform="translate3d("+(-active*viewport.clientWidth)+"px,0,0)";}
+  function update(){
+    const id=panels[active].id;
+    if(header)header.classList.toggle("scrolled",active>0||panels[active].scrollTop>8);
+    document.querySelectorAll('.site-nav a[href^="#"]').forEach(link=>{
+      if(link.getAttribute("href")==="#"+id)link.setAttribute("aria-current","location");else link.removeAttribute("aria-current");
     });
-    const progress = $("progress");
-    if(progress) progress.style.transform = "scaleX(" + (panels.length > 1 ? active/(panels.length-1) : 0) + ")";
+    const progress=$("progress");if(progress)progress.style.transform="scaleX("+(panels.length>1?active/(panels.length-1):0)+")";
   }
-
-  function scrollToTarget(target, panel){
-    if(!target || !panel || target === panel) return;
-    const top = target.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop - headerHeight() - 18;
-    panel.scrollTo({top:Math.max(0,top),behavior:reduceMotion ? "auto" : "smooth"});
+  function scrollTarget(target,panel){
+    if(!target||!panel)return;
+    if(target===panel){panel.scrollTo({top:0,behavior:reduce?"auto":"smooth"});return;}
+    const top=target.getBoundingClientRect().top-panel.getBoundingClientRect().top+panel.scrollTop-headerHeight()-18;
+    panel.scrollTo({top:Math.max(0,top),behavior:reduce?"auto":"smooth"});
   }
-
-  function goTo(index, hashTarget=null){
-    const next = clamp(index,0,panels.length-1);
-    active = next;
-    if(active > 0) dismissSwipeCue();
-    track.style.transform = "translate3d(" + (-active * window.innerWidth) + "px,0,0)";
-    updateNavigation();
-    const target = hashTarget ? document.getElementById(hashTarget) : null;
-    if(target) requestAnimationFrame(()=>scrollToTarget(target,panels[active]));
-    if(panels[active].id){
-      history.replaceState(null,"","#"+(hashTarget || panels[active].id));
+  function goTo(index,id=null,updateHistory=true){
+    const next=clamp(index,0,panels.length-1),previous=active,target=id&&document.getElementById(id);
+    if(next!==active){
+      if(panels[previous].contains(document.activeElement))document.activeElement.blur();
+      active=next;panels.forEach((panel,i)=>{panel.inert=i!==active;});
+      if(active>0)dismissCue();if(!target)panels[active].scrollTop=0;
+      position();update();
     }
+    if(target)scrollTarget(target,panels[active]);
+    else if(next===previous&&id)panels[active].scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+    const hash=id||panels[active].id;
+    if(updateHistory&&hash&&location.hash!=="#"+hash)history.pushState({section:hash},"",location.pathname+location.search+"#"+hash);
   }
-
-  panels.forEach((panel,index) => {
-    panel.addEventListener("scroll",()=>{
-      if(index === active && header) header.classList.toggle("scrolled",active > 0 || panel.scrollTop > 8);
-    },{passive:true});
+  panels.forEach((panel,i)=>{
+    panel.inert=i!==active;
+    panel.addEventListener("scroll",()=>{if(i===active&&header)header.classList.toggle("scrolled",active>0||panel.scrollTop>8);},{passive:true});
   });
-
-  const initialId = decodeURIComponent(location.hash.slice(1));
-  const initialTarget = initialId && document.getElementById(initialId);
-  const initialPanel = initialTarget && panels.find(panel => panel === initialTarget || panel.contains(initialTarget));
-  if(initialPanel) active = panels.indexOf(initialPanel);
-  track.style.transform = "translate3d(" + (-active * window.innerWidth) + "px,0,0)";
-  updateNavigation();
-  if(initialTarget && initialTarget !== initialPanel) requestAnimationFrame(()=>scrollToTarget(initialTarget,initialPanel));
-
-  /* Los enlaces del menú y los enlaces internos cambian de panel sin volver
-     al flujo vertical del documento. */
+  function syncHash(){
+    const id=decodeURIComponent(location.hash.slice(1)),target=id&&document.getElementById(id);if(!target)return;
+    const panel=panels.find(item=>item===target||item.contains(target)),index=panels.indexOf(panel);
+    if(index>=0)goTo(index,id,false);
+  }
+  addEventListener("popstate",syncHash);addEventListener("hashchange",syncHash);
   document.addEventListener("click",event=>{
-    const link = event.target.closest('a[href^="#"]');
-    if(!link) return;
-    const id = decodeURIComponent(link.getAttribute("href").slice(1));
-    if(!id) return;
-    const target = document.getElementById(id);
-    if(!target) return;
-    const panel = panels.find(item => item === target || item.contains(target));
-    const index = panels.indexOf(panel);
-    if(index < 0) return;
-    event.preventDefault();
-    goTo(index,id);
-    if(isMobileMenuOpen()) setMenu(false);
+    const link=event.target.closest('a[href^="#"]');if(!link)return;
+    const id=decodeURIComponent(link.getAttribute("href").slice(1));if(!id)return;
+    const target=document.getElementById(id);if(!target)return;
+    const panel=panels.find(item=>item===target||item.contains(target)),index=panels.indexOf(panel);
+    if(index<0)return;event.preventDefault();goTo(index,id);
+    if(isMobileMenuOpen())setMenu(false);
   });
-
-  /* El gesto horizontal cambia de panel; el gesto vertical queda en manos
-     del scroll nativo del panel activo. */
-  let touchStart = null;
+  let start=null;
   document.addEventListener("touchstart",event=>{
-    if(!mobile.matches || event.touches.length !== 1 || isMobileMenuOpen()){
-      touchStart = null;
-      return;
-    }
-    const touch = event.touches[0];
-    const target = event.target;
-    if(target.closest("a,button,input,textarea,select,[contenteditable='true'],[data-no-section-swipe],.project-carousel,.demo-carousel,[data-horizontal-scroll]")){
-      touchStart = null;
-      return;
-    }
-    const panel = target.closest(".mobile-horizontal-panel");
-    if(!panel || panels[active] !== panel){
-      touchStart = null;
-      return;
-    }
-    touchStart = {x:touch.clientX,y:touch.clientY};
+    if(!mobile.matches||event.touches.length!==1||isMobileMenuOpen()){start=null;return;}
+    const target=event.target;
+    if(target.closest("a,button,input,textarea,select,[contenteditable='true'],[data-no-section-swipe],.project-carousel,.demo-carousel,[data-horizontal-scroll]")){start=null;return;}
+    const panel=target.closest(".mobile-horizontal-panel");if(!panel||panels[active]!==panel){start=null;return;}
+    const touch=event.touches[0];start={x:touch.clientX,y:touch.clientY};
   },{passive:true});
-
   document.addEventListener("touchend",event=>{
-    if(!touchStart || !mobile.matches || !event.changedTouches.length) return;
-    const start = touchStart;
-    touchStart = null;
-    const touch = event.changedTouches[0];
-    const deltaX = touch.clientX - start.x;
-    const deltaY = touch.clientY - start.y;
-    if(Math.abs(deltaX) < 56 || Math.abs(deltaX) < Math.abs(deltaY) * 1.25) return;
-    if(deltaX < 0 && active < panels.length-1) goTo(active+1);
-    else if(deltaX > 0 && active > 0) goTo(active-1);
+    if(!start||!mobile.matches||!event.changedTouches.length)return;
+    const origin=start;start=null;const touch=event.changedTouches[0];
+    const dx=touch.clientX-origin.x,dy=touch.clientY-origin.y;
+    if(Math.abs(dx)<56||Math.abs(dx)<Math.abs(dy)*1.25)return;
+    if(dx<0&&active<panels.length-1)goTo(active+1);else if(dx>0&&active>0)goTo(active-1);
   },{passive:true});
-
-  document.addEventListener("touchcancel",()=>{touchStart=null;},{passive:true});
-  window.addEventListener("resize",()=>{
-    track.style.transform = "translate3d(" + (-active * window.innerWidth) + "px,0,0)";
-  },{passive:true});
-
+  document.addEventListener("touchcancel",()=>{start=null;},{passive:true});
+  const resize=()=>requestAnimationFrame(position);addEventListener("resize",resize,{passive:true});
+  if(visualViewport)visualViewport.addEventListener("resize",resize,{passive:true});
   document.addEventListener("keydown",event=>{
-    if(!mobile.matches || event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
-    const tag = event.target && event.target.tagName;
-    if(["INPUT","TEXTAREA","SELECT"].includes(tag) || event.target.isContentEditable) return;
-    if(event.key === "ArrowRight" && active < panels.length-1){event.preventDefault();goTo(active+1);}
-    if(event.key === "ArrowLeft" && active > 0){event.preventDefault();goTo(active-1);}
+    if(!mobile.matches||event.altKey||event.ctrlKey||event.metaKey||event.repeat)return;
+    const target=event.target instanceof Element?event.target:null;
+    if(target&&target.closest("a,button,summary,input,textarea,select,[contenteditable='true']"))return;
+    if(event.key==="ArrowRight"&&active<panels.length-1){event.preventDefault();goTo(active+1);}
+    if(event.key==="ArrowLeft"&&active>0){event.preventDefault();goTo(active-1);}
   });
+  const initialId=decodeURIComponent(location.hash.slice(1)),initialTarget=initialId&&document.getElementById(initialId);
+  const initialPanel=initialTarget&&panels.find(panel=>panel===initialTarget||panel.contains(initialTarget));
+  if(initialPanel)active=panels.indexOf(initialPanel);
+  panels.forEach((panel,i)=>{panel.inert=i!==active;});position();update();
+  if(initialTarget&&initialTarget!==initialPanel)requestAnimationFrame(()=>scrollTarget(initialTarget,initialPanel));
 }
 
 initMotion();
