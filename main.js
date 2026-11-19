@@ -218,7 +218,9 @@ function initMotion(){
     ...document.querySelectorAll("#proyectos .section-head, #proyectos .project"),
     ...document.querySelectorAll("#nosotros .about-grid > *"),
     ...document.querySelectorAll("#enfoque .method-intro, #enfoque .method-step"),
-    ...document.querySelectorAll("#contacto .section-head, #contacto .form"),
+    ...document.querySelectorAll("#contacto .section-head, #contacto .form, #contacto .contact-start"),
+    ...document.querySelectorAll("#servicios .outcome-card, #enfoque .deliverable-grid article"),
+    ...document.querySelectorAll("#proyectos .demo-boundary, #nosotros .studio-direction, #nosotros .studio-principles article, #nosotros .standards"),
     ...document.querySelectorAll(".footer-grid > *")
   ];
   /* Tipografía cinética: los títulos entran palabra por palabra al aparecer. */
