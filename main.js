@@ -348,18 +348,35 @@ function initMotion(){
   }
 
   const navLinks=[...document.querySelectorAll('.site-nav a[href^="#"]')];
-  const observedSections=navLinks.map(a=>document.querySelector(a.getAttribute("href"))).filter(Boolean);
-  if("IntersectionObserver" in window){
-    const navObserver=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        if(!entry.isIntersecting)return;
-        navLinks.forEach(a=>{
-          if(a.getAttribute("href")==="#"+entry.target.id) a.setAttribute("aria-current","location");
-          else a.removeAttribute("aria-current");
-        });
+  const observedSections=[...new Set(navLinks.map(a=>document.querySelector(a.getAttribute("href"))).filter(Boolean))];
+  const desktopHorizontal=window.matchMedia("(min-width: 861px) and (hover: hover) and (pointer: fine)").matches;
+
+  // En escritorio horizontal, initHorizontalNavigation es la única fuente de estado.
+  // Evita que un IntersectionObserver vertical sobrescriba la sección activa.
+  if(!desktopHorizontal && "IntersectionObserver" in window){
+    const setActiveSection=()=>{
+      const anchor=window.innerHeight*.45;
+      const containing=observedSections.filter(section=>{
+        const rect=section.getBoundingClientRect();
+        return rect.top<=anchor && rect.bottom>anchor;
       });
-    },{rootMargin:"-42% 0px -48% 0px",threshold:0});
+      const candidates=containing.length ? containing : observedSections.filter(section=>{
+        const rect=section.getBoundingClientRect();
+        return rect.bottom>0 && rect.top<window.innerHeight;
+      });
+      const current=candidates.sort((a,b)=>
+        Math.abs(a.getBoundingClientRect().top-anchor)-Math.abs(b.getBoundingClientRect().top-anchor)
+      )[0];
+      if(!current)return;
+      navLinks.forEach(link=>{
+        if(link.getAttribute("href")==="#"+current.id) link.setAttribute("aria-current","location");
+        else link.removeAttribute("aria-current");
+      });
+    };
+    const navObserver=new IntersectionObserver(setActiveSection,{rootMargin:"-35% 0px -55% 0px",threshold:0});
     observedSections.forEach(section=>navObserver.observe(section));
+    window.addEventListener("resize",setActiveSection,{passive:true});
+    setActiveSection();
   }
   document.documentElement.classList.add("motion-ready");
 }
