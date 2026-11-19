@@ -490,7 +490,7 @@ function initHorizontalNavigation(){
   let boundaryIntentAt = 0;
   const wheelThreshold = 150;
   const wheelGestureEndDelay = 220;
-  const boundaryIntentWindow = 1800;
+  const boundaryIntentWindow = 5000;
 
   function resetWheelGesture(){
     wheelAccumulated = 0;
