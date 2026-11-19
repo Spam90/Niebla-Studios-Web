@@ -215,12 +215,14 @@ function initMotion(){
 
   const revealTargets = [
     ...document.querySelectorAll("#servicios .section-head, #servicios .service-group"),
+    ...document.querySelectorAll("#servicios .svc, #servicios .plan-card, #servicios .plan-service, #servicios .outcome-card"),
     ...document.querySelectorAll("#soluciones .section-head, #soluciones .method-step"),
     ...document.querySelectorAll("#preguntas .section-head, #preguntas .method-step"),
     ...document.querySelectorAll("#proyectos .section-head, #proyectos .project"),
     ...document.querySelectorAll("#nosotros .about-grid > *"),
+    ...document.querySelectorAll("#nosotros .studio-principles article, #nosotros .standards-grid > *"),
     ...document.querySelectorAll("#enfoque .method-intro, #enfoque .method-step"),
-    ...document.querySelectorAll("#contacto .section-head, #contacto .form, #contacto .contact-start"),
+    ...document.querySelectorAll("#contacto .section-head, #contacto .form, #contacto .contact-start, #contacto .contact-start-steps li"),
     ...document.querySelectorAll("#servicios .outcome-card, #enfoque .deliverable-grid article"),
     ...document.querySelectorAll("#proyectos .demo-boundary, #nosotros .studio-direction, #nosotros .studio-principles article, #nosotros .standards"),
     ...document.querySelectorAll(".footer-grid > *")
