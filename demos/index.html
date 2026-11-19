@@ -5,7 +5,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#090b10">
 <title>Demos interactivas — Niebla Studios</title>
-<meta name="description" content="Prueba prototipos funcionales de catálogo digital, sistema de gestión y reservas desarrollados por Niebla Studios.">
+<meta name="description" content="Prueba prototipos interactivos de catálogo digital, gestión y reservas de Niebla Studios.">
+<link rel="canonical" href="https://nieblastudio.devs.surf/demos/">
+<link rel="icon" href="../assets/simbolo.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_DO">
+<meta property="og:site_name" content="Niebla Studios">
+<meta property="og:title" content="Demos interactivas — Niebla Studios">
+<meta property="og:description" content="Explora prototipos de catálogo, gestión y reservas. Datos ficticios y acciones locales, sin backend.">
+<meta property="og:url" content="https://nieblastudio.devs.surf/demos/">
+<meta property="og:image" content="https://nieblastudio.devs.surf/assets/logo.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1254">
+<meta property="og:image:height" content="1254">
+<meta property="og:image:alt" content="Símbolo de Niebla Studios sobre fondo oscuro">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Demos interactivas — Niebla Studios">
+<meta name="twitter:description" content="Prototipos interactivos de catálogo, gestión y reservas.">
+<meta name="twitter:image" content="https://nieblastudio.devs.surf/assets/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
@@ -22,20 +39,24 @@
 .footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:20px}
 @media(max-width:760px){.hero{display:block;padding-top:45px}.demo-note{margin-top:22px;max-width:none}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}.booking-layout{grid-template-columns:1fr}.admin-form{grid-template-columns:1fr 1fr}.panel-head{align-items:start;flex-direction:column}}
 @media(max-width:480px){.wrap{width:calc(100% - 28px)}.products{grid-template-columns:1fr}.product{min-height:190px}.hero h1{font-size:2.8rem}.footer{display:block}.footer span{display:block;margin-top:6px}.admin-form{grid-template-columns:1fr}.slots{grid-template-columns:repeat(2,1fr)}}
+.admin-products{display:grid;gap:8px;margin-top:16px}
+.admin-product-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border:1px solid var(--line);background:rgba(255,255,255,.025)}
+.admin-product-row span{min-width:0;overflow-wrap:anywhere}
+.admin-product-row .btn{min-height:36px;padding:0 14px}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap" style="display:flex;align-items:center;justify-content:space-between"><a class="brand" href="../index.html"><span class="mark">N.</span>Niebla Studios</a><a class="back" href="../index.html#proyectos">← Volver al sitio</a></div></header>
 <main class="wrap">
 <section class="hero"><div><span class="eyebrow">Laboratorio de producto / Demos funcionales</span><h1>Así puede funcionar tu próxima solución.</h1><p>Explora tres prototipos interactivos. Prueba las acciones principales y observa cómo una interfaz conecta datos, procesos y administración.</p></div><aside class="demo-note"><strong>ENTORNO DE DEMOSTRACIÓN</strong><br>Los datos son ficticios. Las acciones ocurren en tu navegador, no se envían a un servidor y se reinician al recargar.</aside></section>
-<nav class="tabs" aria-label="Seleccionar demostración" role="tablist"><button class="tab" id="tab-catalogo" data-tab="catalogo" role="tab" aria-controls="catalogo" aria-selected="true">01 · Catálogo digital</button><button class="tab" id="tab-gestion" data-tab="gestion" role="tab" aria-controls="gestion" aria-selected="false" tabindex="-1">02 · Gestión</button><button class="tab" id="tab-reservas" data-tab="reservas" role="tab" aria-controls="reservas" aria-selected="false" tabindex="-1">03 · Reservas</button></nav>
+<div class="tabs" aria-label="Seleccionar demostración" role="tablist"><button class="tab" id="tab-catalogo" data-tab="catalogo" role="tab" aria-controls="catalogo" aria-selected="true">01 · Catálogo digital</button><button class="tab" id="tab-gestion" data-tab="gestion" role="tab" aria-controls="gestion" aria-selected="false" tabindex="-1">02 · Gestión</button><button class="tab" id="tab-reservas" data-tab="reservas" role="tab" aria-controls="reservas" aria-selected="false" tabindex="-1">03 · Reservas</button></div>
 
 <section class="panel active" id="catalogo" role="tabpanel" aria-labelledby="tab-catalogo" tabindex="0">
 <div class="panel-head"><div><h2>Catálogo digital</h2><p class="sub">Explora productos, agrega artículos al carrito y prueba el panel de administración.</p></div><div><button class="btn" id="cartToggle" type="button" aria-controls="cartBox" aria-expanded="false">Carrito · <span id="cartCount" aria-live="polite" aria-atomic="true">0</span></button> <button class="btn primary" id="adminToggle" type="button" aria-controls="adminBox" aria-expanded="false">Vista administrativa</button></div></div>
 <div class="toolbar"><input class="field" id="productSearch" type="search" placeholder="Buscar producto..." aria-label="Buscar producto"><select class="field" id="categoryFilter" aria-label="Filtrar por categoría"><option value="Todas">Todas las categorías</option><option>Bebidas</option><option>Accesorios</option><option>Hogar</option></select></div>
 <div class="products" id="products"></div>
 <div class="cart-box" id="cartBox" role="region" aria-labelledby="cartHeading" hidden><div class="admin-head"><strong id="cartHeading">Tu carrito</strong><button class="btn ghost" id="closeCart">Cerrar</button></div><div class="cart-items" id="cartItems"></div><div class="product-bottom"><strong>Total de prueba</strong><strong id="cartTotal">$0.00</strong></div><p class="sub">Este carrito es ilustrativo. No procesa pagos ni pedidos reales.</p></div>
-<div class="admin-box" id="adminBox" role="region" aria-label="Administración de productos" hidden><div class="admin-head"><div><strong>Administración de productos</strong><p class="sub">Agrega un producto de ejemplo a este catálogo temporal.</p></div><button class="btn ghost" id="closeAdmin">Cerrar</button></div><form class="admin-form" id="productForm"><input class="field" id="newName" type="text" required maxlength="50" aria-label="Nombre del producto" placeholder="Nombre del producto"><select class="field" id="newCategory" aria-label="Categoría del producto"><option>Bebidas</option><option>Accesorios</option><option>Hogar</option></select><input class="field" id="newPrice" type="number" min="1" step=".01" required inputmode="decimal" aria-label="Precio del producto" placeholder="Precio"><button class="btn primary">Agregar</button></form><p class="sub" id="adminMessage" aria-live="polite"></p></div>
+<div class="admin-box" id="adminBox" role="region" aria-label="Administración de productos" hidden><div class="admin-head"><div><strong>Administración de productos</strong><p class="sub">Agrega o edita productos en este catálogo temporal.</p></div><button class="btn ghost" id="closeAdmin">Cerrar</button></div><form class="admin-form" id="productForm"><input id="editingProductId" type="hidden"><input class="field" id="newName" type="text" required maxlength="50" aria-label="Nombre del producto" placeholder="Nombre del producto"><select class="field" id="newCategory" aria-label="Categoría del producto"><option>Bebidas</option><option>Accesorios</option><option>Hogar</option></select><input class="field" id="newPrice" type="number" min="1" step=".01" required inputmode="decimal" aria-label="Precio del producto" placeholder="Precio"><button class="btn primary" id="productSubmit" type="submit">Agregar producto</button></form><div class="admin-products" id="adminProducts" aria-label="Productos administrables"></div><p class="sub" id="adminMessage" aria-live="polite"></p></div>
 </section>
 
 <section class="panel" id="gestion" role="tabpanel" aria-labelledby="tab-gestion" tabindex="0">
@@ -78,16 +99,34 @@ $("products").addEventListener("click",e=>{const b=e.target.closest("[data-add]"
 $("productSearch").addEventListener("input",renderProducts);$("categoryFilter").addEventListener("change",renderProducts);
 function renderCart(){$("cartCount").textContent=cart.reduce((n,x)=>n+x.qty,0);$("cartItems").innerHTML=cart.length?cart.map(x=>{const p=products.find(y=>y.id===x.id);return '<div class="cart-row"><span>'+escapeHtml(p.name)+' × '+x.qty+'</span><strong>'+money(p.price*x.qty)+'</strong></div>'}).join(""):'<p class="sub">Tu carrito está vacío.</p>';$("cartTotal").textContent=money(cart.reduce((n,x)=>n+products.find(p=>p.id===x.id).price*x.qty,0))}
 $("cartToggle").addEventListener("click",()=>{const open=$("cartBox").hidden;$("cartBox").hidden=!open;$("cartToggle").setAttribute("aria-expanded",String(open));renderCart()});$("closeCart").addEventListener("click",()=>{$("cartBox").hidden=true;$("cartToggle").setAttribute("aria-expanded","false")});
-$("adminToggle").addEventListener("click",()=>{const open=$("adminBox").hidden;$("adminBox").hidden=!open;$("adminToggle").setAttribute("aria-expanded",String(open))});$("closeAdmin").addEventListener("click",()=>{$("adminBox").hidden=true;$("adminToggle").setAttribute("aria-expanded","false")});
-$("productForm").addEventListener("submit",e=>{e.preventDefault();const name=$("newName").value.trim(),price=Number($("newPrice").value);if(!name||price<=0)return;products.push({id:Math.max(...products.map(p=>p.id))+1,name,category:$("newCategory").value,price,tag:"NUEVO"});e.target.reset();renderProducts();$("adminMessage").textContent="Producto agregado a la vista de catálogo. No se ha guardado en una base de datos."});
+$("adminToggle").addEventListener("click",()=>{const open=$("adminBox").hidden;$("adminBox").hidden=!open;$("adminToggle").setAttribute("aria-expanded",String(open));if(open)renderAdminProducts()});$("closeAdmin").addEventListener("click",()=>{$("adminBox").hidden=true;$("adminToggle").setAttribute("aria-expanded","false");$("productForm").reset();$("editingProductId").value="";$("productSubmit").textContent="Agregar producto"});
+function renderAdminProducts(){
+  $("adminProducts").innerHTML=products.map(p=>'<div class="admin-product-row"><span><strong>'+escapeHtml(p.name)+'</strong><br><small>'+escapeHtml(p.category)+' · '+money(p.price)+'</small></span><button class="btn ghost" type="button" data-edit-product="'+p.id+'">Editar</button></div>').join("");
+}
+$("adminProducts").addEventListener("click",e=>{
+  const button=e.target.closest("[data-edit-product]");if(!button)return;
+  const product=products.find(p=>p.id===Number(button.dataset.editProduct));if(!product)return;
+  $("editingProductId").value=String(product.id);$("newName").value=product.name;
+  $("newCategory").value=product.category;$("newPrice").value=String(product.price);
+  $("productSubmit").textContent="Guardar cambios";$("adminMessage").textContent="Editando: "+product.name;$("newName").focus();
+});
+$("productForm").addEventListener("submit",e=>{
+  e.preventDefault();const name=$("newName").value.trim(),price=Number($("newPrice").value),category=$("newCategory").value;
+  if(!name||!Number.isFinite(price)||price<=0)return;
+  const id=Number($("editingProductId").value);
+  if(id){const product=products.find(p=>p.id===id);if(!product)return;Object.assign(product,{name,category,price});$("adminMessage").textContent="Producto actualizado en la vista de catálogo. No se ha guardado en una base de datos.";}
+  else{products.push({id:Math.max(...products.map(p=>p.id))+1,name,category,price,tag:"NUEVO"});$("adminMessage").textContent="Producto agregado a la vista de catálogo. No se ha guardado en una base de datos.";}
+  e.target.reset();$("editingProductId").value="";$("productSubmit").textContent="Agregar producto";renderProducts();renderAdminProducts();
+});
+renderAdminProducts();
 
 /* Gestión: registros ficticios, filtros y exportación local. */
 let records=[
-{ref:"NS-1042",client:"Marina López",task:"Catálogo digital",date:"2026-11-12",status:"Pendiente"},
-{ref:"NS-1041",client:"Grupo Norte",task:"Sitio corporativo",date:"2026-11-11",status:"En proceso"},
-{ref:"NS-1040",client:"Carlos Méndez",task:"Landing page",date:"2026-11-10",status:"Completado"},
-{ref:"NS-1039",client:"Estudio Alba",task:"Sistema de reservas",date:"2026-11-08",status:"En proceso"},
-{ref:"NS-1038",client:"Comercial Uno",task:"Panel administrativo",date:"2026-11-07",status:"Cancelado"}
+{ref:"NS-1042",client:"Cliente de ejemplo A",task:"Catálogo digital",date:"2026-11-12",status:"Pendiente"},
+{ref:"NS-1041",client:"Cliente de ejemplo B",task:"Sitio corporativo",date:"2026-11-11",status:"En proceso"},
+{ref:"NS-1040",client:"Cliente de ejemplo C",task:"Landing page",date:"2026-11-10",status:"Completado"},
+{ref:"NS-1039",client:"Cliente de ejemplo D",task:"Sistema de reservas",date:"2026-11-08",status:"En proceso"},
+{ref:"NS-1038",client:"Cliente de ejemplo E",task:"Panel administrativo",date:"2026-11-07",status:"Cancelado"}
 ];
 const statuses=["Pendiente","En proceso","Completado","Cancelado"];
 function renderRecords(){const q=$("recordSearch").value.toLowerCase(),f=$("statusFilter").value;const rows=records.filter(r=>(f==="Todos"||r.status===f)&&[r.ref,r.client,r.task].join(" ").toLowerCase().includes(q));$("recordRows").innerHTML=rows.map(r=>'<tr><td>'+escapeHtml(r.ref)+'</td><td>'+escapeHtml(r.client)+'</td><td>'+escapeHtml(r.task)+'</td><td>'+escapeHtml(r.date)+'</td><td><span class="status '+(r.status==="Completado"?"done":r.status==="Cancelado"?"cancel":"")+'">'+escapeHtml(r.status)+'</span></td><td><button class="btn" data-next="'+escapeHtml(r.ref)+'" aria-label="Cambiar estado de '+escapeHtml(r.ref)+'">Cambiar estado</button></td></tr>').join("")||'<tr><td colspan="6">No hay registros con estos filtros.</td></tr>';$("statTotal").textContent=records.length;$("statPending").textContent=records.filter(r=>r.status==="Pendiente").length;$("statProgress").textContent=records.filter(r=>r.status==="En proceso").length;$("statDone").textContent=records.filter(r=>r.status==="Completado").length}
@@ -95,7 +134,7 @@ $("recordRows").addEventListener("click",e=>{const b=e.target.closest("[data-nex
 $("recordSearch").addEventListener("input",renderRecords);$("statusFilter").addEventListener("change",renderRecords);
 function localISODate(date=new Date()){const offset=date.getTimezoneOffset();return new Date(date.getTime()-offset*60000).toISOString().slice(0,10)}
 $("addRecord").addEventListener("click",()=>{const n=1043+records.length-5;records.unshift({ref:"NS-"+n,client:"Nuevo registro",task:"Solicitud de ejemplo",date:localISODate(),status:"Pendiente"});renderRecords();$("recordMessage").textContent="Registro ficticio creado correctamente."});
-$("exportCsv").addEventListener("click",()=>{const rows=[["Referencia","Cliente","Concepto","Fecha","Estado"],...records.map(r=>[r.ref,r.client,r.task,r.date,r.status])];const csv=rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n");const url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="registros-demo.csv";a.click();window.setTimeout(()=>URL.revokeObjectURL(url),1000)});
+$("exportCsv").addEventListener("click",()=>{const rows=[["Referencia","Cliente","Concepto","Fecha","Estado"],...records.map(r=>[r.ref,r.client,r.task,r.date,r.status])];const csvCell=value=>{const raw=String(value??"");const safe=/^[\\u0000-\\u0020]*[=+\\-@]/.test(raw)?"\'"+raw:raw;return '"' + safe.replace(/"/g,'""') + '"' };const csv=rows.map(row=>row.map(csvCell).join(",")).join("\n");const url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="registros-demo.csv";a.click();window.setTimeout(()=>URL.revokeObjectURL(url),1000)});
 renderRecords();
 
 /* Reservas: selección de fecha/horario y confirmación temporal. */
