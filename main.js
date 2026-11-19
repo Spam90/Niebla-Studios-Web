@@ -215,6 +215,8 @@ function initMotion(){
 
   const revealTargets = [
     ...document.querySelectorAll("#servicios .section-head, #servicios .service-group"),
+    ...document.querySelectorAll("#soluciones .section-head, #soluciones .method-step"),
+    ...document.querySelectorAll("#preguntas .section-head, #preguntas .method-step"),
     ...document.querySelectorAll("#proyectos .section-head, #proyectos .project"),
     ...document.querySelectorAll("#nosotros .about-grid > *"),
     ...document.querySelectorAll("#enfoque .method-intro, #enfoque .method-step"),
