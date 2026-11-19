@@ -2414,3 +2414,24 @@ img,canvas,svg{max-width:100%}
  body.horizontal-active #contacto .contact-start{margin-top:28px}
  body.horizontal-active #contacto .contact-start-heading h3{font-size:clamp(1.6rem,2.5vw,2.5rem)}
 }
+
+
+/* CONTENIDO 2026-11 — nuevas secciones y profundidad editorial */
+#soluciones .section-head,
+#preguntas .section-head{max-width:900px;margin-bottom:54px}
+#soluciones .solution-grid,
+#preguntas .faq-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 38px}
+#soluciones .method-step,
+#preguntas .method-step{padding:28px 0;border-top:1px solid var(--line)}
+#soluciones .method-step p,
+#preguntas .method-step p{max-width:66ch}
+#soluciones .method-step strong,
+#preguntas .method-step strong{color:var(--white);font-weight:600}
+#nosotros .standards-grid li span{display:grid;gap:5px}
+#nosotros .standards-grid li small{display:block;color:var(--muted);font-size:11px;line-height:1.55}
+@media(max-width:860px){
+  #soluciones .section-head,#preguntas .section-head{margin-bottom:34px}
+  #soluciones .solution-grid,#preguntas .faq-grid{grid-template-columns:1fr;gap:0}
+  #soluciones .method-step,#preguntas .method-step{padding:22px 0}
+  #nosotros .standards-grid li small{font-size:10px}
+}
