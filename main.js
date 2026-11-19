@@ -511,7 +511,9 @@ function initHorizontalNavigation(){
     event.preventDefault();goTo(index,id);
   });
   function syncHash(){
-    const id=decodeURIComponent(location.hash.slice(1)),target=id&&document.getElementById(id);
+    const id=decodeURIComponent(location.hash.slice(1));
+    if(!id){goTo(0,null,false);return;}
+    const target=document.getElementById(id);
     if(!target)return;
     const panel=panels.find(item=>item===target||item.contains(target)),index=panels.indexOf(panel);
     if(index>=0)goTo(index,id,false);
@@ -605,7 +607,10 @@ function initMobileSectionSwipe(){
     panel.addEventListener("scroll",()=>{if(i===active&&header)header.classList.toggle("scrolled",active>0||panel.scrollTop>8);},{passive:true});
   });
   function syncHash(){
-    const id=decodeURIComponent(location.hash.slice(1)),target=id&&document.getElementById(id);if(!target)return;
+    const id=decodeURIComponent(location.hash.slice(1));
+    if(!id){goTo(0,null,false);return;}
+    const target=document.getElementById(id);
+    if(!target)return;
     const panel=panels.find(item=>item===target||item.contains(target)),index=panels.indexOf(panel);
     if(index>=0)goTo(index,id,false);
   }
