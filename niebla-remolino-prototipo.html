@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<div id="stage"><canvas id="gl" aria-label="Remolino 3D del logo de Niebla Studios"></canvas></div>
+<div id="stage"><canvas id="gl" role="img" aria-label="Remolino 3D del logo de Niebla Studios"></canvas></div>
 <p class="panel">Prototipo · WebGL nativo · arrastra para girar</p>
 <div class="ref" aria-label="Referencia del logo plano">
   <svg viewBox="-1 -1 2 2" aria-hidden="true">
@@ -166,15 +166,34 @@ function normalMat3(m){ // parte 3x3 de la matriz de modelo (rotaciones puras)
 }
 
 // ---------- Estado y animación ----------
-let paused = false, t0 = performance.now(), pausedAt = 0, offset = 0;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let paused = reduce, t0 = performance.now(), pausedAt = reduce ? performance.now() : 0, offset = 0, rafId = 0;
 let drag = null, rotUserY = 0, rotUserX = 0, tiltX = 0, tiltY = 0;
 const btn = document.getElementById('toggle');
+if (reduce) {
+  btn.textContent = 'Movimiento reducido';
+  btn.setAttribute('aria-pressed', 'true');
+  btn.disabled = true;
+}
+if (!gl) {
+  btn.textContent = 'WebGL no disponible';
+  btn.disabled = true;
+}
 
 btn.addEventListener('click', ()=>{
+  if (reduce || !gl || !prog) return;
   paused = !paused;
   btn.textContent = paused ? 'Reanudar animación' : 'Pausar animación';
   btn.setAttribute('aria-pressed', String(paused));
-  if (paused) pausedAt = performance.now(); else offset += performance.now()-pausedAt;
+  if (paused) {
+    pausedAt = performance.now();
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = 0;
+    frame(pausedAt);
+  } else {
+    offset += performance.now()-pausedAt;
+    rafId = requestAnimationFrame(frame);
+  }
 });
 
 // arrastrar para girar (ratón y táctil)
@@ -184,9 +203,11 @@ canvas.addEventListener('pointermove', e=>{
   // inclinación suave con el cursor (solo escritorio)
   tiltY = ((e.clientX/innerWidth)-0.5)*0.35;
   tiltX = ((e.clientY/innerHeight)-0.5)*0.25;
+  if (paused && gl && prog) frame(performance.now());
 });
 canvas.addEventListener('pointerup', ()=>{ drag=null; });
-canvas.addEventListener('pointerleave', ()=>{ tiltX=0; tiltY=0; });
+canvas.addEventListener('pointercancel', ()=>{ drag=null; if(paused && gl && prog) frame(performance.now()); });
+canvas.addEventListener('pointerleave', ()=>{ tiltX=0; tiltY=0; if(paused && gl && prog) frame(performance.now()); });
 
 function resize(){
   const dpr = Math.min(devicePixelRatio||1, 2);
@@ -195,10 +216,7 @@ function resize(){
   if (gl) gl.viewport(0,0,canvas.width,canvas.height);
 }
 addEventListener('resize', resize); resize();
-
-// Respeto a prefers-reduced-motion: arranca en pose estática
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (reduce) { paused = true; btn.textContent='Reanudar animación'; btn.setAttribute('aria-pressed','true'); pausedAt = performance.now(); }
+if (paused && gl && prog) frame(performance.now());
 
 function frame(now){
   if (gl && prog){
@@ -231,9 +249,10 @@ function frame(now){
       gl.drawArrays(gl.TRIANGLES,0,b.count);
     }
   }
-  requestAnimationFrame(frame);
+  if (!paused && gl && prog) rafId = requestAnimationFrame(frame);
+  else rafId = 0;
 }
-requestAnimationFrame(frame);
+if (gl && prog && !paused) rafId = requestAnimationFrame(frame);
 </script>
 </body>
 </html>
