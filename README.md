@@ -87,3 +87,19 @@ Aviso obligatorio en la interfaz: los datos son ficticios, las acciones solo ocu
 - Pruebas E2E automatizadas para navegación, pestañas, carrito, gestión y reservas.
 - La hoja styles.css conserva reglas heredadas de la antigua sección #proceso; no afectan a la página actual, pero conviene retirarlas en una refactorización visual controlada.
 - Los tokens base de styles.css usan variaciones cercanas a la paleta oficial (por ejemplo, fondo y azul principal); no se normalizaron porque supondría un cambio visual que requiere aprobación.
+
+
+## Ampliación de contenido — 2026-11-19
+
+La página principal ahora desarrolla con más profundidad:
+- Servicios: relación entre la oferta y los pilares de crecimiento, eficiencia y diseño.
+- Enfoque: entregables esperados en diagnóstico, alcance, desarrollo y entrega.
+- Demos: acciones disponibles y límites de los prototipos.
+- Nosotros: dirección internacional aspiracional, principios de trabajo y diez estándares adoptados.
+- Contacto: pasos para iniciar una solicitud y revisar su viabilidad.
+
+La ampliación no añade testimonios, clientes, métricas, certificaciones ni resultados inventados. Se conservan el logo, la paleta, las tipografías y el símbolo 3D.
+
+Registro ampliado en el repositorio central: `Spam90/Agencia-del-goat/docs/anexo-ampliacion-web-2026-11-19.md`.
+
+**QA pendiente:** inspección visual e interactiva en navegador real. El despliegue de producción está READY, pero eso no sustituye la revisión visual.
