@@ -645,6 +645,18 @@ function initMobileSectionSwipe(){
   main.append(viewport);
 
   let active = 0;
+  const swipeCue = document.createElement("div");
+  swipeCue.className = "mobile-swipe-cue";
+  swipeCue.setAttribute("aria-hidden","false");
+  swipeCue.innerHTML = '<span class="mobile-swipe-cue-label">Desliza para explorar</span><span class="mobile-swipe-cue-arrows" aria-hidden="true">← <i></i> →</span>';
+  panels[0].append(swipeCue);
+  let cueDismissed = false;
+  function dismissSwipeCue(){
+    if(cueDismissed) return;
+    cueDismissed = true;
+    swipeCue.classList.add("is-dismissed");
+    swipeCue.setAttribute("aria-hidden","true");
+  }
   const headerHeight = () => header ? header.getBoundingClientRect().height : 0;
 
   document.documentElement.classList.add("mobile-horizontal-ready");
@@ -670,6 +682,7 @@ function initMobileSectionSwipe(){
   function goTo(index, hashTarget=null){
     const next = clamp(index,0,panels.length-1);
     active = next;
+    if(active > 0) dismissSwipeCue();
     track.style.transform = "translate3d(" + (-active * window.innerWidth) + "px,0,0)";
     updateNavigation();
     const target = hashTarget ? document.getElementById(hashTarget) : null;
