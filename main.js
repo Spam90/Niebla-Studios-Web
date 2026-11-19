@@ -470,7 +470,7 @@ function initHorizontalNavigation(){
     }
     locked = true;
     window.clearTimeout(lockTimer);
-    lockTimer = window.setTimeout(()=>{locked=false;}, reduceMotion ? 80 : 850);
+    lockTimer = window.setTimeout(()=>{locked=false;}, reduceMotion ? 80 : 1450);
   }
 
   function canScrollInside(panel, delta){
