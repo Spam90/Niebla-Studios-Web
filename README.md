@@ -103,3 +103,8 @@ La ampliación no añade testimonios, clientes, métricas, certificaciones ni re
 Registro ampliado en el repositorio central: `Spam90/Agencia-del-goat/docs/anexo-ampliacion-web-2026-11-19.md`.
 
 **QA pendiente:** inspección visual e interactiva en navegador real. El despliegue de producción está READY, pero eso no sustituye la revisión visual.
+
+
+## Reconstrucción de contenido — 2026-11-19
+
+Se reorganizó la página en ocho secciones: Inicio, Servicios, Soluciones, Proceso, Demos, Nosotros, Preguntas frecuentes y Contacto. Se ampliaron las descripciones de los seis servicios, se añadieron seis escenarios de solución, se aclaró el proceso y se incorporó una FAQ de 12 preguntas. Se conserva la identidad visual aprobada. El despliegue de producción está READY; el QA visual e interactivo en navegador real sigue pendiente. Detalle: https://github.com/Spam90/Agencia-del-goat/blob/main/docs/anexo-reconstruccion-contenido-web-2026-11-19.md
