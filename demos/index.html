@@ -56,7 +56,7 @@
 (()=>{"use strict";
 const $=id=>document.getElementById(id);
 const tabs=[...document.querySelectorAll("[data-tab]")];
-function activate(name,updateHash=true){tabs.forEach(b=>{const on=b.dataset.tab===name;b.setAttribute("aria-selected",String(on));b.tabIndex=on?0:-1;$(name).classList.toggle("active",on)});if(updateHash)history.replaceState(null,"","#"+name)}
+function activate(name,updateHash=true){tabs.forEach(b=>{const on=b.dataset.tab===name;b.setAttribute("aria-selected",String(on));b.tabIndex=on?0:-1;$(b.dataset.tab).classList.toggle("active",on)});if(updateHash)history.replaceState(null,"","#"+name)}
 tabs.forEach((b,index)=>{b.addEventListener("click",()=>activate(b.dataset.tab));b.addEventListener("keydown",e=>{let next=index;if(e.key==="ArrowRight")next=(index+1)%tabs.length;else if(e.key==="ArrowLeft")next=(index+tabs.length-1)%tabs.length;else if(e.key==="Home")next=0;else if(e.key==="End")next=tabs.length-1;else return;e.preventDefault();activate(tabs[next].dataset.tab);tabs[next].focus()})});
 const initial=location.hash.slice(1);if(["catalogo","gestion","reservas"].includes(initial))activate(initial,false);
 window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(["catalogo","gestion","reservas"].includes(h))activate(h,false)});
