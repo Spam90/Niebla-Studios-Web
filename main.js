@@ -84,6 +84,27 @@ function wireChannels(){
   setChannel($("footerWhatsapp"), waHref);
   setChannel($("emailLink"), mailHref);
   setChannel($("footerEmail"), mailHref);
+
+  const copyButton=$("copyEmail"),copyStatus=$("copyEmailStatus");
+  if(copyButton&&!copyButton.dataset.bound){
+    copyButton.dataset.bound="true";
+    copyButton.addEventListener("click",async()=>{
+      if(!CONTACT.email)return;
+      try{
+        if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(CONTACT.email);
+        else{
+          const field=document.createElement("textarea");field.value=CONTACT.email;
+          field.setAttribute("readonly","");field.style.position="fixed";field.style.opacity="0";
+          document.body.append(field);field.select();
+          const copied=document.execCommand("copy");field.remove();
+          if(!copied)throw new Error("Clipboard unavailable");
+        }
+        if(copyStatus)copyStatus.textContent="Correo copiado.";
+      }catch(error){
+        if(copyStatus)copyStatus.textContent="No se pudo copiar. Usa el enlace de correo.";
+      }
+    });
+  }
 }
 
 /* ---------- Símbolo 3D principal; la marca pequeña usa SVG estático ---------- */
