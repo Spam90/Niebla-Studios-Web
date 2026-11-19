@@ -2392,6 +2392,27 @@ img,canvas,svg{max-width:100%}
  .contact-start-heading h3{font-size:1.9rem}
  .contact-start-steps li{grid-template-columns:34px 1fr}
 }
+
+/* PLAN CARDS — narrow mobile screens */
+@media(max-width:380px){
+ .plans-section .plan-cards{
+  grid-template-columns:minmax(0,1fr);
+  gap:10px;
+  padding-left:0;
+ }
+ .plans-section .plan-card{
+  min-width:0;
+  padding:16px;
+ }
+ .plans-section .plan-card h3{
+  font-size:1.1rem;
+ }
+ .plans-section .plan-card li{
+  font-size:11px;
+  line-height:1.55;
+ }
+}
+
 @media(min-width:861px) and (hover:hover) and (pointer:fine){
  body.horizontal-active #servicios .service-outcomes,
  body.horizontal-active #enfoque .method-deliverables,
