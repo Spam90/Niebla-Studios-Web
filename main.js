@@ -241,7 +241,7 @@ function initMotion(){
     : null;
 
   kineticHeadings.forEach(heading => {
-    const originalText = heading.textContent.replace(/\\s+/g, " ").trim();
+    const originalText = heading.textContent.replace(/\s+/g, " ").trim();
     if (!originalText) return;
     heading.setAttribute("aria-label", originalText);
     const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
@@ -252,10 +252,10 @@ function initMotion(){
     let wordIndex = 0;
     textNodes.forEach(node => {
       const fragment = document.createDocumentFragment();
-      const parts = node.nodeValue.split(/(\\s+)/);
+      const parts = node.nodeValue.split(/(\s+)/);
       parts.forEach(part => {
         if (!part) return;
-        if (/^\\s+$/.test(part)) {
+        if (/^\s+$/.test(part)) {
           fragment.append(document.createTextNode(part));
           return;
         }
