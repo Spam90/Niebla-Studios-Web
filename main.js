@@ -445,7 +445,7 @@ function initHorizontalNavigation(){
 
   function goTo(index, updateHash=true){
     const next = clamp(index,0,panels.length-1);
-    if(next === active && !locked) return;
+    if(next === active) return;
     active = next;
     panels[active].scrollTop = 0;
     track.style.transform = "translate3d(" + (-panels[active].offsetLeft) + "px,0,0)";
@@ -465,20 +465,38 @@ function initHorizontalNavigation(){
     return panel.scrollTop > 3;
   }
 
-  /* El wheel requiere intención acumulada: un roce o un tick aislado no cambia de sección. */
+  /* Una secuencia física de rueda/touchpad solo puede cambiar una sección.
+     La inercia posterior al primer cambio se descarta hasta que el gesto termina. */
   let wheelAccumulated = 0;
   let wheelDirection = 0;
-  let lastWheelNavigation = 0;
+  let wheelGestureConsumed = false;
+  let wheelEndTimer = 0;
   const wheelThreshold = 150;
-  const wheelCooldown = 950;
+  const wheelGestureEndDelay = 220;
+
+  function resetWheelGesture(){
+    wheelAccumulated = 0;
+    wheelDirection = 0;
+    wheelGestureConsumed = false;
+    wheelEndTimer = 0;
+  }
 
   window.addEventListener("wheel", event => {
     if(!desktop.matches || !document.body.classList.contains("horizontal-active")) return;
     const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
     if(Math.abs(delta) < 4) return;
 
+    window.clearTimeout(wheelEndTimer);
+    wheelEndTimer = window.setTimeout(resetWheelGesture,wheelGestureEndDelay);
+
+    if(wheelGestureConsumed) {
+      event.preventDefault();
+      return;
+    }
+
     if(locked) {
       event.preventDefault();
+      wheelGestureConsumed = true;
       return;
     }
 
@@ -498,13 +516,9 @@ function initHorizontalNavigation(){
     wheelAccumulated += Math.abs(delta);
 
     if(wheelAccumulated < wheelThreshold) return;
-    if(performance.now() - lastWheelNavigation < wheelCooldown) {
-      wheelAccumulated = 0;
-      return;
-    }
 
+    wheelGestureConsumed = true;
     wheelAccumulated = 0;
-    lastWheelNavigation = performance.now();
     goTo(active + direction);
   },{passive:false});
 
@@ -524,7 +538,7 @@ function initHorizontalNavigation(){
   });
 
   document.addEventListener("keydown",event=>{
-    if(!desktop.matches || !document.body.classList.contains("horizontal-active") || event.altKey || event.ctrlKey || event.metaKey) return;
+    if(!desktop.matches || !document.body.classList.contains("horizontal-active") || event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
     const tag=event.target && event.target.tagName;
     if(["INPUT","TEXTAREA","SELECT"].includes(tag) || event.target.isContentEditable) return;
     let direction=0;
@@ -534,6 +548,7 @@ function initHorizontalNavigation(){
     if(event.key==="End") direction=panels.length-1-active;
     if(!direction) return;
     event.preventDefault();
+    if(locked) return;
     goTo(active+direction);
   });
 
