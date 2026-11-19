@@ -2114,7 +2114,6 @@ img,canvas,svg{max-width:100%}
       transform .78s cubic-bezier(.2,.72,.18,1),
       opacity .62s ease;
     transition-delay:calc(var(--word-index,0) * 48ms);
-    will-change:transform,opacity;
   }
   .kinetic-heading.kinetic-visible .kinetic-word{
     transform:translate3d(0,0,0) rotateX(0);
@@ -2499,24 +2498,19 @@ img,canvas,svg{max-width:100%}
   --motion-ease:cubic-bezier(.22,.72,.2,1);
 }
 html.motion-ready [data-reveal]{
-  filter:blur(2px);
   transform:translate3d(0,18px,0);
-  transition:
-    opacity .9s var(--motion-ease),
-    transform .9s var(--motion-ease),
-    filter .9s var(--motion-ease);
+  transition:opacity .9s var(--motion-ease),transform .9s var(--motion-ease);
 }
 html.motion-ready [data-reveal="right"]{
   transform:translate3d(20px,0,0);
 }
 html.motion-ready [data-reveal].is-visible{
-  filter:blur(0);
   transform:translate3d(0,0,0);
 }
 @media (hover:hover) and (pointer:fine){
   .btn{transition:transform .45s var(--motion-ease),border-color .45s,background .45s,box-shadow .45s}
   .btn:hover{transform:translate3d(0,-2px,0);box-shadow:0 10px 26px rgba(0,0,0,.22)}
-  .svc{transition:transform .65s var(--motion-ease),border-color .55s,background .55s,box-shadow .65s var(--motion-ease)}
+  .svc{transition:transform .65s var(--motion-ease),background .55s,box-shadow .65s var(--motion-ease)}
   .svc:hover{transform:translate3d(0,-3px,0);box-shadow:0 16px 36px rgba(0,0,0,.22)}
   .step{transition:transform .55s var(--motion-ease)}
   .step:hover{transform:translate3d(0,-2px,0)}
@@ -2524,7 +2518,7 @@ html.motion-ready [data-reveal].is-visible{
   .text-link:hover{gap:13px}
   .site-nav ul a{transition:color .35s var(--motion-ease)}
   .plan-card,.outcome-card,.method-step,.studio-principles article{
-    transition:transform .6s var(--motion-ease),border-color .5s,box-shadow .6s var(--motion-ease);
+    transition:transform .6s var(--motion-ease),box-shadow .6s var(--motion-ease);
   }
   .plan-card:hover,.outcome-card:hover,.method-step:hover,.studio-principles article:hover{
     transform:translate3d(0,-3px,0);
