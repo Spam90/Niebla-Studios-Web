@@ -228,7 +228,7 @@ function initMotion(){
     ...document.querySelectorAll("#nosotros .standards-grid > *"),
     ...document.querySelectorAll("#enfoque .method-intro, #enfoque .method-step"),
     ...document.querySelectorAll("#contacto .section-head, #contacto .form, #contacto .contact-start, #contacto .contact-start-steps li"),
-    ...document.querySelectorAll("#servicios .outcome-card, #enfoque .deliverable-grid article"),
+    ...document.querySelectorAll("#servicios .outcome-card, #enfoque .method-decision"),
     ...document.querySelectorAll("#proyectos .demo-boundary, #nosotros .studio-direction, #nosotros .studio-principles article, #nosotros .standards"),
     ...document.querySelectorAll(".footer-grid > *")
   ];
