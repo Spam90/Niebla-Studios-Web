@@ -2685,3 +2685,62 @@ html.motion-ready [data-reveal].is-visible{
     transition:none!important;
   }
 }
+
+
+/* MOBILE NAVIGATION CUE — visible until the first horizontal navigation. */
+@media(max-width:860px) and (pointer:coarse){
+  .mobile-swipe-cue{
+    position:absolute;
+    z-index:8;
+    left:50%;
+    bottom:max(12px,env(safe-area-inset-bottom));
+    display:flex;
+    align-items:center;
+    gap:13px;
+    width:max-content;
+    max-width:calc(100% - 36px);
+    padding:10px 14px;
+    border:1px solid rgba(143,181,255,.24);
+    background:rgba(9,11,16,.72);
+    color:#dce7f8;
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    transform:translateX(-50%);
+    pointer-events:none;
+    transition:opacity .35s ease,transform .35s ease;
+  }
+  .mobile-swipe-cue-label{
+    font:500 9px/1.3 var(--body);
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .mobile-swipe-cue-arrows{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    color:#8fb5ff;
+    font:500 13px/1 var(--body);
+  }
+  .mobile-swipe-cue-arrows i{
+    display:block;
+    width:17px;
+    height:1px;
+    background:currentColor;
+    transform-origin:center;
+    animation:mobileSwipeNudge 1.5s ease-in-out infinite;
+  }
+  .mobile-swipe-cue.is-dismissed{
+    opacity:0;
+    transform:translate(-50%,8px);
+    visibility:hidden;
+  }
+}
+@keyframes mobileSwipeNudge{
+  0%,100%{transform:translateX(-3px);opacity:.55}
+  50%{transform:translateX(3px);opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+  .mobile-swipe-cue-arrows i{animation:none!important}
+  .mobile-swipe-cue{transition:none!important}
+}
