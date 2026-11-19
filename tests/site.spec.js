@@ -2,6 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 test("home exposes working contact fallbacks and social metadata", async ({ page }) => {
   await page.goto("/");
+  await expect(page.locator("#siteHeader")).toHaveCSS("position", "fixed");
   await expect(page.locator("#emailLink")).toHaveAttribute("href", "mailto:nieblastudiosrd@gmail.com");
   await expect(page.locator("#copyEmail")).toBeVisible();
   await expect(page.locator("#whatsappLink")).toBeHidden();
