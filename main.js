@@ -99,16 +99,18 @@ function initSymbols(){
   const canvas = $("heroCanvas");
   if (!stage || !canvas) return;
 
-  /* El símbolo 3D vive únicamente dentro del hero. */
+  /* No iniciar WebGL si el escenario está oculto por la dirección visual actual. */
   const host = stage;
-  canvas.addEventListener("symbol-fallback", () => host.classList.add("no-webgl"));
-  try{
-    if (!window.NieblaSymbol || !NieblaSymbol.init(canvas, { scroll: 0.0012, stage: true })) {
+  if (getComputedStyle(stage).display !== "none") {
+    canvas.addEventListener("symbol-fallback", () => host.classList.add("no-webgl"));
+    try{
+      if (!window.NieblaSymbol || !NieblaSymbol.init(canvas, { scroll: 0.0012, stage: true })) {
+        host.classList.add("no-webgl");
+      }
+    }catch(err){
+      console.error(err);
       host.classList.add("no-webgl");
     }
-  }catch(err){
-    console.error(err);
-    host.classList.add("no-webgl");
   }
 
   /* Los pequeños símbolos de marca de la cabecera/pie permanecen estáticos. */
@@ -133,7 +135,7 @@ function initProgress(){
 /* ---------- Campo interactivo de letras: prototipo solo en el hero ---------- */
 function initHeroLetterField(){
   const title=$("heroTitle");
-  if(!title || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if(!title || window.matchMedia("(prefers-reduced-motion: reduce)").matches || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
   const walker=document.createTreeWalker(title,NodeFilter.SHOW_TEXT);
   const nodes=[];
@@ -155,15 +157,24 @@ function initHeroLetterField(){
   if(!letters.length) return;
   title.classList.add("has-letter-field");
 
-  let frame=0, pointer=null;
+  let frame=0, pointer=null, centers=[];
   const radius=255, maxPush=66;
+  const measureLetters=()=>{
+    centers=letters.map(letter=>{
+      const r=letter.getBoundingClientRect();
+      return {x:r.left+r.width/2,y:r.top+r.height/2};
+    });
+  };
+  measureLetters();
+  window.addEventListener("resize",measureLetters,{passive:true});
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(measureLetters);
   function update(){
     frame=0;
     if(!pointer) return;
-    for(const letter of letters){
-      const r=letter.getBoundingClientRect();
-      const dx=r.left+r.width/2-pointer.x;
-      const dy=r.top+r.height/2-pointer.y;
+    letters.forEach((letter,index)=>{
+      const center=centers[index];
+      const dx=center.x-pointer.x;
+      const dy=center.y-pointer.y;
       const distance=Math.hypot(dx,dy);
       const influence=Math.max(0,1-distance/radius);
       const force=influence*influence;
@@ -174,7 +185,7 @@ function initHeroLetterField(){
       letter.style.setProperty("--lx",(nx*push-ny*swirl).toFixed(2)+"px");
       letter.style.setProperty("--ly",(ny*push+nx*swirl).toFixed(2)+"px");
       letter.style.setProperty("--lr",(nx*ny*influence*26).toFixed(2)+"deg");
-    }
+    });
   }
 
   document.addEventListener("pointermove",e=>{
