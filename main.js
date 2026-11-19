@@ -349,35 +349,47 @@ function initMotion(){
 
   const navLinks=[...document.querySelectorAll('.site-nav a[href^="#"]')];
   const observedSections=[...new Set(navLinks.map(a=>document.querySelector(a.getAttribute("href"))).filter(Boolean))];
-  const desktopHorizontal=window.matchMedia("(min-width: 861px) and (hover: hover) and (pointer: fine)").matches;
+  const desktopHorizontal=window.matchMedia("(min-width: 861px) and (hover: hover) and (pointer: fine)");
+  const setActiveSection=()=>{
+    if(desktopHorizontal.matches)return;
+    const anchor=window.innerHeight*.45;
+    const containing=observedSections.filter(section=>{
+      const rect=section.getBoundingClientRect();
+      return rect.top<=anchor && rect.bottom>anchor;
+    });
+    const candidates=containing.length ? containing : observedSections.filter(section=>{
+      const rect=section.getBoundingClientRect();
+      return rect.bottom>0 && rect.top<window.innerHeight;
+    });
+    const current=candidates.sort((a,b)=>
+      Math.abs(a.getBoundingClientRect().top-anchor)-Math.abs(b.getBoundingClientRect().top-anchor)
+    )[0] || null;
 
-  // En escritorio horizontal, initHorizontalNavigation es la única fuente de estado.
-  // Evita que un IntersectionObserver vertical sobrescriba la sección activa.
-  if(!desktopHorizontal && "IntersectionObserver" in window){
-    const setActiveSection=()=>{
-      const anchor=window.innerHeight*.45;
-      const containing=observedSections.filter(section=>{
-        const rect=section.getBoundingClientRect();
-        return rect.top<=anchor && rect.bottom>anchor;
-      });
-      const candidates=containing.length ? containing : observedSections.filter(section=>{
-        const rect=section.getBoundingClientRect();
-        return rect.bottom>0 && rect.top<window.innerHeight;
-      });
-      const current=candidates.sort((a,b)=>
-        Math.abs(a.getBoundingClientRect().top-anchor)-Math.abs(b.getBoundingClientRect().top-anchor)
-      )[0];
-      if(!current)return;
-      navLinks.forEach(link=>{
-        if(link.getAttribute("href")==="#"+current.id) link.setAttribute("aria-current","location");
-        else link.removeAttribute("aria-current");
-      });
-    };
-    const navObserver=new IntersectionObserver(setActiveSection,{rootMargin:"-35% 0px -55% 0px",threshold:0});
+    // Si no hay una sección enlazada en el punto de lectura (hero/footer),
+    // se limpia el estado anterior en vez de dejar una categoría obsoleta activa.
+    navLinks.forEach(link=>{
+      if(current && link.getAttribute("href")==="#"+current.id) link.setAttribute("aria-current","location");
+      else link.removeAttribute("aria-current");
+    });
+  };
+  let navFrame=0;
+  const scheduleActiveSection=()=>{
+    if(desktopHorizontal.matches || navFrame)return;
+    navFrame=requestAnimationFrame(()=>{
+      navFrame=0;
+      setActiveSection();
+    });
+  };
+  if("IntersectionObserver" in window){
+    const navObserver=new IntersectionObserver(scheduleActiveSection,{rootMargin:"-35% 0px -55% 0px",threshold:0});
     observedSections.forEach(section=>navObserver.observe(section));
-    window.addEventListener("resize",setActiveSection,{passive:true});
-    setActiveSection();
   }
+  // El cálculo también escucha scroll/resize: IntersectionObserver puede no emitir
+  // otra entrada mientras el punto de lectura se mueve dentro de una sección alta.
+  window.addEventListener("scroll",scheduleActiveSection,{passive:true});
+  window.addEventListener("resize",scheduleActiveSection,{passive:true});
+  desktopHorizontal.addEventListener("change",scheduleActiveSection);
+  scheduleActiveSection();
   document.documentElement.classList.add("motion-ready");
 }
 
@@ -461,7 +473,7 @@ function initHorizontalNavigation(){
   const wheelCooldown = 950;
 
   window.addEventListener("wheel", event => {
-    if(!document.body.classList.contains("horizontal-active")) return;
+    if(!desktop.matches || !document.body.classList.contains("horizontal-active")) return;
     const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
     if(Math.abs(delta) < 4) return;
 
@@ -497,6 +509,7 @@ function initHorizontalNavigation(){
   },{passive:false});
 
   document.addEventListener("click",event=>{
+    if(!desktop.matches)return;
     const link=event.target.closest('a[href^="#"]');
     if(!link) return;
     const id=decodeURIComponent(link.getAttribute("href").slice(1));
@@ -511,7 +524,7 @@ function initHorizontalNavigation(){
   });
 
   document.addEventListener("keydown",event=>{
-    if(!document.body.classList.contains("horizontal-active") || event.altKey || event.ctrlKey || event.metaKey) return;
+    if(!desktop.matches || !document.body.classList.contains("horizontal-active") || event.altKey || event.ctrlKey || event.metaKey) return;
     const tag=event.target && event.target.tagName;
     if(["INPUT","TEXTAREA","SELECT"].includes(tag) || event.target.isContentEditable) return;
     let direction=0;
@@ -530,6 +543,19 @@ function initHorizontalNavigation(){
   if(initialPanel && panels.includes(initialPanel)) active=panels.indexOf(initialPanel);
   track.style.transform="translate3d("+(-panels[active].offsetLeft)+"px,0,0)";
   updateNavigation();
+
+  // Si el usuario reduce la ventana hasta el breakpoint móvil, devuelve las
+  // secciones al flujo vertical y restaura el footer fuera del viewport horizontal.
+  desktop.addEventListener("change",event=>{
+    if(event.matches)return;
+    main.append(...sections);
+    viewport.remove();
+    main.after(footer);
+    sections.forEach(section=>section.classList.remove("horizontal-panel"));
+    footer.classList.remove("horizontal-panel");
+    document.body.classList.remove("horizontal-active");
+    document.documentElement.classList.remove("horizontal-ready");
+  });
 }
 
 initMotion();
