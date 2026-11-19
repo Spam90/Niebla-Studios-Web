@@ -544,6 +544,8 @@ function initHorizontalNavigation(){
   // secciones al flujo vertical y restaura el footer fuera del viewport horizontal.
   desktop.addEventListener("change",event=>{
     if(event.matches)return;
+    const activePanel=panels[active];
+    const panelScrollTop=activePanel.scrollTop;
     main.append(...sections);
     viewport.remove();
     main.after(footer);
@@ -551,6 +553,11 @@ function initHorizontalNavigation(){
     footer.classList.remove("horizontal-panel");
     document.body.classList.remove("horizontal-active");
     document.documentElement.classList.remove("horizontal-ready");
+    // Conserva la sección y el desplazamiento interno al volver al flujo vertical.
+    requestAnimationFrame(()=>{
+      const top=activePanel.getBoundingClientRect().top+window.scrollY;
+      window.scrollTo(0,top+panelScrollTop);
+    });
   });
 }
 
