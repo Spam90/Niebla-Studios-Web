@@ -617,6 +617,148 @@ function initHorizontalNavigation(){
   });
 }
 
+
+/* ---------- Navegación horizontal táctil (móviles) ---------- */
+function initMobileSectionSwipe(){
+  const mobile = window.matchMedia("(max-width: 860px) and (pointer: coarse)");
+  if(!mobile.matches) return;
+
+  const main = $("main");
+  const footer = document.querySelector(".site-footer");
+  if(!main || !footer) return;
+
+  const panels = [...main.querySelectorAll(":scope > section"), footer];
+  if(panels.length < 2) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const headerHeight = () => header ? header.getBoundingClientRect().height : 0;
+  const hint = document.createElement("div");
+  hint.className = "mobile-swipe-hint";
+  hint.setAttribute("aria-hidden","true");
+  document.body.append(hint);
+
+  let touchStart = null;
+  let hintTimer = 0;
+  let hintFrame = 0;
+  const shownHints = new Set();
+
+  function panelFromTarget(target){
+    const section = target.closest("main > section");
+    if(section) return section;
+    return target.closest(".site-footer");
+  }
+
+  function updateHint(){
+    hintFrame = 0;
+    if(!mobile.matches || isMobileMenuOpen()){
+      hint.classList.remove("is-visible");
+      return;
+    }
+
+    const anchor = window.innerHeight * .5;
+    const index = panels.findIndex(panel => {
+      const rect = panel.getBoundingClientRect();
+      return rect.top <= anchor && rect.bottom > anchor;
+    });
+    if(index < 0){
+      hint.classList.remove("is-visible");
+      return;
+    }
+
+    const panel = panels[index];
+    const rect = panel.getBoundingClientRect();
+    let message = "";
+    let key = "";
+
+    if(index < panels.length - 1 && rect.bottom <= window.innerHeight + 28){
+      message = "Desliza hacia la izquierda para continuar";
+      key = panel.id + ":next";
+    }else if(index > 0 && rect.top >= -28){
+      message = "Desliza hacia la derecha para volver";
+      key = panel.id + ":previous";
+    }
+
+    if(!message || shownHints.has(key)){
+      hint.classList.remove("is-visible");
+      return;
+    }
+
+    shownHints.add(key);
+    hint.textContent = message;
+    hint.classList.add("is-visible");
+    window.clearTimeout(hintTimer);
+    hintTimer = window.setTimeout(() => hint.classList.remove("is-visible"), 2600);
+  }
+
+  function scheduleHint(){
+    if(hintFrame) return;
+    hintFrame = requestAnimationFrame(updateHint);
+  }
+
+  window.addEventListener("scroll",scheduleHint,{passive:true});
+  window.addEventListener("resize",scheduleHint,{passive:true});
+  scheduleHint();
+
+  document.addEventListener("touchstart",event => {
+    if(!mobile.matches || event.touches.length !== 1) {
+      touchStart = null;
+      return;
+    }
+
+    const touch = event.touches[0];
+    const target = event.target;
+    if(touch.clientX < 24 || touch.clientX > window.innerWidth - 24 ||
+       target.closest("a,button,input,textarea,select,[contenteditable='true'],[data-no-section-swipe],.project-carousel,.demo-carousel,[data-horizontal-scroll]")){
+      touchStart = null;
+      return;
+    }
+
+    const panel = panelFromTarget(target);
+    if(!panel) {
+      touchStart = null;
+      return;
+    }
+
+    touchStart = {x:touch.clientX,y:touch.clientY,panel};
+  },{passive:true});
+
+  document.addEventListener("touchend",event => {
+    if(!touchStart || !mobile.matches || !event.changedTouches.length) return;
+
+    const start = touchStart;
+    touchStart = null;
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+
+    if(Math.abs(deltaX) < 72 || Math.abs(deltaX) < Math.abs(deltaY) * 1.35) return;
+
+    const index = panels.indexOf(start.panel);
+    if(index < 0) return;
+
+    const rect = start.panel.getBoundingClientRect();
+    let nextIndex = -1;
+
+    // Avanzar solo cuando el panel actual ya llegó a su límite inferior.
+    if(deltaX < 0 && index < panels.length - 1 && rect.bottom <= window.innerHeight + 32){
+      nextIndex = index + 1;
+    }
+    // Retroceder solo cuando el panel actual está en su límite superior.
+    if(deltaX > 0 && index > 0 && rect.top >= -32){
+      nextIndex = index - 1;
+    }
+    if(nextIndex < 0) return;
+
+    const destination = panels[nextIndex];
+    const top = destination.getBoundingClientRect().top + window.scrollY - headerHeight();
+    window.scrollTo({top:Math.max(0,top),behavior:reduceMotion ? "auto" : "smooth"});
+    hint.classList.remove("is-visible");
+  },{passive:true});
+
+  document.addEventListener("touchcancel",() => { touchStart = null; },{passive:true});
+}
+
 initMotion();
 initHorizontalNavigation();
+initMobileSectionSwipe();
 })();
