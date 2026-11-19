@@ -470,7 +470,7 @@ function initHorizontalNavigation(){
     }
     locked = true;
     window.clearTimeout(lockTimer);
-    lockTimer = window.setTimeout(()=>{locked=false;}, reduceMotion ? 80 : 1450);
+    lockTimer = window.setTimeout(()=>{locked=false;}, reduceMotion ? 80 : 850);
   }
 
   function canScrollInside(panel, delta){
@@ -486,8 +486,11 @@ function initHorizontalNavigation(){
   let wheelDirection = 0;
   let wheelGestureConsumed = false;
   let wheelEndTimer = 0;
+  let boundaryIntentDirection = 0;
+  let boundaryIntentAt = 0;
   const wheelThreshold = 150;
   const wheelGestureEndDelay = 220;
+  const boundaryIntentWindow = 1800;
 
   function resetWheelGesture(){
     wheelAccumulated = 0;
@@ -519,6 +522,8 @@ function initHorizontalNavigation(){
     if(canScrollInside(panel,delta)) {
       wheelAccumulated = 0;
       wheelDirection = 0;
+      boundaryIntentDirection = 0;
+      boundaryIntentAt = 0;
       return;
     }
 
@@ -534,6 +539,23 @@ function initHorizontalNavigation(){
 
     wheelGestureConsumed = true;
     wheelAccumulated = 0;
+
+    // En el borde se exige una segunda intención de desplazamiento independiente.
+    // El primer gesto arma el cambio; el siguiente, en la misma dirección,
+    // lo confirma. Así la inercia o un gesto accidental no cambian de sección.
+    const now = Date.now();
+    const confirmsBoundaryIntent =
+      boundaryIntentDirection === direction &&
+      now - boundaryIntentAt <= boundaryIntentWindow;
+
+    if(!confirmsBoundaryIntent) {
+      boundaryIntentDirection = direction;
+      boundaryIntentAt = now;
+      return;
+    }
+
+    boundaryIntentDirection = 0;
+    boundaryIntentAt = 0;
     goTo(active + direction);
   },{passive:false});
 
