@@ -215,12 +215,12 @@ function initMotion(){
 
   const revealTargets = [
     ...document.querySelectorAll("#servicios .section-head, #servicios .service-group"),
-    ...document.querySelectorAll("#servicios .svc, #servicios .plan-card, #servicios .plan-service, #servicios .outcome-card"),
+    ...document.querySelectorAll("#servicios .svc, #servicios .plan-card, #servicios .plan-service"),
     ...document.querySelectorAll("#soluciones .section-head, #soluciones .method-step"),
     ...document.querySelectorAll("#preguntas .section-head, #preguntas .method-step"),
     ...document.querySelectorAll("#proyectos .section-head, #proyectos .project"),
     ...document.querySelectorAll("#nosotros .about-grid > *"),
-    ...document.querySelectorAll("#nosotros .studio-principles article, #nosotros .standards-grid > *"),
+    ...document.querySelectorAll("#nosotros .standards-grid > *"),
     ...document.querySelectorAll("#enfoque .method-intro, #enfoque .method-step"),
     ...document.querySelectorAll("#contacto .section-head, #contacto .form, #contacto .contact-start, #contacto .contact-start-steps li"),
     ...document.querySelectorAll("#servicios .outcome-card, #enfoque .deliverable-grid article"),
@@ -280,7 +280,9 @@ function initMotion(){
 
   revealTargets.forEach((el,i) => {
     el.dataset.reveal = el.classList.contains("project") && i % 2 ? "right" : "up";
-    el.style.setProperty("--reveal-delay", (el.classList.contains("step") ? (i % 4) * 110 : el.classList.contains("project") ? (i % 3) * 120 : 50) + "ms");
+    const siblingIndex = el.parentElement ? [...el.parentElement.children].indexOf(el) : i;
+    const stagger = Math.min(Math.max(siblingIndex, 0), 5) * 65;
+    el.style.setProperty("--reveal-delay", (el.classList.contains("project") ? (i % 3) * 95 : stagger) + "ms");
   });
 
   if (reduce){
@@ -331,8 +333,8 @@ function initMotion(){
           const r=card.getBoundingClientRect();
           const x=clamp((e.clientX-r.left)/r.width,0,1);
           const y=clamp((e.clientY-r.top)/r.height,0,1);
-          card.style.setProperty("--tilt-x",((.5-y)*5).toFixed(2)+"deg");
-          card.style.setProperty("--tilt-y",((x-.5)*6).toFixed(2)+"deg");
+          card.style.setProperty("--tilt-x",((.5-y)*2.2).toFixed(2)+"deg");
+          card.style.setProperty("--tilt-y",((x-.5)*2.8).toFixed(2)+"deg");
           moveHighlight(x,y);
         },{passive:true});
         card.addEventListener("pointerleave",reset);
@@ -343,8 +345,8 @@ function initMotion(){
           const x=clamp((e.clientX-r.left)/r.width,0,1);
           const y=clamp((e.clientY-r.top)/r.height,0,1);
           card.classList.add("is-touch-active");
-          card.style.setProperty("--tilt-x",((.5-y)*2.8).toFixed(2)+"deg");
-          card.style.setProperty("--tilt-y",((x-.5)*3.4).toFixed(2)+"deg");
+          card.style.setProperty("--tilt-x",((.5-y)*1.5).toFixed(2)+"deg");
+          card.style.setProperty("--tilt-y",((x-.5)*1.8).toFixed(2)+"deg");
           moveHighlight(x,y);
         },{passive:true});
         card.addEventListener("pointerup",reset,{passive:true});
