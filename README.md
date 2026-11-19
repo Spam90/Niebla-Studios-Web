@@ -71,6 +71,7 @@ Aviso obligatorio en la interfaz: los datos son ficticios, las acciones solo ocu
 - Se añadieron nombres accesibles a controles y regiones de las demos.
 - Se escapan los valores dinámicos antes de insertarlos en HTML.
 - La fecha de los registros de ejemplo usa la zona horaria local y el CSV libera su URL temporal después de iniciar la descarga.
+- El prototipo 3D independiente maneja fallos de inicialización WebGL y evita mantener un ciclo de renderizado continuo cuando está pausado o se respeta movimiento reducido.
 
 ### Verificaciones estáticas
 - Sintaxis JavaScript: main.js, symbol-3d.js, config.js y el script inline de demos.
@@ -85,3 +86,4 @@ Aviso obligatorio en la interfaz: los datos son ficticios, las acciones solo ocu
 - QA visual e interactivo real en navegador (desktop, tablet y móvil).
 - Pruebas E2E automatizadas para navegación, pestañas, carrito, gestión y reservas.
 - La hoja styles.css conserva reglas heredadas de la antigua sección #proceso; no afectan a la página actual, pero conviene retirarlas en una refactorización visual controlada.
+- Los tokens base de styles.css usan variaciones cercanas a la paleta oficial (por ejemplo, fondo y azul principal); no se normalizaron porque supondría un cambio visual que requiere aprobación.
