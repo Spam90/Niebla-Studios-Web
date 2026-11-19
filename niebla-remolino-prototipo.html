@@ -137,21 +137,28 @@ function compile(type, src){
   if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
   return s;
 }
-let prog, uni = {}, buffers = [];
+let prog, uni = {}, buffers = [], webglReady = false;
 if (gl) {
-  prog = gl.createProgram();
-  gl.attachShader(prog, compile(gl.VERTEX_SHADER, VS));
-  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FS));
-  gl.linkProgram(prog);
-  gl.useProgram(prog);
-  ['uMVP','uNormM','uBlue','uWhite','uLight','uBg','uLightDir','uView'].forEach(n=>uni[n]=gl.getUniformLocation(prog,n));
-  gl.enable(gl.DEPTH_TEST);
+  try {
+    prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, VS));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FS));
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+    gl.useProgram(prog);
+    ['uMVP','uNormM','uBlue','uWhite','uLight','uBg','uLightDir','uView'].forEach(n=>uni[n]=gl.getUniformLocation(prog,n));
+    gl.enable(gl.DEPTH_TEST);
 
-  for (const shape of SHAPES) {
-    const m = buildMesh(shape, 0.28);
-    const pb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,pb); gl.bufferData(gl.ARRAY_BUFFER,m.pos,gl.STATIC_DRAW);
-    const nb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,nb); gl.bufferData(gl.ARRAY_BUFFER,m.nor,gl.STATIC_DRAW);
-    buffers.push({pb, nb, count:m.count});
+    for (const shape of SHAPES) {
+      const m = buildMesh(shape, 0.28);
+      const pb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,pb); gl.bufferData(gl.ARRAY_BUFFER,m.pos,gl.STATIC_DRAW);
+      const nb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,nb); gl.bufferData(gl.ARRAY_BUFFER,m.nor,gl.STATIC_DRAW);
+      buffers.push({pb, nb, count:m.count});
+    }
+    webglReady = true;
+  } catch (err) {
+    console.error(err);
+    document.body.insertAdjacentHTML('beforeend','<p role="status" style="position:absolute;top:50%;width:100%;text-align:center">No se pudo iniciar WebGL en este navegador.</p>');
   }
 }
 
@@ -175,13 +182,13 @@ if (reduce) {
   btn.setAttribute('aria-pressed', 'true');
   btn.disabled = true;
 }
-if (!gl) {
+if (!webglReady) {
   btn.textContent = 'WebGL no disponible';
   btn.disabled = true;
 }
 
 btn.addEventListener('click', ()=>{
-  if (reduce || !gl || !prog) return;
+  if (reduce || !webglReady) return;
   paused = !paused;
   btn.textContent = paused ? 'Reanudar animación' : 'Pausar animación';
   btn.setAttribute('aria-pressed', String(paused));
@@ -203,10 +210,10 @@ canvas.addEventListener('pointermove', e=>{
   // inclinación suave con el cursor (solo escritorio)
   tiltY = ((e.clientX/innerWidth)-0.5)*0.35;
   tiltX = ((e.clientY/innerHeight)-0.5)*0.25;
-  if (paused && gl && prog) frame(performance.now());
+  if (paused && webglReady) frame(performance.now());
 });
 canvas.addEventListener('pointerup', ()=>{ drag=null; });
-canvas.addEventListener('pointercancel', ()=>{ drag=null; if(paused && gl && prog) frame(performance.now()); });
+canvas.addEventListener('pointercancel', ()=>{ drag=null; if(paused && webglReady) frame(performance.now()); });
 canvas.addEventListener('pointerleave', ()=>{ tiltX=0; tiltY=0; if(paused && gl && prog) frame(performance.now()); });
 
 function resize(){
@@ -216,10 +223,10 @@ function resize(){
   if (gl) gl.viewport(0,0,canvas.width,canvas.height);
 }
 addEventListener('resize', resize); resize();
-if (paused && gl && prog) frame(performance.now());
+if (paused && webglReady) frame(performance.now());
 
 function frame(now){
-  if (gl && prog){
+  if (webglReady){
     const t = paused ? (pausedAt - t0 - offset) : (now - t0 - offset);
     const spin = reduce ? 0.35 : t*0.00045;
     const asp = canvas.width/canvas.height;
@@ -249,10 +256,10 @@ function frame(now){
       gl.drawArrays(gl.TRIANGLES,0,b.count);
     }
   }
-  if (!paused && gl && prog) rafId = requestAnimationFrame(frame);
+  if (!paused && webglReady) rafId = requestAnimationFrame(frame);
   else rafId = 0;
 }
-if (gl && prog && !paused) rafId = requestAnimationFrame(frame);
+if (webglReady && !paused) rafId = requestAnimationFrame(frame);
 </script>
 </body>
 </html>
