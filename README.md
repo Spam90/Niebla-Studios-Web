@@ -47,7 +47,7 @@ La URL pública está configurada en canonical, Open Graph, Schema.org y `site.d
 - URL pública: https://nieblastudio.devs.surf (el usuario confirmó que la página carga).
 - `site.domain`, canonical, Open Graph y Schema.org utilizan esta URL.
 - El estado interno Valid Configuration/Verified de Vercel y el despliegue de este commit deben comprobarse por separado.
-- El QA completo del sitio sigue pendiente.
+- Se realizó una auditoría estática del código el 18 de noviembre de 2026. Se corrigieron la sincronización de navegación, la restauración del layout al cruzar el breakpoint escritorio/móvil, la activación de pestañas de demos, etiquetas ARIA, escape de contenido dinámico y detalles de fecha/exportación. La validación estática de JavaScript, referencias internas, IDs, recursos locales y estructura básica de CSS pasó. La prueba visual/interactiva en navegador y el QA manual en distintos tamaños siguen pendientes; el repositorio no contiene una suite automatizada de pruebas.
 
 
 ## Laboratorio de demos
@@ -59,3 +59,29 @@ Ruta pública: `/demos/`.
 - **Sistema de reservas:** selección de servicio, fecha y horario, confirmación local y prevención de duplicados de horario durante la sesión.
 
 Aviso obligatorio en la interfaz: los datos son ficticios, las acciones solo ocurren en el navegador, no existe backend ni procesamiento real y el estado se reinicia al recargar. No presentar estas demos como productos terminados, clientes o resultados comerciales.
+
+
+## Auditoría técnica — 2026-11-18
+
+### Correcciones aplicadas
+- La navegación vertical determina el enlace activo usando el punto de lectura y limpia el estado al estar en el hero o el footer.
+- En escritorio horizontal, la navegación por paneles es la única fuente del estado activo.
+- Al reducir la ventana por debajo del breakpoint de escritorio, se restauran las secciones al flujo vertical y se conserva la posición de lectura.
+- Las pestañas de demos activan correctamente el panel correspondiente; se añadieron controles de teclado y relaciones ARIA.
+- Se añadieron nombres accesibles a controles y regiones de las demos.
+- Se escapan los valores dinámicos antes de insertarlos en HTML.
+- La fecha de los registros de ejemplo usa la zona horaria local y el CSV libera su URL temporal después de iniciar la descarga.
+
+### Verificaciones estáticas
+- Sintaxis JavaScript: main.js, symbol-3d.js, config.js y el script inline de demos.
+- IDs duplicados y enlaces internos sin destino: ninguno detectado.
+- Referencias ARIA (aria-controls / aria-labelledby): destinos presentes.
+- Recursos locales del sitio: todos encontrados en el repositorio.
+- JSON-LD: JSON válido.
+- Balance de llaves y comentarios en CSS: correcto.
+- Deploy de producción Vercel: READY, alias nieblastudio.devs.surf.
+
+### Pendiente
+- QA visual e interactivo real en navegador (desktop, tablet y móvil).
+- Pruebas E2E automatizadas para navegación, pestañas, carrito, gestión y reservas.
+- La hoja styles.css conserva reglas heredadas de la antigua sección #proceso; no afectan a la página actual, pero conviene retirarlas en una refactorización visual controlada.
