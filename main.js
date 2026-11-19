@@ -124,7 +124,7 @@ function initProgress(){
   const bar = $("progress");
   const f = () => {
     const max = document.documentElement.scrollHeight - innerHeight;
-    bar.style.transform = "scaleX(" + (max > 0 ? scrollY / max : 0) + ")";
+    bar.style.transform = "scaleX(" + (max > 0 ? clamp(scrollY / max, 0, 1) : 0) + ")";
   };
   addEventListener("scroll", f, { passive: true }); f();
 }
@@ -357,11 +357,7 @@ function initMotion(){
       const rect=section.getBoundingClientRect();
       return rect.top<=anchor && rect.bottom>anchor;
     });
-    const candidates=containing.length ? containing : observedSections.filter(section=>{
-      const rect=section.getBoundingClientRect();
-      return rect.bottom>0 && rect.top<window.innerHeight;
-    });
-    const current=candidates.sort((a,b)=>
+    const current=containing.sort((a,b)=>
       Math.abs(a.getBoundingClientRect().top-anchor)-Math.abs(b.getBoundingClientRect().top-anchor)
     )[0] || null;
 
