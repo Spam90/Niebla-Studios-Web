@@ -627,135 +627,135 @@ function initMobileSectionSwipe(){
   const footer = document.querySelector(".site-footer");
   if(!main || !footer) return;
 
-  const panels = [...main.querySelectorAll(":scope > section"), footer];
-  if(panels.length < 2) return;
+  const sections = [...main.querySelectorAll(":scope > section")];
+  if(!sections.length) return;
+  const panels = [...sections, footer];
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const viewport = document.createElement("div");
+  viewport.className = "mobile-horizontal-viewport";
+  viewport.setAttribute("aria-label","Contenido de Niebla Studios");
+  const track = document.createElement("div");
+  track.className = "mobile-horizontal-track";
+  viewport.append(track);
+  panels.forEach(panel => {
+    panel.classList.add("mobile-horizontal-panel");
+    track.append(panel);
+  });
+  main.append(viewport);
+
+  let active = 0;
   const headerHeight = () => header ? header.getBoundingClientRect().height : 0;
-  const hint = document.createElement("div");
-  hint.className = "mobile-swipe-hint";
-  hint.setAttribute("aria-hidden","true");
-  document.body.append(hint);
 
-  let touchStart = null;
-  let hintTimer = 0;
-  let hintFrame = 0;
-  const shownHints = new Set();
+  document.documentElement.classList.add("mobile-horizontal-ready");
+  document.body.classList.add("mobile-horizontal-active");
 
-  function panelFromTarget(target){
-    const section = target.closest("main > section");
-    if(section) return section;
-    return target.closest(".site-footer");
-  }
-
-  function updateHint(){
-    hintFrame = 0;
-    if(!mobile.matches || isMobileMenuOpen()){
-      hint.classList.remove("is-visible");
-      return;
-    }
-
-    const anchor = window.innerHeight * .5;
-    const index = panels.findIndex(panel => {
-      const rect = panel.getBoundingClientRect();
-      return rect.top <= anchor && rect.bottom > anchor;
+  function updateNavigation(){
+    const currentId = panels[active].id;
+    if(header) header.classList.toggle("scrolled", active > 0 || panels[active].scrollTop > 8);
+    document.querySelectorAll('.site-nav a[href^="#"]').forEach(link => {
+      if(link.getAttribute("href") === "#" + currentId) link.setAttribute("aria-current","location");
+      else link.removeAttribute("aria-current");
     });
-    if(index < 0){
-      hint.classList.remove("is-visible");
-      return;
-    }
-
-    const panel = panels[index];
-    const rect = panel.getBoundingClientRect();
-    let message = "";
-    let key = "";
-
-    if(index < panels.length - 1 && rect.bottom <= window.innerHeight + 28){
-      message = "Desliza hacia la izquierda para continuar";
-      key = panel.id + ":next";
-    }else if(index > 0 && rect.top >= -28){
-      message = "Desliza hacia la derecha para volver";
-      key = panel.id + ":previous";
-    }
-
-    if(!message || shownHints.has(key)){
-      hint.classList.remove("is-visible");
-      return;
-    }
-
-    shownHints.add(key);
-    hint.textContent = message;
-    hint.classList.add("is-visible");
-    window.clearTimeout(hintTimer);
-    hintTimer = window.setTimeout(() => hint.classList.remove("is-visible"), 2600);
+    const progress = $("progress");
+    if(progress) progress.style.transform = "scaleX(" + (panels.length > 1 ? active/(panels.length-1) : 0) + ")";
   }
 
-  function scheduleHint(){
-    if(hintFrame) return;
-    hintFrame = requestAnimationFrame(updateHint);
+  function scrollToTarget(target, panel){
+    if(!target || !panel || target === panel) return;
+    const top = target.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop - headerHeight() - 18;
+    panel.scrollTo({top:Math.max(0,top),behavior:reduceMotion ? "auto" : "smooth"});
   }
 
-  window.addEventListener("scroll",scheduleHint,{passive:true});
-  window.addEventListener("resize",scheduleHint,{passive:true});
-  scheduleHint();
+  function goTo(index, hashTarget=null){
+    const next = clamp(index,0,panels.length-1);
+    active = next;
+    track.style.transform = "translate3d(" + (-active * window.innerWidth) + "px,0,0)";
+    updateNavigation();
+    const target = hashTarget ? document.getElementById(hashTarget) : null;
+    if(target) requestAnimationFrame(()=>scrollToTarget(target,panels[active]));
+    if(panels[active].id){
+      history.replaceState(null,"","#"+(hashTarget || panels[active].id));
+    }
+  }
 
-  document.addEventListener("touchstart",event => {
-    if(!mobile.matches || event.touches.length !== 1) {
+  panels.forEach((panel,index) => {
+    panel.addEventListener("scroll",()=>{
+      if(index === active && header) header.classList.toggle("scrolled",active > 0 || panel.scrollTop > 8);
+    },{passive:true});
+  });
+
+  const initialId = decodeURIComponent(location.hash.slice(1));
+  const initialTarget = initialId && document.getElementById(initialId);
+  const initialPanel = initialTarget && panels.find(panel => panel === initialTarget || panel.contains(initialTarget));
+  if(initialPanel) active = panels.indexOf(initialPanel);
+  track.style.transform = "translate3d(" + (-active * window.innerWidth) + "px,0,0)";
+  updateNavigation();
+  if(initialTarget && initialTarget !== initialPanel) requestAnimationFrame(()=>scrollToTarget(initialTarget,initialPanel));
+
+  /* Los enlaces del menú y los enlaces internos cambian de panel sin volver
+     al flujo vertical del documento. */
+  document.addEventListener("click",event=>{
+    const link = event.target.closest('a[href^="#"]');
+    if(!link) return;
+    const id = decodeURIComponent(link.getAttribute("href").slice(1));
+    if(!id) return;
+    const target = document.getElementById(id);
+    if(!target) return;
+    const panel = panels.find(item => item === target || item.contains(target));
+    const index = panels.indexOf(panel);
+    if(index < 0) return;
+    event.preventDefault();
+    goTo(index,id);
+    if(isMobileMenuOpen()) setMenu(false);
+  });
+
+  /* El gesto horizontal cambia de panel; el gesto vertical queda en manos
+     del scroll nativo del panel activo. */
+  let touchStart = null;
+  document.addEventListener("touchstart",event=>{
+    if(!mobile.matches || event.touches.length !== 1 || isMobileMenuOpen()){
       touchStart = null;
       return;
     }
-
     const touch = event.touches[0];
     const target = event.target;
-    if(touch.clientX < 24 || touch.clientX > window.innerWidth - 24 ||
-       target.closest("a,button,input,textarea,select,[contenteditable='true'],[data-no-section-swipe],.project-carousel,.demo-carousel,[data-horizontal-scroll]")){
+    if(target.closest("a,button,input,textarea,select,[contenteditable='true'],[data-no-section-swipe],.project-carousel,.demo-carousel,[data-horizontal-scroll]")){
       touchStart = null;
       return;
     }
-
-    const panel = panelFromTarget(target);
-    if(!panel) {
+    const panel = target.closest(".mobile-horizontal-panel");
+    if(!panel || panels[active] !== panel){
       touchStart = null;
       return;
     }
-
-    touchStart = {x:touch.clientX,y:touch.clientY,panel};
+    touchStart = {x:touch.clientX,y:touch.clientY};
   },{passive:true});
 
-  document.addEventListener("touchend",event => {
+  document.addEventListener("touchend",event=>{
     if(!touchStart || !mobile.matches || !event.changedTouches.length) return;
-
     const start = touchStart;
     touchStart = null;
     const touch = event.changedTouches[0];
     const deltaX = touch.clientX - start.x;
     const deltaY = touch.clientY - start.y;
-
-    if(Math.abs(deltaX) < 72 || Math.abs(deltaX) < Math.abs(deltaY) * 1.35) return;
-
-    const index = panels.indexOf(start.panel);
-    if(index < 0) return;
-
-    const rect = start.panel.getBoundingClientRect();
-    let nextIndex = -1;
-
-    // Avanzar solo cuando el panel actual ya llegó a su límite inferior.
-    if(deltaX < 0 && index < panels.length - 1 && rect.bottom <= window.innerHeight + 32){
-      nextIndex = index + 1;
-    }
-    // Retroceder solo cuando el panel actual está en su límite superior.
-    if(deltaX > 0 && index > 0 && rect.top >= -32){
-      nextIndex = index - 1;
-    }
-    if(nextIndex < 0) return;
-
-    const destination = panels[nextIndex];
-    const top = destination.getBoundingClientRect().top + window.scrollY - headerHeight();
-    window.scrollTo({top:Math.max(0,top),behavior:reduceMotion ? "auto" : "smooth"});
-    hint.classList.remove("is-visible");
+    if(Math.abs(deltaX) < 56 || Math.abs(deltaX) < Math.abs(deltaY) * 1.25) return;
+    if(deltaX < 0 && active < panels.length-1) goTo(active+1);
+    else if(deltaX > 0 && active > 0) goTo(active-1);
   },{passive:true});
 
-  document.addEventListener("touchcancel",() => { touchStart = null; },{passive:true});
+  document.addEventListener("touchcancel",()=>{touchStart=null;},{passive:true});
+  window.addEventListener("resize",()=>{
+    track.style.transform = "translate3d(" + (-active * window.innerWidth) + "px,0,0)";
+  },{passive:true});
+
+  document.addEventListener("keydown",event=>{
+    if(!mobile.matches || event.altKey || event.ctrlKey || event.metaKey || event.repeat) return;
+    const tag = event.target && event.target.tagName;
+    if(["INPUT","TEXTAREA","SELECT"].includes(tag) || event.target.isContentEditable) return;
+    if(event.key === "ArrowRight" && active < panels.length-1){event.preventDefault();goTo(active+1);}
+    if(event.key === "ArrowLeft" && active > 0){event.preventDefault();goTo(active-1);}
+  });
 }
 
 initMotion();
