@@ -1445,3 +1445,37 @@ html{overflow-x:clip}body{min-width:320px;overflow-x:clip}.container{width:min(c
   body.horizontal-active .horizontal-panel .footer-grid p{font-size:12px;line-height:1.6}
   body.horizontal-active .horizontal-panel .project-capabilities li{font-size:12px}
 }
+
+
+/* ACCESSIBILITY MENU */
+.accessibility-widget{position:fixed;z-index:1200;right:22px;bottom:max(22px,env(safe-area-inset-bottom));font-family:var(--body,Arial,sans-serif)}
+.accessibility-trigger{display:flex;align-items:center;gap:9px;min-height:48px;padding:0 16px;border:1px solid rgba(143,181,255,.45);border-radius:999px;background:#101a2b;color:#fff;box-shadow:0 10px 32px rgba(0,0,0,.38);font:600 12px/1 var(--body,Arial,sans-serif);letter-spacing:.04em;cursor:pointer}
+.accessibility-trigger svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.accessibility-trigger:focus-visible,.accessibility-widget button:focus-visible{outline:3px solid #93c5fd;outline-offset:3px}
+.accessibility-panel{position:absolute;right:0;bottom:calc(100% + 12px);width:min(320px,calc(100vw - 32px));padding:18px;border:1px solid rgba(143,181,255,.32);border-radius:14px;background:#101722;color:#f4f7fc;box-shadow:0 18px 55px rgba(0,0,0,.48)}
+.accessibility-panel[hidden]{display:none!important}
+.accessibility-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.accessibility-panel-head h2{margin:0;color:#fff;font:600 17px/1.2 var(--title,Arial,sans-serif)}
+.accessibility-close{width:32px;height:32px;border:1px solid rgba(255,255,255,.2);border-radius:50%;background:transparent;color:#fff;font-size:22px;cursor:pointer}
+.accessibility-control{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.14);color:#dce5f3;font-size:12px}
+.accessibility-button-row{display:flex;align-items:center;gap:9px}
+.accessibility-button-row button,.accessibility-options button,.accessibility-reset{min-height:38px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:#182438;color:#fff;font:600 12px/1 var(--body,Arial,sans-serif);cursor:pointer}
+.accessibility-button-row button{min-width:40px;font-size:15px}
+.accessibility-button-row output{min-width:42px;text-align:center;color:#b9d1ff;font-size:12px;font-variant-numeric:tabular-nums}
+.accessibility-options{display:grid;gap:8px;padding:15px 0}
+.accessibility-options button{padding:0 12px;text-align:left}
+.accessibility-options button[aria-pressed="true"]{border-color:#8fb5ff;background:#233b60;color:#fff}
+.accessibility-reset{width:100%;border-color:rgba(143,181,255,.42);background:transparent;color:#c8d9f7}
+.accessibility-status{min-height:1.4em;margin:9px 0 0;color:#a9c7ff;font-size:11px;line-height:1.4}
+html.a11y-text-110{font-size:110%}
+html.a11y-text-120{font-size:120%}
+html.a11y-high-contrast{filter:none!important}
+html.a11y-high-contrast body{background:#000!important;color:#fff!important}
+html.a11y-high-contrast body :not(svg):not(path){border-color:#fff!important}
+html.a11y-high-contrast body p,html.a11y-high-contrast body li,html.a11y-high-contrast body small,html.a11y-high-contrast body .muted,html.a11y-high-contrast body .section-note{color:#fff!important}
+html.a11y-high-contrast body a,html.a11y-high-contrast body button{outline-color:#ffeb3b}
+html.a11y-high-contrast body .accessibility-panel,html.a11y-high-contrast body .accessibility-trigger{background:#000!important;color:#fff!important}
+html.a11y-underline-links body a{text-decoration:underline!important;text-decoration-thickness:2px!important;text-underline-offset:3px!important}
+html.a11y-reduced-motion *,html.a11y-reduced-motion *::before,html.a11y-reduced-motion *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+@media(max-width:600px){.accessibility-widget{right:14px;bottom:max(14px,env(safe-area-inset-bottom))}.accessibility-trigger{min-height:46px;padding:0 13px}.accessibility-panel{width:min(310px,calc(100vw - 28px))}}
+@media(prefers-reduced-motion:reduce){.accessibility-trigger,.accessibility-panel,.accessibility-widget *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
