@@ -270,7 +270,19 @@ test("homepage and demos reflow at a 320px viewport without document-level horiz
     const dimensions = await page.evaluate(() => ({
       viewport: document.documentElement.clientWidth,
       document: document.documentElement.scrollWidth,
-      body: document.body.scrollWidth
+      body: document.body.scrollWidth,
+      overflowing: [...document.querySelectorAll("body *")].filter(el => {
+        const rect = el.getBoundingClientRect();
+        const style = getComputedStyle(el);
+        return rect.width > 0 && (rect.right > document.documentElement.clientWidth + 0.5 || rect.left < -0.5) && style.position !== "fixed";
+      }).slice(0, 12).map(el => ({
+        tag: el.tagName.toLowerCase(),
+        id: el.id || null,
+        className: typeof el.className === "string" ? el.className.slice(0, 100) : null,
+        left: Math.round(el.getBoundingClientRect().left * 10) / 10,
+        right: Math.round(el.getBoundingClientRect().right * 10) / 10,
+        width: Math.round(el.getBoundingClientRect().width * 10) / 10
+      }))
     }));
     expect(dimensions.document, path + " document overflow: " + JSON.stringify(dimensions)).toBeLessThanOrEqual(320);
     expect(dimensions.body, path + " body overflow: " + JSON.stringify(dimensions)).toBeLessThanOrEqual(320);
