@@ -276,3 +276,32 @@ test("homepage and demos reflow at a 320px viewport without document-level horiz
     expect(dimensions.body, path + " body overflow: " + JSON.stringify(dimensions)).toBeLessThanOrEqual(320);
   }
 });
+
+
+test("skip link is revealed on focus and moves keyboard users to main content", async ({ page }) => {
+  await page.goto("/");
+  const skip = page.getByRole("link", { name: "Saltar al contenido" });
+  await page.keyboard.press("Tab");
+  await expect(skip).toBeFocused();
+  await expect(skip).toBeInViewport();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/#main$/);
+  await expect(page.locator("main#main")).toBeVisible();
+});
+
+test("expanded mobile navigation and accessibility panel have no automated WCAG 2.2 AA violations", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await page.locator("#menuToggle").click();
+  let results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    .analyze();
+  expect(results.violations.map(item => ({id:item.id,impact:item.impact,nodes:item.nodes.map(node=>node.target)}))).toEqual([]);
+  await page.locator("#menuToggle").click();
+  await page.getByRole("button", { name: "Abrir opciones de accesibilidad" }).click();
+  results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    .analyze();
+  expect(results.violations.map(item => ({id:item.id,impact:item.impact,nodes:item.nodes.map(node=>node.target)}))).toEqual([]);
+});
