@@ -88,7 +88,7 @@ test("accessibility preferences scale text, persist settings and reset", async (
   const trigger = page.getByRole("button", { name: "Abrir opciones de accesibilidad" });
   await trigger.click();
   await expect(page.getByRole("heading", { name: "Preferencias de accesibilidad" })).toBeVisible();
-  const increase = page.getByRole("button", { name: "Aumentar escala del texto" });
+  const increase = page.getByRole("button", { name: /Aumentar escala del texto/ });
   for (let i = 0; i < 4; i++) await increase.click();
   await expect(page.locator("#textSizeValue")).toHaveText("200%");
   await expect(page.locator("html")).toHaveCSS("font-size", "32px");
@@ -232,7 +232,7 @@ test("demo tabs support arrow, Home and End keyboard navigation and expose each 
   await page.keyboard.press("ArrowRight");
   await expect(management).toBeFocused();
   await expect(management).toHaveAttribute("aria-selected", "true");
-  await expect(page.getByRole("tabpanel", { name: /Panel de gestión/ })).toBeVisible();
+  await expect(page.getByRole("tabpanel", { name: /Gestión/ })).toBeVisible();
   await page.keyboard.press("ArrowRight");
   await expect(bookings).toBeFocused();
   await expect(bookings).toHaveAttribute("aria-selected", "true");
