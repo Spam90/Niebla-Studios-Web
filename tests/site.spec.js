@@ -327,3 +327,19 @@ test("mobile reflow remains usable at 200% text scale with accessibility panel o
   expect(layout.panelLeft, JSON.stringify(layout)).toBeGreaterThanOrEqual(0);
   expect(layout.panelRight, JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport);
 });
+
+test("contact form sends the entered information and confirms success", async ({ page }) => {
+  let requestBody;
+  await page.route("**/api/contact", async route => {
+    requestBody = route.request().postDataJSON();
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) });
+  });
+  await page.goto("/#contacto");
+  await page.locator("#contactName").fill("Cliente de prueba");
+  await page.locator("#contactEmail").fill("cliente@example.com");
+  await page.locator("#contactService").selectOption("Catálogo digital");
+  await page.locator("#contactMessage").fill("Necesito un catálogo para organizar los productos de mi negocio.");
+  await page.locator("#contactSubmit").click();
+  await expect(page.locator("#contactFormStatus")).toContainText("Consulta enviada");
+  expect(requestBody).toMatchObject({ name: "Cliente de prueba", email: "cliente@example.com", service: "Catálogo digital" });
+});
