@@ -305,3 +305,25 @@ test("expanded mobile navigation and accessibility panel have no automated WCAG 
     .analyze();
   expect(results.violations.map(item => ({id:item.id,impact:item.impact,nodes:item.nodes.map(node=>node.target)}))).toEqual([]);
 });
+
+test("mobile reflow remains usable at 200% text scale with accessibility panel open", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 740 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Abrir opciones de accesibilidad" }).click();
+  const increase = page.getByRole("button", { name: /Aumentar escala del texto/ });
+  for (let i = 0; i < 4; i++) await increase.click();
+  await expect(page.locator("#textSizeValue")).toHaveText("200%");
+  await expect(page.locator("#accessibilityPanel")).toBeVisible();
+  const layout = await page.evaluate(() => {
+    const panel = document.querySelector("#accessibilityPanel").getBoundingClientRect();
+    return {
+      viewport: document.documentElement.clientWidth,
+      document: document.documentElement.scrollWidth,
+      panelLeft: panel.left,
+      panelRight: panel.right
+    };
+  });
+  expect(layout.document, JSON.stringify(layout)).toBeLessThanOrEqual(320);
+  expect(layout.panelLeft, JSON.stringify(layout)).toBeGreaterThanOrEqual(0);
+  expect(layout.panelRight, JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport);
+});
