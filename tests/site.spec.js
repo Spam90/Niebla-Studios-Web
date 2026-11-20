@@ -221,3 +221,58 @@ test("mobile homepage has no automated WCAG 2.2 AA violations", async ({ page })
     })), null, 2)
   ).toEqual([]);
 });
+
+
+test("demo tabs support arrow, Home and End keyboard navigation and expose each panel accessibly", async ({ page }) => {
+  await page.goto("/demos/");
+  const catalog = page.getByRole("tab", { name: /Catálogo digital/ });
+  const management = page.getByRole("tab", { name: /Gestión/ });
+  const bookings = page.getByRole("tab", { name: /Reservas/ });
+  await catalog.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(management).toBeFocused();
+  await expect(management).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("tabpanel", { name: /Panel de gestión/ })).toBeVisible();
+  await page.keyboard.press("ArrowRight");
+  await expect(bookings).toBeFocused();
+  await expect(bookings).toHaveAttribute("aria-selected", "true");
+  await page.keyboard.press("Home");
+  await expect(catalog).toBeFocused();
+  await expect(catalog).toHaveAttribute("aria-selected", "true");
+  await page.keyboard.press("End");
+  await expect(bookings).toBeFocused();
+  await expect(bookings).toHaveAttribute("aria-selected", "true");
+});
+
+test("all demo tabs have no automated WCAG 2.2 AA violations in their active state", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/demos/");
+  for (const name of ["catalogo", "gestion", "reservas"]) {
+    await page.locator('[data-tab="' + name + '"]').click();
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+      .analyze();
+    expect(
+      results.violations,
+      name + ": " + JSON.stringify(results.violations.map(item => ({
+        id: item.id,
+        impact: item.impact,
+        nodes: item.nodes.map(node => node.target)
+      })), null, 2)
+    ).toEqual([]);
+  }
+});
+
+test("homepage and demos reflow at a 320px viewport without document-level horizontal overflow", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 740 });
+  for (const path of ["/", "/demos/"]) {
+    await page.goto(path);
+    const dimensions = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      document: document.documentElement.scrollWidth,
+      body: document.body.scrollWidth
+    }));
+    expect(dimensions.document, path + " document overflow: " + JSON.stringify(dimensions)).toBeLessThanOrEqual(320);
+    expect(dimensions.body, path + " body overflow: " + JSON.stringify(dimensions)).toBeLessThanOrEqual(320);
+  }
+});
