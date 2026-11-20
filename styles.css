@@ -1542,19 +1542,19 @@ html.a11y-reduced-motion .stage-fallback{display:block!important}
 .contact-card .field select:focus{outline:2px solid var(--blue-soft);outline-offset:3px}
 .contact-card .field select option{background:#101722;color:var(--white)}
 .contact-card button:disabled{opacity:.65;cursor:wait}
-.contact-privacy,.contact-email-fallback{color:var(--muted);font-size:12px;line-height:1.65}
+.contact-privacy,.contact-email-fallback{color:var(--muted);font-size:max(.75rem,1em);line-height:1.65}
 .contact-email-fallback a{color:var(--blue-soft)}
 .contact-honeypot{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 @media(max-width:860px){
   .site-nav ul a,.site-footer li,.footer-title,.field label,.section-note,.svc-desc,.step p,
   .method-step p,.method-footnote,.project p,.project .badge,.text-link,.group-title,
-  .hero-index,.hero-bottom,.eyebrow,.plans-foot,.plan-status,.contact-privacy,.contact-email-fallback{font-size:12px}
+  .hero-index,.hero-bottom,.eyebrow,.plans-foot,.plan-status,.contact-privacy,.contact-email-fallback{font-size:max(.75rem,1em)}
   .site-nav ul a{font-size:clamp(1.2rem,5vw,2rem)}
-  .hero-actions .btn{font-size:12px}
+  .hero-actions .btn{font-size:max(.75rem,1em)}
   .step p,.method-step p,.project p,.svc-desc{line-height:1.7}
 }
 @media(max-width:600px){
   .hero-index{font-size:12px;line-height:1.55}
-  .contact-card .field label{font-size:12px}
+  .contact-card .field label{font-size:max(.75rem,1em)}
   .contact-card .btn{min-height:48px}
 }
