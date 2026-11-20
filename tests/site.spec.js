@@ -1,4 +1,5 @@
 const { test, expect } = require("@playwright/test");
+const AxeBuilder = require("@axe-core/playwright").default;
 
 test("home exposes working contact fallbacks and social metadata", async ({ page }) => {
   await page.goto("/");
@@ -82,35 +83,46 @@ test("all internal homepage links resolve to an element", async ({ page }) => {
   expect(broken).toEqual([]);
 });
 
-test("accessibility menu adjusts text, toggles visual aids and persists settings", async ({ page }) => {
+test("accessibility preferences scale text, persist settings and reset", async ({ page }) => {
   await page.goto("/");
   const trigger = page.getByRole("button", { name: "Abrir opciones de accesibilidad" });
   await trigger.click();
-  await expect(page.getByRole("heading", { name: "Accesibilidad" })).toBeVisible();
-  await page.getByRole("button", { name: "Aumentar tamaño del texto" }).click();
-  await page.getByRole("button", { name: "Aumentar tamaño del texto" }).click();
-  await expect(page.locator("html")).toHaveClass(/a11y-text-120/);
-  await expect(page.locator("#textSizeValue")).toHaveText("120%");
+  await expect(page.getByRole("heading", { name: "Preferencias de accesibilidad" })).toBeVisible();
+  const increase = page.getByRole("button", { name: "Aumentar escala del texto" });
+  for (let i = 0; i < 4; i++) await increase.click();
+  await expect(page.locator("#textSizeValue")).toHaveText("200%");
+  await expect(page.locator("html")).toHaveCSS("font-size", "32px");
+  await expect(increase).toBeDisabled();
   const contrast = page.getByRole("button", { name: "Alto contraste" });
   await contrast.click();
   await expect(contrast).toHaveAttribute("aria-pressed", "true");
   const links = page.getByRole("button", { name: "Subrayar enlaces" });
   await links.click();
   await expect(links).toHaveAttribute("aria-pressed", "true");
-  const motion = page.getByRole("button", { name: "Reducir animaciones" });
+  const motion = page.getByRole("button", { name: "Reducir movimiento" });
   await motion.click();
   await expect(motion).toHaveAttribute("aria-pressed", "true");
   await page.reload();
-  await expect(page.locator("html")).toHaveClass(/a11y-text-120/);
+  await expect(page.locator("#textSizeValue")).toHaveText("200%");
   await expect(page.locator("html")).toHaveClass(/a11y-high-contrast/);
   await expect(page.locator("html")).toHaveClass(/a11y-underline-links/);
   await expect(page.locator("html")).toHaveClass(/a11y-reduced-motion/);
   await page.getByRole("button", { name: "Abrir opciones de accesibilidad" }).click();
-  await page.getByRole("button", { name: "Restablecer ajustes" }).click();
-  await expect(page.locator("html")).not.toHaveClass(/a11y-text-120/);
+  await page.getByRole("button", { name: "Restablecer preferencias" }).click();
+  await expect(page.locator("#textSizeValue")).toHaveText("100%");
   await expect(page.locator("html")).not.toHaveClass(/a11y-high-contrast/);
+  await expect(page.locator("html")).not.toHaveClass(/a11y-reduced-motion/);
 });
 
+test("accessibility menu closes on outside interaction without stealing focus", async ({ page }) => {
+  await page.goto("/");
+  const trigger = page.getByRole("button", { name: "Abrir opciones de accesibilidad" });
+  await trigger.click();
+  await expect(page.locator("#accessibilityClose")).toBeFocused();
+  await page.locator("#emailLink").click({ trial: true });
+  await page.locator("#emailLink").click();
+  await expect(page.locator("#accessibilityPanel")).toBeHidden();
+});
 test("accessibility menu supports Escape and restores focus to its trigger", async ({ page }) => {
   await page.goto("/");
   const trigger = page.getByRole("button", { name: "Abrir opciones de accesibilidad" });
@@ -119,4 +131,23 @@ test("accessibility menu supports Escape and restores focus to its trigger", asy
   await page.keyboard.press("Escape");
   await expect(page.locator("#accessibilityPanel")).toBeHidden();
   await expect(trigger).toBeFocused();
+});
+
+
+test("homepage has no serious or critical automated WCAG 2.2 AA violations", async ({ page }) => {
+  await page.goto("/");
+  const results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    .analyze();
+  const blocking = results.violations.filter(item => ["serious", "critical"].includes(item.impact));
+  expect(blocking, JSON.stringify(blocking.map(item => ({ id: item.id, impact: item.impact, nodes: item.nodes.map(node => node.target) })), null, 2)).toEqual([]);
+});
+
+test("demo page has no serious or critical automated WCAG 2.2 AA violations", async ({ page }) => {
+  await page.goto("/demos/");
+  const results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    .analyze();
+  const blocking = results.violations.filter(item => ["serious", "critical"].includes(item.impact));
+  expect(blocking, JSON.stringify(blocking.map(item => ({ id: item.id, impact: item.impact, nodes: item.nodes.map(node => node.target) })), null, 2)).toEqual([]);
 });
