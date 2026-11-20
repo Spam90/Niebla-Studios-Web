@@ -41,10 +41,22 @@ document.addEventListener("keydown", e => {
     return;
   }
   if (e.key === "Tab"){
-    const items = [menuToggle, ...siteNav.querySelectorAll(FOCUSABLE)].filter(el => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden" && !el.closest("[inert]"));
+    const items = [...siteNav.querySelectorAll(FOCUSABLE)].filter(el =>
+      el.getClientRects().length > 0 &&
+      getComputedStyle(el).visibility !== "hidden" &&
+      !el.closest("[inert]")
+    );
     const first = items[0], last = items[items.length - 1];
-    if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    if (!items.length) { e.preventDefault(); menuToggle.focus(); return; }
+    if (e.shiftKey && document.activeElement === menuToggle) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === menuToggle) {
+      e.preventDefault(); first.focus();
+    } else if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); menuToggle.focus();
+    }
   }
 });
 
