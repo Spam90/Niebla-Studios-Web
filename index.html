@@ -405,33 +405,34 @@
   <div class="container footer-bottom">
     <p class="wordmark" aria-hidden="true">Niebla Studios</p>
     <p class="muted">© <span id="year">2026</span> Niebla Studios. Todos los derechos reservados.</p>
+    <p class="muted"><a href="mailto:nieblastudiosrd@gmail.com?subject=Reporte%20de%20accesibilidad">Reportar una barrera de accesibilidad</a></p>
   </div>
 </footer>
 
-<aside class="accessibility-widget" id="accessibilityWidget" aria-label="Opciones de accesibilidad">
+<aside class="accessibility-widget" id="accessibilityWidget" aria-label="Preferencias de visualización y movimiento">
   <button class="accessibility-trigger" id="accessibilityToggle" type="button" aria-expanded="false" aria-controls="accessibilityPanel" aria-label="Abrir opciones de accesibilidad">
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4.5" r="2"></circle><path d="M4 8.5h16M12 8.5v11m0-7-5 6m5-6 5 6"></path></svg>
     <span>Accesibilidad</span>
   </button>
-  <section class="accessibility-panel" id="accessibilityPanel" aria-labelledby="accessibilityTitle" hidden>
+  <section class="accessibility-panel" id="accessibilityPanel" aria-labelledby="accessibilityTitle" role="region" hidden>
     <div class="accessibility-panel-head">
-      <h2 id="accessibilityTitle">Accesibilidad</h2>
+      <h2 id="accessibilityTitle">Preferencias de accesibilidad</h2>
       <button class="accessibility-close" id="accessibilityClose" type="button" aria-label="Cerrar opciones de accesibilidad">×</button>
     </div>
     <div class="accessibility-control">
-      <span id="textSizeLabel">Tamaño del texto</span>
+      <span id="textSizeLabel">Escala del texto</span>
       <div class="accessibility-button-row">
-        <button type="button" data-a11y-action="text-smaller" aria-label="Reducir tamaño del texto">A−</button>
+        <button type="button" data-a11y-action="text-smaller" aria-label="Reducir escala del texto">A−</button>
         <output id="textSizeValue" aria-live="polite">100%</output>
-        <button type="button" data-a11y-action="text-larger" aria-label="Aumentar tamaño del texto">A+</button>
+        <button type="button" data-a11y-action="text-larger" aria-label="Aumentar escala del texto">A+</button>
       </div>
     </div>
     <div class="accessibility-options">
       <button type="button" data-a11y-action="contrast" aria-pressed="false">Alto contraste</button>
       <button type="button" data-a11y-action="links" aria-pressed="false">Subrayar enlaces</button>
-      <button type="button" data-a11y-action="motion" aria-pressed="false">Reducir animaciones</button>
+      <button type="button" data-a11y-action="motion" aria-pressed="false">Reducir movimiento</button>
     </div>
-    <button class="accessibility-reset" type="button" data-a11y-action="reset">Restablecer ajustes</button>
+    <button class="accessibility-reset" type="button" data-a11y-action="reset">Restablecer preferencias</button>
     <p class="accessibility-status" id="accessibilityStatus" role="status" aria-live="polite"></p>
   </section>
 </aside>
