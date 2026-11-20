@@ -408,6 +408,34 @@
   </div>
 </footer>
 
+<aside class="accessibility-widget" id="accessibilityWidget" aria-label="Opciones de accesibilidad">
+  <button class="accessibility-trigger" id="accessibilityToggle" type="button" aria-expanded="false" aria-controls="accessibilityPanel" aria-label="Abrir opciones de accesibilidad">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4.5" r="2"></circle><path d="M4 8.5h16M12 8.5v11m0-7-5 6m5-6 5 6"></path></svg>
+    <span>Accesibilidad</span>
+  </button>
+  <section class="accessibility-panel" id="accessibilityPanel" aria-labelledby="accessibilityTitle" hidden>
+    <div class="accessibility-panel-head">
+      <h2 id="accessibilityTitle">Accesibilidad</h2>
+      <button class="accessibility-close" id="accessibilityClose" type="button" aria-label="Cerrar opciones de accesibilidad">×</button>
+    </div>
+    <div class="accessibility-control">
+      <span id="textSizeLabel">Tamaño del texto</span>
+      <div class="accessibility-button-row">
+        <button type="button" data-a11y-action="text-smaller" aria-label="Reducir tamaño del texto">A−</button>
+        <output id="textSizeValue" aria-live="polite">100%</output>
+        <button type="button" data-a11y-action="text-larger" aria-label="Aumentar tamaño del texto">A+</button>
+      </div>
+    </div>
+    <div class="accessibility-options">
+      <button type="button" data-a11y-action="contrast" aria-pressed="false">Alto contraste</button>
+      <button type="button" data-a11y-action="links" aria-pressed="false">Subrayar enlaces</button>
+      <button type="button" data-a11y-action="motion" aria-pressed="false">Reducir animaciones</button>
+    </div>
+    <button class="accessibility-reset" type="button" data-a11y-action="reset">Restablecer ajustes</button>
+    <p class="accessibility-status" id="accessibilityStatus" role="status" aria-live="polite"></p>
+  </section>
+</aside>
+
 <script src="./config.js"></script>
 <script src="./symbol-3d.js" defer></script>
 <script src="./main.js" defer></script>
