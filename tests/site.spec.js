@@ -140,8 +140,14 @@ test("homepage has no serious or critical automated WCAG 2.2 AA violations", asy
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
     .analyze();
-  const blocking = results.violations.filter(item => ["serious", "critical"].includes(item.impact));
-  expect(blocking, JSON.stringify(blocking.map(item => ({ id: item.id, impact: item.impact, nodes: item.nodes.map(node => node.target) })), null, 2)).toEqual([]);
+  expect(
+    results.violations,
+    JSON.stringify(results.violations.map(item => ({
+      id: item.id,
+      impact: item.impact,
+      nodes: item.nodes.map(node => node.target)
+    })), null, 2)
+  ).toEqual([]);
 });
 
 test("demo page has no serious or critical automated WCAG 2.2 AA violations", async ({ page }) => {
@@ -150,8 +156,14 @@ test("demo page has no serious or critical automated WCAG 2.2 AA violations", as
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
     .analyze();
-  const blocking = results.violations.filter(item => ["serious", "critical"].includes(item.impact));
-  expect(blocking, JSON.stringify(blocking.map(item => ({ id: item.id, impact: item.impact, nodes: item.nodes.map(node => node.target) })), null, 2)).toEqual([]);
+  expect(
+    results.violations,
+    JSON.stringify(results.violations.map(item => ({
+      id: item.id,
+      impact: item.impact,
+      nodes: item.nodes.map(node => node.target)
+    })), null, 2)
+  ).toEqual([]);
 });
 
 
@@ -200,6 +212,12 @@ test("mobile homepage has no serious or critical automated WCAG 2.2 AA violation
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
     .analyze();
-  const blocking = results.violations.filter(item => ["serious", "critical"].includes(item.impact));
-  expect(blocking, JSON.stringify(blocking.map(item => ({ id: item.id, impact: item.impact, nodes: item.nodes.map(node => node.target) })), null, 2)).toEqual([]);
+  expect(
+    results.violations,
+    JSON.stringify(results.violations.map(item => ({
+      id: item.id,
+      impact: item.impact,
+      nodes: item.nodes.map(node => node.target)
+    })), null, 2)
+  ).toEqual([]);
 });
