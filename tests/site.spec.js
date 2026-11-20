@@ -158,7 +158,7 @@ test("demo page has no serious or critical automated WCAG 2.2 AA violations", as
 test("mobile navigation works by keyboard at a 320px viewport without page overflow", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 700 });
   await page.goto("/");
-  const toggle = page.getByRole("button", { name: "Abrir menú" });
+  const toggle = page.locator("#menuToggle");
   await expect(toggle).toBeVisible();
   await expect(page.locator("#siteNav")).toBeHidden();
   await expect(page.locator("html")).toHaveJSProperty("scrollWidth", 320);
