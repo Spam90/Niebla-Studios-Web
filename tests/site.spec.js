@@ -135,6 +135,7 @@ test("accessibility menu supports Escape and restores focus to its trigger", asy
 
 
 test("homepage has no serious or critical automated WCAG 2.2 AA violations", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
@@ -144,6 +145,7 @@ test("homepage has no serious or critical automated WCAG 2.2 AA violations", asy
 });
 
 test("demo page has no serious or critical automated WCAG 2.2 AA violations", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/demos/");
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
@@ -190,6 +192,7 @@ test("all rendered images declare an alt attribute, including decorative empty a
 });
 
 test("mobile homepage has no serious or critical automated WCAG 2.2 AA violations", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 320, height: 700 });
   await page.goto("/");
   const results = await new AxeBuilder({ page })
