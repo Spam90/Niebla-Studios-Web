@@ -1558,3 +1558,11 @@ html.a11y-reduced-motion .stage-fallback{display:block!important}
   .contact-card .field label{font-size:max(.75rem,1em)}
   .contact-card .btn{min-height:48px}
 }
+
+/* Contact card uses a light surface: keep supporting text and links legible. */
+.contact-card .contact-privacy,.contact-card .contact-email-fallback{color:#475569}
+.contact-card .contact-email-fallback a{color:#1d4ed8}
+.contact-card .contact-email-fallback button{border:0;padding:0;background:none;color:#1e293b;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.contact-card .form-status{color:#475569}
+.contact-card .form-status.ok{color:#1d4ed8}
+.contact-card .form-status.err{color:#b91c1c}
