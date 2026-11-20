@@ -52,7 +52,7 @@
 <div class="tabs" aria-label="Seleccionar demostración" role="tablist"><button class="tab" id="tab-catalogo" data-tab="catalogo" role="tab" aria-controls="catalogo" aria-selected="true">01 · Catálogo digital</button><button class="tab" id="tab-gestion" data-tab="gestion" role="tab" aria-controls="gestion" aria-selected="false" tabindex="-1">02 · Gestión</button><button class="tab" id="tab-reservas" data-tab="reservas" role="tab" aria-controls="reservas" aria-selected="false" tabindex="-1">03 · Reservas</button></div>
 
 <section class="panel active" id="catalogo" role="tabpanel" aria-labelledby="tab-catalogo" tabindex="0">
-<div class="panel-head"><div><h2>Catálogo digital</h2><p class="sub">Explora productos, agrega artículos al carrito y prueba el panel de administración.</p></div><div><button class="btn" id="cartToggle" type="button" aria-controls="cartBox" aria-expanded="false">Carrito · <span id="cartCount" aria-live="polite" aria-atomic="true">0</span></button> <button class="btn primary" id="adminToggle" type="button" aria-controls="adminBox" aria-expanded="false">Vista administrativa</button></div></div>
+<div class="panel-head"><div><h2>Catálogo digital</h2><p class="sub">Explora productos, agrega artículos al carrito y prueba el panel de administración.</p></div><div><button class="btn" id="cartToggle" type="button" aria-controls="cartBox" aria-expanded="false">Carrito · <span id="cartCount" aria-live="polite" aria-atomic="true">0</span></button> <button class="btn primary" id="adminToggle" type="button" aria-controls="adminBox" aria-expanded="false" hidden>Vista administrativa</button></div></div>
 <div class="toolbar"><input class="field" id="productSearch" type="search" placeholder="Buscar producto..." aria-label="Buscar producto"><select class="field" id="categoryFilter" aria-label="Filtrar por categoría"><option value="Todas">Todas las categorías</option><option>Bebidas</option><option>Accesorios</option><option>Hogar</option></select></div>
 <div class="products" id="products"></div>
 <div class="cart-box" id="cartBox" role="region" aria-labelledby="cartHeading" hidden><div class="admin-head"><strong id="cartHeading">Tu carrito</strong><button class="btn ghost" id="closeCart">Cerrar</button></div><div class="cart-items" id="cartItems"></div><div class="product-bottom"><strong>Total de prueba</strong><strong id="cartTotal">$0.00</strong></div><p class="sub">Este carrito es ilustrativo. No procesa pagos ni pedidos reales.</p></div>
@@ -74,6 +74,7 @@
 </main>
 <footer class="footer"><div class="wrap" style="display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap"><span>© <span id="year"></span> Niebla Studios</span><span>Prototipos funcionales · Datos de demostración · Sin backend</span></div></footer>
 <script>
+  if (new URLSearchParams(window.location.search).get("admin") === "1") document.getElementById("adminToggle").hidden = false;
 (()=>{"use strict";
 const $=id=>document.getElementById(id);
 const tabs=[...document.querySelectorAll("[data-tab]")];
