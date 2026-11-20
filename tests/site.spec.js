@@ -165,6 +165,8 @@ test("mobile navigation works by keyboard at a 320px viewport without page overf
   await toggle.focus();
   await page.keyboard.press("Enter");
   await expect(page.locator("#siteNav")).toHaveClass(/open/);
+  await expect(toggle).toBeFocused();
+  await page.keyboard.press("Tab");
   await expect(page.locator('.site-nav a[href="#servicios"]')).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(page.locator("#siteNav")).not.toHaveClass(/open/);
