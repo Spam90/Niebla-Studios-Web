@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /niebla-remolino-prototipo.html
 
 Sitemap: https://nieblastudio.devs.surf/sitemap.xml

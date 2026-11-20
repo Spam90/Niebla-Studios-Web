@@ -8,6 +8,8 @@
 <meta name="theme-color" content="#090B10">
 <link rel="canonical" href="https://nieblastudio.devs.surf/">
 <link rel="icon" href="assets/simbolo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/logo.jpg">
+<link rel="manifest" href="/manifest.webmanifest">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Niebla Studios">
@@ -115,7 +117,7 @@
         <h3 class="group-title">Desarrollo web</h3>
         <ul class="svc-list">
           <li class="svc" data-i="0"><h4>Landing pages</h4><p class="svc-desc">Para lanzar una oferta, presentar un servicio o concentrar una campaña en una acción concreta. Definimos la jerarquía de información, las secciones, los argumentos, las llamadas a la acción y el recorrido hasta el contacto. El resultado puede incluir formulario, enlaces de contacto, analítica y SEO técnico básico cuando se acuerde. El cliente valida y aporta la información comercial; una landing no garantiza ventas ni tráfico por sí sola.</p></li>
-          <li class="svc" data-i="1"><h4>Catálogos digitales</h4><p class="svc-desc">Para negocios que comparten productos manualmente y necesitan una referencia única y actualizable. El catálogo presenta imágenes, nombres, descripciones y precios; su panel administrativo permite crear, editar y retirar productos sin modificar el código. Los planes de catálogo aprobados incluyen administración. Categorías, destacados, búsqueda, filtros y WhatsApp varían por plan; pedidos, inventario y variantes pertenecen al nivel Avanzado y requieren reglas de operación definidas.</p></li>
+          <li class="svc" data-i="1"><h4>Catálogos digitales</h4><p class="svc-desc">Para negocios que comparten productos manualmente y necesitan una referencia única y actualizable. El catálogo presenta imágenes, nombres, descripciones y precios; su panel administrativo permite crear, editar y retirar productos sin modificar el código. Los planes de catálogo definidos incluyen administración. Categorías, destacados, búsqueda, filtros y WhatsApp varían por plan; pedidos, inventario y variantes pertenecen al nivel Avanzado y requieren reglas de operación definidas.</p></li>
           <li class="svc" data-i="2"><h4>Sitios web corporativos</h4><p class="svc-desc">Para empresas que necesitan una presencia institucional más completa que una página de campaña. Organizamos páginas y contenidos como empresa, servicios, sectores, proyectos, preguntas y contacto según lo que realmente necesite comunicar. Puede incorporar administración de contenido, blog, galerías o idiomas adicionales si se incluyen en el alcance. El cliente aporta y aprueba la información corporativa y las credenciales que se publiquen.</p></li>
         </ul>
       </div>
@@ -346,7 +348,7 @@
         <article class="method-step"><span>06 / CAMBIOS</span><h3>¿Puedo pedir funciones después?</h3><p>Sí, pero una función, página, integración o cambio de reglas que no esté en el alcance aprobado se evalúa y cotiza aparte. Los defectos que incumplan el alcance se tratan según la garantía aplicable.</p></article>
         <article class="method-step"><span>07 / GARANTÍA</span><h3>¿Qué cubre la garantía?</h3><p>Se ofrecen 30 días de garantía para corregir errores de desarrollo dentro del alcance acordado. No equivale a cambios de funcionalidades, ampliaciones ni servicios de terceros fuera del control del equipo.</p></article>
         <article class="method-step"><span>08 / MANTENIMIENTO</span><h3>¿Tengo que contratar mantenimiento?</h3><p>No. El mantenimiento es opcional y se acuerda por separado. Su alcance, frecuencia, soporte y precio deben aparecer en una propuesta específica; no se ofrece soporte ilimitado por defecto.</p></article>
-        <article class="method-step"><span>09 / ADMINISTRACIÓN</span><h3>¿Podré actualizar el contenido?</h3><p>Depende del tipo de proyecto. Los planes de catálogo digital aprobados incluyen panel administrativo; otros sitios o sistemas incorporan administración cuando forma parte del alcance. Cuando hay panel, se contempla capacitación básica.</p></article>
+        <article class="method-step"><span>09 / ADMINISTRACIÓN</span><h3>¿Podré actualizar el contenido?</h3><p>Depende del tipo de proyecto. Los planes de catálogo digital incluyen panel administrativo; otros sitios o sistemas incorporan administración cuando forma parte del alcance. Cuando hay panel, se contempla capacitación básica.</p></article>
         <article class="method-step"><span>10 / PROPIEDAD</span><h3>¿Quién conserva el código y los derechos?</h3><p>La titularidad y los derechos de uso se establecen en el contrato según el tipo de proyecto y los componentes utilizados. No asumimos una transferencia universal sin que quede definida por escrito.</p></article>
         <article class="method-step"><span>11 / MATERIALES</span><h3>¿Debo tener todo preparado?</h3><p>No para la primera conversación. Para desarrollar sí necesitaremos los textos, imágenes, logotipo, datos y accesos que correspondan. La propuesta especificará qué materiales aporta cada parte y qué carga inicial está incluida.</p></article>
         <article class="method-step"><span>12 / DEMOS</span><h3>¿Las demos son sistemas reales?</h3><p>Son prototipos conceptuales con datos ficticios que funcionan localmente en el navegador. No están conectados a una base de datos de producción ni procesan pedidos, pagos o reservas reales.</p></article>
@@ -366,13 +368,30 @@
           <a class="btn btn-ghost" href="https://www.instagram.com/nieblastudios/" target="_blank" rel="noopener noreferrer" aria-label="Visitar Instagram de Niebla Studios">Instagram <span aria-hidden="true">↗</span></a>
         </div>
       </header>
-      <div class="form contact-card">
-        <p class="muted">CONTACTO DIRECTO</p>
-        <h3>Hablemos de tu proyecto.</h3>
-        <p>Escríbenos con el tipo de negocio, el problema que quieres resolver y cualquier función que consideres importante. Te responderemos para aclarar el alcance antes de hablar de desarrollo.</p>
-        <div class="contact-actions"><a class="btn btn-primary" id="emailLink" href="mailto:nieblastudiosrd@gmail.com">Escribir por correo <span aria-hidden="true">↗</span></a><button class="btn btn-ghost" id="copyEmail" type="button">Copiar correo</button></div><p class="copy-email-status muted" id="copyEmailStatus" role="status" aria-live="polite"></p>
-      </div>
-      </div>
+      <form class="form contact-card" id="contactForm" action="/api/contact" method="post">
+        <p class="muted">FORMULARIO DE CONTACTO</p>
+        <h3>Cuéntanos sobre tu proyecto.</h3>
+        <p>Comparte los datos básicos y revisaremos tu solicitud para responderte por correo.</p>
+        <div class="field"><label for="contactName">Nombre</label><input id="contactName" name="name" type="text" autocomplete="name" maxlength="100" required></div>
+        <div class="field"><label for="contactEmail">Correo electrónico</label><input id="contactEmail" name="email" type="email" autocomplete="email" maxlength="254" required></div>
+        <div class="field"><label for="contactService">¿Qué necesitas?</label>
+          <select id="contactService" name="service" required>
+            <option value="">Selecciona una opción</option>
+            <option value="Landing page o sitio web">Landing page o sitio web</option>
+            <option value="Catálogo digital">Catálogo digital</option>
+            <option value="Sistema de gestión">Sistema de gestión</option>
+            <option value="Sistema de reservas">Sistema de reservas</option>
+            <option value="Aplicación web a medida">Aplicación web a medida</option>
+            <option value="No estoy seguro">No estoy seguro</option>
+          </select>
+        </div>
+        <div class="field"><label for="contactMessage">Cuéntanos qué necesitas</label><textarea id="contactMessage" name="message" rows="5" maxlength="2000" required placeholder="Describe brevemente tu negocio, el problema y qué te gustaría conseguir."></textarea></div>
+        <div class="contact-honeypot" aria-hidden="true"><label for="contactCompany">Deja este campo vacío</label><input id="contactCompany" name="company" type="text" tabindex="-1" autocomplete="off"></div>
+        <button class="btn btn-primary" id="contactSubmit" type="submit">Enviar consulta <span aria-hidden="true">↗</span></button>
+        <p class="form-status" id="contactFormStatus" role="status" aria-live="polite"></p>
+        <p class="contact-privacy">La información se enviará a Niebla Studios para responder tu consulta. No incluyas contraseñas ni datos sensibles.</p>
+        <p class="contact-email-fallback">¿Prefieres el correo? <a id="emailLink" href="mailto:nieblastudiosrd@gmail.com">nieblastudiosrd@gmail.com</a> · <button id="copyEmail" type="button">Copiar correo</button> <span id="copyEmailStatus" role="status" aria-live="polite"></span></p>
+      </form>
       <div class="contact-start">
         <div class="contact-start-heading"><p class="eyebrow"><span></span> Cómo iniciar</p><h3>No necesitas tener todas las respuestas para escribirnos.</h3><p>Con una primera descripción podemos identificar qué información falta y si tiene sentido avanzar.</p></div>
         <ol class="contact-start-steps">

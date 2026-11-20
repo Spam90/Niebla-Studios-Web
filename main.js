@@ -116,6 +116,48 @@ function wireChannels(){
   }
 }
 
+/* ---------- Formulario de contacto: envío seguro al endpoint de Vercel ---------- */
+function initContactForm(){
+  const form=$("contactForm");
+  if(!form)return;
+  const status=$("contactFormStatus"),submit=$("contactSubmit");
+  form.addEventListener("submit",async event=>{
+    event.preventDefault();
+    if(!form.reportValidity())return;
+    const data=new FormData(form);
+    const payload={
+      name:String(data.get("name")||"").trim(),
+      email:String(data.get("email")||"").trim(),
+      service:String(data.get("service")||"").trim(),
+      message:String(data.get("message")||"").trim(),
+      company:String(data.get("company")||"").trim()
+    };
+    if(status){status.className="form-status";status.textContent="Enviando tu consulta…";}
+    submit.disabled=true;
+    submit.setAttribute("aria-busy","true");
+    try{
+      const response=await fetch(form.action,{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify(payload)
+      });
+      const result=await response.json().catch(()=>({}));
+      if(!response.ok||!result.ok){
+        if(response.status===503)throw new Error("El formulario todavía no está activado. Escríbenos directamente a "+(CONTACT.email||"nuestro correo")+".");
+        if(response.status===429)throw new Error("Hemos recibido varias solicitudes desde esta conexión. Inténtalo más tarde.");
+        throw new Error(result.error||"No se pudo enviar la consulta. Inténtalo de nuevo o utiliza el correo directo.");
+      }
+      form.reset();
+      if(status){status.className="form-status ok";status.textContent="Consulta enviada. Gracias por escribirnos; responderemos al correo indicado.";}
+    }catch(error){
+      if(status){status.className="form-status err";status.textContent=error.message||"No se pudo enviar. Utiliza el correo directo.";}
+    }finally{
+      submit.disabled=false;
+      submit.removeAttribute("aria-busy");
+    }
+  });
+}
+
 /* ---------- Símbolo 3D principal; la marca pequeña usa SVG estático ---------- */
 function initSymbols(){
   const stage=$("stage"),canvas=$("heroCanvas");
@@ -282,6 +324,7 @@ function initHeroLetterField(){
 }
 /* ---------- Arranque ---------- */
 wireChannels();
+initContactForm();
 const localeMeta=document.querySelector('meta[property="og:locale"]');
 if(localeMeta&&window.NIEBLA_CONFIG?.site?.locale)localeMeta.content=window.NIEBLA_CONFIG.site.locale;
 $("year").textContent = String(new Date().getFullYear());

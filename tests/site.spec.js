@@ -270,7 +270,19 @@ test("homepage and demos reflow at a 320px viewport without document-level horiz
     const dimensions = await page.evaluate(() => ({
       viewport: document.documentElement.clientWidth,
       document: document.documentElement.scrollWidth,
-      body: document.body.scrollWidth
+      body: document.body.scrollWidth,
+      overflowing: [...document.querySelectorAll("body *")].filter(el => {
+        const rect = el.getBoundingClientRect();
+        const style = getComputedStyle(el);
+        return rect.width > 0 && (rect.right > document.documentElement.clientWidth + 0.5 || rect.left < -0.5) && style.position !== "fixed";
+      }).slice(0, 12).map(el => ({
+        tag: el.tagName.toLowerCase(),
+        id: el.id || null,
+        className: typeof el.className === "string" ? el.className.slice(0, 100) : null,
+        left: Math.round(el.getBoundingClientRect().left * 10) / 10,
+        right: Math.round(el.getBoundingClientRect().right * 10) / 10,
+        width: Math.round(el.getBoundingClientRect().width * 10) / 10
+      }))
     }));
     expect(dimensions.document, path + " document overflow: " + JSON.stringify(dimensions)).toBeLessThanOrEqual(320);
     expect(dimensions.body, path + " body overflow: " + JSON.stringify(dimensions)).toBeLessThanOrEqual(320);
@@ -326,4 +338,20 @@ test("mobile reflow remains usable at 200% text scale with accessibility panel o
   expect(layout.document, JSON.stringify(layout)).toBeLessThanOrEqual(320);
   expect(layout.panelLeft, JSON.stringify(layout)).toBeGreaterThanOrEqual(0);
   expect(layout.panelRight, JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport);
+});
+
+test("contact form sends the entered information and confirms success", async ({ page }) => {
+  let requestBody;
+  await page.route("**/api/contact", async route => {
+    requestBody = route.request().postDataJSON();
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) });
+  });
+  await page.goto("/#contacto");
+  await page.locator("#contactName").fill("Cliente de prueba");
+  await page.locator("#contactEmail").fill("cliente@example.com");
+  await page.locator("#contactService").selectOption("Catálogo digital");
+  await page.locator("#contactMessage").fill("Necesito un catálogo para organizar los productos de mi negocio.");
+  await page.locator("#contactSubmit").click();
+  await expect(page.locator("#contactFormStatus")).toContainText("Consulta enviada");
+  expect(requestBody).toMatchObject({ name: "Cliente de prueba", email: "cliente@example.com", service: "Catálogo digital" });
 });
