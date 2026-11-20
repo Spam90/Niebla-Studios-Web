@@ -151,3 +151,50 @@ test("demo page has no serious or critical automated WCAG 2.2 AA violations", as
   const blocking = results.violations.filter(item => ["serious", "critical"].includes(item.impact));
   expect(blocking, JSON.stringify(blocking.map(item => ({ id: item.id, impact: item.impact, nodes: item.nodes.map(node => node.target) })), null, 2)).toEqual([]);
 });
+
+
+test("mobile navigation works by keyboard at a 320px viewport without page overflow", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 700 });
+  await page.goto("/");
+  const toggle = page.getByRole("button", { name: "Abrir menú" });
+  await expect(toggle).toBeVisible();
+  await expect(page.locator("#siteNav")).toBeHidden();
+  await expect(page.locator("html")).toHaveJSProperty("scrollWidth", 320);
+  await toggle.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#siteNav")).toHaveClass(/open/);
+  await expect(page.locator('.site-nav a[href="#servicios"]')).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#siteNav")).not.toHaveClass(/open/);
+  await expect(toggle).toBeFocused();
+});
+
+test("accessibility contrast and reduced motion preferences change page styles", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Abrir opciones de accesibilidad" }).click();
+  await page.getByRole("button", { name: "Alto contraste" }).click();
+  await expect(page.locator("html")).toHaveClass(/a11y-high-contrast/);
+  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(0, 0, 0)");
+  await page.getByRole("button", { name: "Reducir movimiento" }).click();
+  await expect(page.locator("html")).toHaveClass(/a11y-reduced-motion/);
+  await expect(page.locator(".hero")).toHaveCSS("scroll-behavior", "auto");
+  await page.getByRole("button", { name: "Restablecer preferencias" }).click();
+});
+
+test("all rendered images declare an alt attribute, including decorative empty alternatives", async ({ page }) => {
+  await page.goto("/");
+  const missingAlt = await page.locator("img").evaluateAll(images =>
+    images.filter(image => !image.hasAttribute("alt")).map(image => image.getAttribute("src"))
+  );
+  expect(missingAlt).toEqual([]);
+});
+
+test("mobile homepage has no serious or critical automated WCAG 2.2 AA violations", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 700 });
+  await page.goto("/");
+  const results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    .analyze();
+  const blocking = results.violations.filter(item => ["serious", "critical"].includes(item.impact));
+  expect(blocking, JSON.stringify(blocking.map(item => ({ id: item.id, impact: item.impact, nodes: item.nodes.map(node => node.target) })), null, 2)).toEqual([]);
+});
