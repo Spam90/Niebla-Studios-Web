@@ -138,7 +138,7 @@ function initAccessibilityMenu(){
     root.classList.toggle("a11y-high-contrast",settings.contrast);
     root.classList.toggle("a11y-underline-links",settings.links);
     root.classList.toggle("a11y-reduced-motion",settings.motion);
-    if(sizeOutput)sizeOutput.value=settings.size+"%";
+    if(sizeOutput){sizeOutput.value=settings.size+"%";sizeOutput.textContent=settings.size+"%";}
     panel.querySelector('[data-a11y-action="contrast"]').setAttribute("aria-pressed",String(settings.contrast));
     panel.querySelector('[data-a11y-action="links"]').setAttribute("aria-pressed",String(settings.links));
     panel.querySelector('[data-a11y-action="motion"]').setAttribute("aria-pressed",String(settings.motion));
