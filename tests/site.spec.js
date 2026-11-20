@@ -119,8 +119,7 @@ test("accessibility menu closes on outside interaction without stealing focus", 
   const trigger = page.getByRole("button", { name: "Abrir opciones de accesibilidad" });
   await trigger.click();
   await expect(page.locator("#accessibilityClose")).toBeFocused();
-  await page.locator("#emailLink").click({ trial: true });
-  await page.locator("#emailLink").click();
+  await page.locator("#main").click({ position: { x: 8, y: 8 } });
   await expect(page.locator("#accessibilityPanel")).toBeHidden();
 });
 test("accessibility menu supports Escape and restores focus to its trigger", async ({ page }) => {
