@@ -1515,3 +1515,5 @@ html.a11y-reduced-motion .stage-fallback{display:block!important}
   .plans-section .plan-cards{padding-left:0}
   .plans-section .plan-service>summary{grid-template-columns:34px 1fr 22px}
 }
+
+#pie .footer-title{color:#102f6d}
