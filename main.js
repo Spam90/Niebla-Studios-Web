@@ -116,6 +116,71 @@ function initSymbols(){
   try{if(!window.NieblaSymbol||!NieblaSymbol.init(canvas,{scroll:0.0012,stage:true}))fallback();}
   catch(error){console.error(error);fallback();}
 }
+
+/* ---------- Herramientas básicas de accesibilidad ---------- */
+function initAccessibilityMenu(){
+  const root=document.documentElement,trigger=$("accessibilityToggle"),panel=$("accessibilityPanel");
+  if(!trigger||!panel)return;
+  const close=$("accessibilityClose"),status=$("accessibilityStatus"),sizeOutput=$("textSizeValue");
+  const defaults={size:100,contrast:false,links:false,motion:false};
+  let settings={...defaults};
+  try{
+    const saved=JSON.parse(localStorage.getItem("niebla-a11y-settings")||"null");
+    if(saved&&typeof saved==="object")settings={...defaults,...saved};
+  }catch(error){}
+  settings.size=[100,110,120].includes(Number(settings.size))?Number(settings.size):100;
+  settings.contrast=Boolean(settings.contrast);settings.links=Boolean(settings.links);settings.motion=Boolean(settings.motion);
+  function announce(message){if(status)status.textContent=message;}
+  function save(){try{localStorage.setItem("niebla-a11y-settings",JSON.stringify(settings));}catch(error){}}
+  function render(){
+    root.classList.toggle("a11y-text-110",settings.size===110);
+    root.classList.toggle("a11y-text-120",settings.size===120);
+    root.classList.toggle("a11y-high-contrast",settings.contrast);
+    root.classList.toggle("a11y-underline-links",settings.links);
+    root.classList.toggle("a11y-reduced-motion",settings.motion);
+    if(sizeOutput)sizeOutput.value=settings.size+"%";
+    panel.querySelector('[data-a11y-action="contrast"]').setAttribute("aria-pressed",String(settings.contrast));
+    panel.querySelector('[data-a11y-action="links"]').setAttribute("aria-pressed",String(settings.links));
+    panel.querySelector('[data-a11y-action="motion"]').setAttribute("aria-pressed",String(settings.motion));
+  }
+  function setOpen(open){
+    panel.hidden=!open;
+    trigger.setAttribute("aria-expanded",String(open));
+    trigger.setAttribute("aria-label",open?"Cerrar opciones de accesibilidad":"Abrir opciones de accesibilidad");
+    if(open)close.focus();else trigger.focus();
+  }
+  trigger.addEventListener("click",()=>setOpen(panel.hidden));
+  close.addEventListener("click",()=>setOpen(false));
+  panel.addEventListener("click",event=>{
+    const button=event.target.closest("button[data-a11y-action]");if(!button)return;
+    const action=button.dataset.a11yAction;
+    if(action==="text-smaller")settings.size=Math.max(100,settings.size-10);
+    if(action==="text-larger")settings.size=Math.min(120,settings.size+10);
+    if(action==="contrast")settings.contrast=!settings.contrast;
+    if(action==="links")settings.links=!settings.links;
+    if(action==="motion")settings.motion=!settings.motion;
+    if(action==="reset")settings={...defaults};
+    save();render();
+    const messages={
+      "text-smaller":"Tamaño del texto: "+settings.size+"%.",
+      "text-larger":"Tamaño del texto: "+settings.size+"%.",
+      contrast:settings.contrast?"Alto contraste activado.":"Alto contraste desactivado.",
+      links:settings.links?"Subrayado de enlaces activado.":"Subrayado de enlaces desactivado.",
+      motion:settings.motion?"Reducción de animaciones activada.":"Reducción de animaciones desactivada.",
+      reset:"Ajustes de accesibilidad restablecidos."
+    };
+    announce(messages[action]);
+  });
+  document.addEventListener("keydown",event=>{
+    if(event.key==="Escape"&&!panel.hidden){event.preventDefault();setOpen(false);}
+  });
+  document.addEventListener("pointerdown",event=>{
+    if(panel.hidden||$("accessibilityWidget").contains(event.target))return;
+    panel.hidden=true;trigger.setAttribute("aria-expanded","false");trigger.setAttribute("aria-label","Abrir opciones de accesibilidad");
+  });
+  render();
+}
+
 function initProgress(){
   const bar = $("progress");
   const f = () => {
@@ -655,6 +720,7 @@ function initMobileSectionSwipe(){
   if(initialTarget&&initialTarget!==initialPanel)requestAnimationFrame(()=>scrollTarget(initialTarget,initialPanel));
 }
 
+initAccessibilityMenu();
 initMotion();
 initHorizontalNavigation();
 initMobileSectionSwipe();
