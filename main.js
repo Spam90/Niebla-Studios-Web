@@ -121,20 +121,20 @@ function initSymbols(){
 function initAccessibilityMenu(){
   const root=document.documentElement,trigger=$("accessibilityToggle"),panel=$("accessibilityPanel");
   if(!trigger||!panel)return;
-  const close=$("accessibilityClose"),status=$("accessibilityStatus"),sizeOutput=$("textSizeValue");
+  const widget=$("accessibilityWidget"),close=$("accessibilityClose"),status=$("accessibilityStatus"),sizeOutput=$("textSizeValue");
   const defaults={size:100,contrast:false,links:false,motion:false};
+  const allowedSizes=[100,125,150,175,200];
   let settings={...defaults};
   try{
     const saved=JSON.parse(localStorage.getItem("niebla-a11y-settings")||"null");
     if(saved&&typeof saved==="object")settings={...defaults,...saved};
   }catch(error){}
-  settings.size=[100,110,120].includes(Number(settings.size))?Number(settings.size):100;
+  settings.size=allowedSizes.includes(Number(settings.size))?Number(settings.size):100;
   settings.contrast=Boolean(settings.contrast);settings.links=Boolean(settings.links);settings.motion=Boolean(settings.motion);
   function announce(message){if(status)status.textContent=message;}
-  function save(){try{localStorage.setItem("niebla-a11y-settings",JSON.stringify(settings));}catch(error){}}
+  function save(){try{localStorage.setItem("niebla-a11y-settings",JSON.stringify(settings));}catch(error){announce("No se pudieron guardar los ajustes en este navegador.");}}
   function render(){
-    root.classList.toggle("a11y-text-110",settings.size===110);
-    root.classList.toggle("a11y-text-120",settings.size===120);
+    root.style.setProperty("--a11y-text-scale",String(settings.size/100));
     root.classList.toggle("a11y-high-contrast",settings.contrast);
     root.classList.toggle("a11y-underline-links",settings.links);
     root.classList.toggle("a11y-reduced-motion",settings.motion);
@@ -142,45 +142,47 @@ function initAccessibilityMenu(){
     panel.querySelector('[data-a11y-action="contrast"]').setAttribute("aria-pressed",String(settings.contrast));
     panel.querySelector('[data-a11y-action="links"]').setAttribute("aria-pressed",String(settings.links));
     panel.querySelector('[data-a11y-action="motion"]').setAttribute("aria-pressed",String(settings.motion));
+    panel.querySelector('[data-a11y-action="text-smaller"]').disabled=settings.size===100;
+    panel.querySelector('[data-a11y-action="text-larger"]').disabled=settings.size===200;
   }
-  function setOpen(open){
+  function setOpen(open,{restoreFocus=false}={}){
     panel.hidden=!open;
     trigger.setAttribute("aria-expanded",String(open));
     trigger.setAttribute("aria-label",open?"Cerrar opciones de accesibilidad":"Abrir opciones de accesibilidad");
-    if(open)close.focus();else trigger.focus();
+    if(open)close.focus();
+    else if(restoreFocus)trigger.focus();
   }
-  trigger.addEventListener("click",()=>setOpen(panel.hidden));
-  close.addEventListener("click",()=>setOpen(false));
+  trigger.addEventListener("click",()=>setOpen(panel.hidden,{restoreFocus:!panel.hidden}));
+  close.addEventListener("click",()=>setOpen(false,{restoreFocus:true}));
   panel.addEventListener("click",event=>{
-    const button=event.target.closest("button[data-a11y-action]");if(!button)return;
+    const button=event.target.closest("button[data-a11y-action]");if(!button||button.disabled)return;
     const action=button.dataset.a11yAction;
-    if(action==="text-smaller")settings.size=Math.max(100,settings.size-10);
-    if(action==="text-larger")settings.size=Math.min(120,settings.size+10);
+    if(action==="text-smaller")settings.size=Math.max(100,settings.size-25);
+    if(action==="text-larger")settings.size=Math.min(200,settings.size+25);
     if(action==="contrast")settings.contrast=!settings.contrast;
     if(action==="links")settings.links=!settings.links;
     if(action==="motion")settings.motion=!settings.motion;
     if(action==="reset")settings={...defaults};
     save();render();
     const messages={
-      "text-smaller":"Tamaño del texto: "+settings.size+"%.",
-      "text-larger":"Tamaño del texto: "+settings.size+"%.",
+      "text-smaller":"Tamaño del texto: "+settings.size+" por ciento.",
+      "text-larger":"Tamaño del texto: "+settings.size+" por ciento.",
       contrast:settings.contrast?"Alto contraste activado.":"Alto contraste desactivado.",
       links:settings.links?"Subrayado de enlaces activado.":"Subrayado de enlaces desactivado.",
-      motion:settings.motion?"Reducción de animaciones activada.":"Reducción de animaciones desactivada.",
-      reset:"Ajustes de accesibilidad restablecidos."
+      motion:settings.motion?"Reducción de movimiento activada.":"Reducción de movimiento desactivada.",
+      reset:"Ajustes restablecidos."
     };
     announce(messages[action]);
   });
   document.addEventListener("keydown",event=>{
-    if(event.key==="Escape"&&!panel.hidden){event.preventDefault();setOpen(false);}
+    if(event.key==="Escape"&&!panel.hidden){event.preventDefault();setOpen(false,{restoreFocus:true});}
   });
   document.addEventListener("pointerdown",event=>{
-    if(panel.hidden||$("accessibilityWidget").contains(event.target))return;
-    panel.hidden=true;trigger.setAttribute("aria-expanded","false");trigger.setAttribute("aria-label","Abrir opciones de accesibilidad");
+    if(panel.hidden||widget.contains(event.target))return;
+    setOpen(false);
   });
   render();
 }
-
 function initProgress(){
   const bar = $("progress");
   const f = () => {
