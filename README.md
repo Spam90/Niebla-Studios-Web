@@ -6,7 +6,7 @@ Sitio web oficial y laboratorio de demostraciones de Niebla Studios.
 - HTML semántico, CSS y JavaScript vanilla.
 - Sitio estático desplegado en Vercel.
 - Símbolo 3D WebGL con alternativa visual estática.
-- Pruebas de navegador con Playwright.
+- Pruebas de navegador con Playwright en Chromium y WebKit.
 
 ## Estructura
 - `index.html`: página principal.
