@@ -8,6 +8,8 @@
 <meta name="theme-color" content="#090B10">
 <link rel="canonical" href="https://nieblastudio.devs.surf/">
 <link rel="icon" href="assets/simbolo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/logo.jpg">
+<link rel="manifest" href="/manifest.webmanifest">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Niebla Studios">
@@ -366,13 +368,30 @@
           <a class="btn btn-ghost" href="https://www.instagram.com/nieblastudios/" target="_blank" rel="noopener noreferrer" aria-label="Visitar Instagram de Niebla Studios">Instagram <span aria-hidden="true">↗</span></a>
         </div>
       </header>
-      <div class="form contact-card">
-        <p class="muted">CONTACTO DIRECTO</p>
-        <h3>Hablemos de tu proyecto.</h3>
-        <p>Escríbenos con el tipo de negocio, el problema que quieres resolver y cualquier función que consideres importante. Te responderemos para aclarar el alcance antes de hablar de desarrollo.</p>
-        <div class="contact-actions"><a class="btn btn-primary" id="emailLink" href="mailto:nieblastudiosrd@gmail.com">Escribir por correo <span aria-hidden="true">↗</span></a><button class="btn btn-ghost" id="copyEmail" type="button">Copiar correo</button></div><p class="copy-email-status muted" id="copyEmailStatus" role="status" aria-live="polite"></p>
-      </div>
-      </div>
+      <form class="form contact-card" id="contactForm" action="/api/contact" method="post">
+        <p class="muted">FORMULARIO DE CONTACTO</p>
+        <h3>Cuéntanos sobre tu proyecto.</h3>
+        <p>Comparte los datos básicos y revisaremos tu solicitud para responderte por correo.</p>
+        <div class="field"><label for="contactName">Nombre</label><input id="contactName" name="name" type="text" autocomplete="name" maxlength="100" required></div>
+        <div class="field"><label for="contactEmail">Correo electrónico</label><input id="contactEmail" name="email" type="email" autocomplete="email" maxlength="254" required></div>
+        <div class="field"><label for="contactService">¿Qué necesitas?</label>
+          <select id="contactService" name="service" required>
+            <option value="">Selecciona una opción</option>
+            <option value="Landing page o sitio web">Landing page o sitio web</option>
+            <option value="Catálogo digital">Catálogo digital</option>
+            <option value="Sistema de gestión">Sistema de gestión</option>
+            <option value="Sistema de reservas">Sistema de reservas</option>
+            <option value="Aplicación web a medida">Aplicación web a medida</option>
+            <option value="No estoy seguro">No estoy seguro</option>
+          </select>
+        </div>
+        <div class="field"><label for="contactMessage">Cuéntanos qué necesitas</label><textarea id="contactMessage" name="message" rows="5" maxlength="2000" required placeholder="Describe brevemente tu negocio, el problema y qué te gustaría conseguir."></textarea></div>
+        <div class="contact-honeypot" aria-hidden="true"><label for="contactCompany">Deja este campo vacío</label><input id="contactCompany" name="company" type="text" tabindex="-1" autocomplete="off"></div>
+        <button class="btn btn-primary" id="contactSubmit" type="submit">Enviar consulta <span aria-hidden="true">↗</span></button>
+        <p class="form-status" id="contactFormStatus" role="status" aria-live="polite"></p>
+        <p class="contact-privacy">La información se enviará a Niebla Studios para responder tu consulta. No incluyas contraseñas ni datos sensibles.</p>
+        <p class="contact-email-fallback">¿Prefieres el correo? <a href="mailto:nieblastudiosrd@gmail.com">nieblastudiosrd@gmail.com</a></p>
+      </form>
       <div class="contact-start">
         <div class="contact-start-heading"><p class="eyebrow"><span></span> Cómo iniciar</p><h3>No necesitas tener todas las respuestas para escribirnos.</h3><p>Con una primera descripción podemos identificar qué información falta y si tiene sentido avanzar.</p></div>
         <ol class="contact-start-steps">
