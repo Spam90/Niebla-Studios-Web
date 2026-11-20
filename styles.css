@@ -1517,3 +1517,22 @@ html.a11y-reduced-motion .stage-fallback{display:block!important}
 }
 
 #pie .footer-title{color:#102f6d}
+
+/* Additional WCAG AA contrast fixes for light and saturated chapter backgrounds. */
+#planes>.eyebrow{color:#102f6d}
+#planes .plans-foot>p{color:#334155}
+#proyectos .project-capabilities li,
+#proyectos .demo-boundary p{color:#172b45}
+#proyectos .demo-boundary>span{color:#102f6d}
+#proyectos .project .badge{color:#102f6d}
+#nosotros .about-body p:last-child,
+#nosotros .studio-direction>p:last-child,
+#nosotros .studio-direction .eyebrow,
+#nosotros .studio-principles span,
+#nosotros .studio-principles p,
+#nosotros .standards-heading>p:last-child,
+#nosotros .standards-heading .eyebrow,
+#nosotros .standards-grid b,
+#nosotros .standards-grid li small{color:#fff}
+#contacto .section-note,
+#contacto .contact-card .muted{color:#334155}
