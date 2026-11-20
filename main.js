@@ -27,10 +27,7 @@ function setMenu(open){
   menuToggle.setAttribute("aria-expanded", String(open));
   menuToggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
   document.body.style.overflow = open ? "hidden" : "";
-  if (open){
-    const first = siteNav.querySelector(FOCUSABLE);
-    if (first) requestAnimationFrame(()=>{ if(isMobileMenuOpen()) first.focus(); });
-  }
+  // Keep focus on the disclosure button; the next Tab enters the opened navigation.
 }
 
 menuToggle.addEventListener("click", () => setMenu(!isMobileMenuOpen()));
