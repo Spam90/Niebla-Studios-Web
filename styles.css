@@ -1520,7 +1520,7 @@ html.a11y-reduced-motion .stage-fallback{display:block!important}
 
 /* Additional WCAG AA contrast fixes for light and saturated chapter backgrounds. */
 #planes>.eyebrow{color:#102f6d}
-#servicios .plans-foot>p{color:#334155}
+@media(max-width:860px){#servicios.plans-section .plans-foot p{color:#334155}}
 #proyectos .project-capabilities li,
 #proyectos .demo-boundary p{color:#172b45}
 #proyectos .demo-boundary>span{color:#102f6d}
