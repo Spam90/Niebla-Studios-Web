@@ -1536,3 +1536,25 @@ html.a11y-reduced-motion .stage-fallback{display:block!important}
 #nosotros .standards-grid li small{color:#fff}
 #contacto .section-note,
 #contacto .contact-card .muted{color:#334155}
+
+/* Contact form and legibility refinements */
+.contact-card .field select{width:100%;padding:12px 0 13px;border:0;border-bottom:1px solid var(--line-strong);border-radius:0;background:#101722;color:var(--white);font:16px/1.5 var(--body)}
+.contact-card .field select:focus{outline:2px solid var(--blue-soft);outline-offset:3px}
+.contact-card .field select option{background:#101722;color:var(--white)}
+.contact-card button:disabled{opacity:.65;cursor:wait}
+.contact-privacy,.contact-email-fallback{color:var(--muted);font-size:12px;line-height:1.65}
+.contact-email-fallback a{color:var(--blue-soft)}
+.contact-honeypot{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:860px){
+  .site-nav ul a,.site-footer li,.footer-title,.field label,.section-note,.svc-desc,.step p,
+  .method-step p,.method-footnote,.project p,.project .badge,.text-link,.group-title,
+  .hero-index,.hero-bottom,.eyebrow,.plans-foot,.plan-status,.contact-privacy,.contact-email-fallback{font-size:12px}
+  .site-nav ul a{font-size:clamp(1.2rem,5vw,2rem)}
+  .hero-actions .btn{font-size:12px}
+  .step p,.method-step p,.project p,.svc-desc{line-height:1.7}
+}
+@media(max-width:600px){
+  .hero-index{font-size:12px;line-height:1.55}
+  .contact-card .field label{font-size:12px}
+  .contact-card .btn{min-height:48px}
+}
