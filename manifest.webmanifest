@@ -1,0 +1,15 @@
+{
+  "name": "Niebla Studios",
+  "short_name": "Niebla",
+  "description": "Desarrollo web y software desde República Dominicana.",
+  "lang": "es-DO",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#080a0f",
+  "theme_color": "#090B10",
+  "icons": [
+    { "src": "/assets/logo.jpg", "sizes": "1254x1254", "type": "image/jpeg" },
+    { "src": "/assets/simbolo.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
