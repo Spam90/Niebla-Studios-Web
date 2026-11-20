@@ -29,7 +29,7 @@ function setMenu(open){
   document.body.style.overflow = open ? "hidden" : "";
   if (open){
     const first = siteNav.querySelector(FOCUSABLE);
-    if (first) first.focus();
+    if (first) requestAnimationFrame(()=>{ if(isMobileMenuOpen()) first.focus(); });
   }
 }
 
