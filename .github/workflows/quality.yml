@@ -22,13 +22,7 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm install
-      - name: Upload generated npm lockfile
-        uses: actions/upload-artifact@v4
-        with:
-          name: npm-lockfile
-          path: package-lock.json
-          if-no-files-found: error
+        run: npm ci
       - name: Install Chromium and WebKit
         run: npx playwright install --with-deps chromium webkit
       - name: Run end-to-end tests
