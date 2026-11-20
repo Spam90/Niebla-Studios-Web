@@ -1566,3 +1566,5 @@ html.a11y-reduced-motion .stage-fallback{display:block!important}
 .contact-card .form-status{color:#475569}
 .contact-card .form-status.ok{color:#1d4ed8}
 .contact-card .form-status.err{color:#b91c1c}
+
+@media(max-width:600px){#proyectos .project-grid{overflow-x:clip}}
