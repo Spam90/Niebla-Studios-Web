@@ -43,6 +43,7 @@ test("mobile first-use cue is visible and disappears after panel navigation", as
   const page = await context.newPage();
   await page.goto("/");
   await expect(page.locator(".mobile-swipe-cue")).toBeVisible();
+  await expect(page.locator(".mobile-swipe-cue")).toContainText("Desliza hacia la izquierda para avanzar");
   await page.locator("#menuToggle").click();
   await page.locator('.site-nav a[href="#servicios"]').click();
   await expect(page.locator("#servicios")).toHaveJSProperty("inert", false);
