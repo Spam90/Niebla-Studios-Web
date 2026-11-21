@@ -1546,7 +1546,7 @@ html.a11y-reduced-motion .stage-fallback{display:block!important}
 
 /* Live previews: real, responsive demo pages embedded in the portfolio. */
 #proyectos .project-media.live-demo-preview{position:relative;display:block;aspect-ratio:16/9!important;min-height:0;padding:0;overflow:hidden;background:#eef1f5;border:1px solid rgba(148,163,184,.3);isolation:isolate}
-#proyectos .live-demo-preview iframe{position:absolute;inset:0 auto auto 0;display:block;width:300%;height:300%;max-width:none;border:0;background:#fff;transform:scale(.333333);transform-origin:top left;pointer-events:none}
+#proyectos .live-demo-preview iframe{position:absolute;inset:0 auto auto 0;display:block;visibility:visible;opacity:1;z-index:1;width:300%;height:300%;max-width:none;border:0;background:#fff;transform:scale(.333333);transform-origin:top left;pointer-events:none}
 #proyectos .live-demo-preview::before{display:none}
 #proyectos .live-demo-preview::after{display:none}
 #proyectos .live-demo-preview .preview-label{position:absolute;z-index:3;top:12px;right:12px;padding:7px 9px;border:1px solid rgba(255,255,255,.24);background:rgba(9,11,16,.84);color:#eaf1ff;font:600 8px/1 var(--body);letter-spacing:.14em;backdrop-filter:blur(8px)}
