@@ -644,7 +644,7 @@ function initMobileSectionSwipe(){
   panels.forEach(panel=>{panel.classList.add("mobile-horizontal-panel");track.append(panel);});main.append(viewport);
   let active=0;
   const cue=document.createElement("div");cue.className="mobile-swipe-cue";
-  cue.innerHTML='<span class="mobile-swipe-cue-label">Desliza para explorar</span><span class="mobile-swipe-cue-arrows" aria-hidden="true">← <i></i> →</span>';
+  cue.innerHTML='<span class="mobile-swipe-cue-label">Desliza hacia la izquierda para avanzar</span><span class="mobile-swipe-cue-arrows" aria-hidden="true">← <i></i></span>';
   cue.setAttribute("aria-hidden","false");panels[0].append(cue);
   let cueDismissed=false;
   function dismissCue(){if(cueDismissed)return;cueDismissed=true;cue.classList.add("is-dismissed");cue.setAttribute("aria-hidden","true");}
