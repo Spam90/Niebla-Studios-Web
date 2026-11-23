@@ -1,405 +1,166 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Niebla Studios — Desarrollo web y software para negocios</title>
-<meta name="description" content="Desarrollo web y software desde República Dominicana. Creamos páginas, catálogos y herramientas internas para que los negocios presenten mejor lo que ofrecen y trabajen con información más ordenada.">
-<meta name="theme-color" content="#090B10">
-<link rel="canonical" href="https://nieblastudio.devs.surf/">
-<link rel="icon" href="assets/simbolo.svg" type="image/svg+xml">
-
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Niebla Studios">
-<meta property="og:title" content="Niebla Studios — Desarrollo web y software">
-<meta property="og:description" content="Desarrollo web y software desde República Dominicana. Creamos páginas, catálogos y herramientas internas para que los negocios presenten mejor lo que ofrecen y trabajen con información más ordenada.">
-<meta property="og:url" content="https://nieblastudio.devs.surf/">
-<meta property="og:locale" content="es_DO">
-<meta property="og:image" content="https://nieblastudio.devs.surf/assets/logo.jpg">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1254">
-<meta property="og:image:height" content="1254">
-<meta property="og:image:alt" content="Símbolo de Niebla Studios sobre fondo oscuro">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Niebla Studios — Desarrollo web y software">
-<meta name="twitter:description" content="Desarrollo web y software desde República Dominicana.">
-<meta name="twitter:image" content="https://nieblastudio.devs.surf/assets/logo.jpg">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./styles.css">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Niebla Studios",
-  "url": "https://nieblastudio.devs.surf/",
-  "logo": "https://nieblastudio.devs.surf/assets/simbolo.svg",
-  "image": "https://nieblastudio.devs.surf/assets/logo.jpg",
-  "description": "Desarrollo web y software desde República Dominicana. Creamos páginas, catálogos y herramientas internas para que los negocios presenten mejor lo que ofrecen y trabajen con información más ordenada.",
-  "email": "nieblastudiosrd@gmail.com",
-  "areaServed": {"@type": "Country", "name": "República Dominicana"},
-  "serviceType": ["Diseño y desarrollo web", "Desarrollo de software"],
-  "sameAs": ["https://www.instagram.com/nieblastudios/"]
-}
-</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090b10">
+  <title>Niebla Studios — Desarrollo web y software</title>
+  <meta name="description" content="Diseñamos y desarrollamos sitios web, plataformas y software a medida para negocios que necesitan avanzar. Niebla Studios, República Dominicana.">
+  <link rel="canonical" href="https://nieblastudio.devs.surf/">
+  <link rel="icon" href="assets/simbolo.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Niebla Studios">
+  <meta property="og:title" content="Niebla Studios — Desarrollo web y software">
+  <meta property="og:description" content="Sitios web, plataformas y software a medida. Tecnología construida alrededor de tu negocio.">
+  <meta property="og:url" content="https://nieblastudio.devs.surf/">
+  <meta property="og:image" content="https://nieblastudio.devs.surf/assets/logo.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./redesign.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ProfessionalService","name":"Niebla Studios","url":"https://nieblastudio.devs.surf/","logo":"https://nieblastudio.devs.surf/assets/simbolo.svg","email":"nieblastudiosrd@gmail.com","areaServed":{"@type":"Country","name":"República Dominicana"},"serviceType":["Desarrollo web","Desarrollo de software"]}
+  </script>
 </head>
 <body>
-<a class="skip-link" href="#main">Saltar al contenido</a>
-<div class="fog" aria-hidden="true"></div>
-<div class="progress" id="progress" aria-hidden="true"></div>
-
-<div class="development-notice" role="status" aria-label="Aviso sobre el estado del sitio">
-  <span class="development-notice-dot" aria-hidden="true"></span>
-  <p><strong>Sitio web en desarrollo.</strong> Algunas secciones o funciones presentan errores o cambios temporales. Gracias por tu comprensión.</p>
-</div>
-
-<header class="site-header" id="siteHeader">
-  <div class="container nav-wrap">
-    <a class="brand" href="#inicio" aria-label="Niebla Studios, inicio">
-      <span class="brand-mark" aria-hidden="true">
-        <img src="assets/simbolo.svg" alt="" width="42" height="42">
-      </span>
-      <span class="brand-name">Niebla Studios</span>
-    </a>
-    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Abrir menú"><span></span><span></span></button>
-    <nav class="site-nav" id="siteNav" aria-label="Principal">
-      <ul>
-        <li><a href="#servicios">Servicios y planes</a></li>
-        <li><a href="#soluciones">Soluciones</a></li>
-        <li><a href="#enfoque">Proceso</a></li>
-        <li><a href="#nosotros">Nosotros</a></li>
-        <li><a href="#preguntas">Preguntas</a></li>
-      </ul>
-      <a class="btn btn-primary nav-cta" href="#contacto">Solicitar proyecto</a>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<div class="noise" aria-hidden="true"></div>
+<header class="header" id="top">
+  <div class="wrap nav">
+    <a class="brand" href="#inicio" aria-label="Niebla Studios, inicio"><img src="assets/simbolo.svg" alt="" width="38" height="38"><span>NIEBLA<span class="brand-light">STUDIOS</span></span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><i></i><i></i></button>
+    <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
+      <a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#proceso">Proceso</a><a href="#agencia">Agencia</a>
+      <a class="nav-cta" href="#contacto">Hablemos <span>↗</span></a>
     </nav>
   </div>
 </header>
-
-<main id="main">
-
-  <section class="hero" id="inicio" aria-labelledby="heroTitle" data-pose='{"x":0.72,"y":0.05,"zoom":1.12,"ry":0,"a":0.88}'>
-    <div class="hero-art" aria-hidden="true">
-      <div class="hero-art-grid"></div>
-      <div class="hero-orbit hero-orbit-a"></div><div class="hero-orbit hero-orbit-b"></div>
-      <div class="hero-orbit hero-orbit-c"></div>
-      <div class="hero-art-caption"><span>NS / WEB &amp; SOFTWARE</span><span>01 — 06</span></div>
-      <div class="hero-art-coordinate">18° 29'  N<br>69° 54'  W</div>
-      <div class="hero-art-line"></div>
-    </div>
-    <div class="stage" id="stage" aria-hidden="true">
-      <canvas id="heroCanvas" class="stage-canvas"></canvas>
-      <img class="stage-fallback" src="assets/logo.jpg" alt="" width="1254" height="1254">
-    </div>
-    <div class="container hero-copy">
-      <p class="eyebrow"><span></span> Desarrollo web y software / República Dominicana</p>
-      <h1 id="heroTitle" aria-label="Webs que presentan. Sistemas que organizan."><span class="w"><span>Webs que</span></span><br><span class="w"><span>presentan.</span></span><br><span class="w"><span>Sistemas que</span></span><br><span class="hero-outline">organizan<span class="hero-period">.</span></span></h1>
-      <div class="hero-foot">
-        <p class="lead">Una página que no explica bien lo que vendes se queda corta. Un proceso repartido entre chats y hojas de cálculo también. Diseñamos webs y sistemas para resolver esas dos caras del negocio: cómo te encuentran y cómo trabajas.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#contacto">Solicitar un proyecto <span aria-hidden="true">↗</span></a>
-        </div>
+<main id="contenido" tabindex="-1">
+  <section class="hero section-wrap" id="inicio">
+    <div class="hero-grid"></div><div class="hero-glow"></div>
+    <div class="hero-content">
+      <p class="eyebrow"><span class="live-dot"></span> ESTUDIO DE DESARROLLO DIGITAL <span class="eyebrow-line"></span> REPÚBLICA DOMINICANA</p>
+      <h1>Ideas que toman forma.<br><span class="outline">Software que</span><br><span class="blue-word">hace avanzar.</span></h1>
+      <div class="hero-bottom">
+        <p class="hero-copy">Diseñamos y desarrollamos sitios web, plataformas y sistemas a medida. Tecnología pensada para resolver necesidades reales de tu negocio.</p>
+        <div class="hero-actions"><a class="button button-blue" href="#contacto">Cuéntanos tu proyecto <span>↗</span></a><a class="text-link" href="#servicios">Conoce lo que hacemos <span>↓</span></a></div>
       </div>
     </div>
-    <div class="hero-bottom container">
-      <span>NEGOCIO / EXPERIENCIA / TECNOLOGÍA</span>
-      <span>REPÚBLICA DOMINICANA</span>
-      <span>SCROLL PARA EXPLORAR <b>↓</b></span>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+      <div class="visual-core"><img src="assets/simbolo.svg" alt=""></div>
+      <div class="visual-tag tag-top"><span class="tag-dot"></span> DIGITAL / ENGINEERING</div>
+      <div class="visual-tag tag-bottom">18° 29' N&nbsp;&nbsp; 69° 54' W</div>
+      <div class="visual-index">NS—001</div>
+    </div>
+    <div class="hero-meta"><span>DESARROLLO WEB + SOFTWARE</span><span>REPÚBLICA DOMINICANA</span><a href="#servicios">DESCUBRIR <b>↓</b></a></div>
+  </section>
+
+  <section class="intro section-pad">
+    <div class="wrap intro-grid">
+      <p class="eyebrow">01 / LO QUE HACEMOS</p>
+      <div><h2>Construimos la parte digital que tu negocio <em>necesita.</em></h2><p class="intro-text">Desde una presencia web clara hasta una aplicación que organiza operaciones. Nos involucramos en entender el objetivo, definir el alcance y desarrollar una solución que tenga sentido usar y mantener.</p></div>
     </div>
   </section>
 
-  <section class="section plans-section" id="servicios" aria-labelledby="servicesTitle" data-pose='{"x":1.08,"y":0.02,"zoom":0.78,"ry":0.9,"a":0.76}'>
-    <div class="container">
-      <h2 id="servicesTitle">Servicios y planes para lo que tu negocio necesita.</h2>
-      <p class="section-note">No todos los problemas se resuelven con una página web. A veces hace falta explicar mejor una oferta; otras, dejar de gestionar productos, solicitudes o reservas de forma dispersa. Partimos de esa diferencia para elegir qué construir.</p>
-      <div class="service-group">
-        <h3 class="group-title">Desarrollo web</h3>
-        <ul class="svc-list">
-          <li class="svc" data-i="0"><h4>Landing pages</h4><p class="svc-desc">Para lanzar una oferta, presentar un servicio o concentrar una campaña en una acción concreta. Definimos la jerarquía de información, las secciones, los argumentos, las llamadas a la acción y el recorrido hasta el contacto. El resultado puede incluir formulario, enlaces de contacto, analítica y SEO técnico básico cuando se acuerde. El cliente valida y aporta la información comercial; una landing no garantiza ventas ni tráfico por sí sola.</p></li>
-          <li class="svc" data-i="1"><h4>Catálogos digitales</h4><p class="svc-desc">Para negocios que comparten productos manualmente y necesitan una referencia única y actualizable. El catálogo presenta imágenes, nombres, descripciones y precios; su panel administrativo permite crear, editar y retirar productos sin modificar el código. Los planes de catálogo aprobados incluyen administración. Categorías, destacados, búsqueda, filtros y WhatsApp varían por plan; pedidos, inventario y variantes pertenecen al nivel Avanzado y requieren reglas de operación definidas.</p></li>
-          <li class="svc" data-i="2"><h4>Sitios web corporativos</h4><p class="svc-desc">Para empresas que necesitan una presencia institucional más completa que una página de campaña. Organizamos páginas y contenidos como empresa, servicios, sectores, proyectos, preguntas y contacto según lo que realmente necesite comunicar. Puede incorporar administración de contenido, blog, galerías o idiomas adicionales si se incluyen en el alcance. El cliente aporta y aprueba la información corporativa y las credenciales que se publiquen.</p></li>
-        </ul>
+  <section class="services section-pad" id="servicios">
+    <div class="wrap">
+      <div class="section-heading"><div><p class="eyebrow">02 / CAPACIDADES</p><h2>Dos disciplinas.<br><em>Un mismo objetivo.</em></h2></div><p class="section-aside">No partimos de una plantilla de servicios. Partimos de lo que necesitas conseguir y elegimos la solución adecuada.</p></div>
+      <div class="service-columns">
+        <article class="service-panel">
+          <div class="service-top"><span class="service-number">01</span><span class="service-icon">↗</span></div>
+          <p class="service-kicker">WEB DEVELOPMENT</p><h3>Desarrollo<br>web</h3>
+          <p class="service-desc">Experiencias digitales que presentan tu negocio, comunican tu propuesta y facilitan que las personas den el siguiente paso.</p>
+          <ul class="service-list">
+            <li><span>01</span><div><strong>Landing pages</strong><small>Páginas enfocadas en una oferta, servicio o campaña.</small></div></li>
+            <li><span>02</span><div><strong>Catálogos digitales</strong><small>Productos organizados y editables desde un panel.</small></div></li>
+            <li><span>03</span><div><strong>Sitios corporativos</strong><small>Presencia digital completa para tu empresa.</small></div></li>
+          </ul>
+          <a class="service-link" href="#contacto">Hablemos de tu web <span>↗</span></a>
+        </article>
+        <article class="service-panel service-panel-dark">
+          <div class="service-top"><span class="service-number">02</span><span class="service-icon">⌘</span></div>
+          <p class="service-kicker">SOFTWARE ENGINEERING</p><h3>Desarrollo de<br><em>software</em></h3>
+          <p class="service-desc">Herramientas digitales diseñadas alrededor de tus procesos, tus usuarios y la información que tu operación necesita.</p>
+          <ul class="service-list">
+            <li><span>01</span><div><strong>Sistemas de gestión</strong><small>Centraliza registros, usuarios y operaciones.</small></div></li>
+            <li><span>02</span><div><strong>Sistemas de reservas</strong><small>Administra disponibilidad, horarios y solicitudes.</small></div></li>
+            <li><span>03</span><div><strong>Aplicaciones a medida</strong><small>Software creado para necesidades específicas.</small></div></li>
+          </ul>
+          <a class="service-link" href="#contacto">Hablemos de tu sistema <span>↗</span></a>
+        </article>
       </div>
-      <div class="service-group">
-        <h3 class="group-title">Desarrollo de software</h3>
-        <ul class="svc-list">
-          <li class="svc" data-i="3"><h4>Sistemas de gestión</h4><p class="svc-desc">Para operaciones que necesitan consultar y actualizar información desde un solo entorno. El sistema puede reunir registros de clientes, productos, tareas, solicitudes u otras entidades; incorporar usuarios y permisos; y facilitar búsquedas, filtros, reportes o exportaciones. Primero se documentan los módulos, quién puede ver o modificar cada dato y qué estados tiene el proceso. No se presupone que todos los sistemas necesiten los mismos módulos.</p></li>
-          <li class="svc" data-i="4"><h4>Sistemas de reservas</h4><p class="svc-desc">Para negocios que asignan citas, espacios, empleados o recursos en horarios concretos. La solución puede mostrar disponibilidad, registrar solicitudes y permitir que el equipo confirme, reprograme o cancele según reglas definidas. Antes de construir se aclaran duración, capacidad, anticipación mínima, bloqueos, cancelaciones, recordatorios y zonas horarias. Pagos, calendarios externos y notificaciones de terceros requieren evaluación y cotización específica.</p></li>
-          <li class="svc" data-i="5"><h4>Aplicaciones web a medida</h4><p class="svc-desc">Para necesidades que no encajan en una web informativa ni en un sistema estándar. La aplicación se diseña alrededor de tareas, usuarios, reglas y datos propios del negocio. El trabajo comienza con levantamiento de requisitos y una definición de módulos, permisos, integraciones, criterios de aceptación y riesgos. Se cotiza individualmente; no se ofrece como un paquete cerrado ni se promete una función antes de validar su viabilidad.</p></li>
-        </ul>
+      <div class="service-note"><span class="note-mark">+</span><p><strong>¿No sabes qué necesitas?</strong> Cuéntanos cómo funciona tu negocio. Te ayudamos a identificar si lo adecuado es una web, un sistema o algo más sencillo.</p></div>
+    </div>
+  </section>
+
+  <section class="projects section-pad" id="proyectos">
+    <div class="wrap">
+      <div class="section-heading"><div><p class="eyebrow">03 / EXPLORACIÓN</p><h2>Ideas convertidas<br>en <em>experiencias.</em></h2></div><p class="section-aside">Demostraciones conceptuales para mostrar distintos tipos de soluciones que podemos desarrollar. No son proyectos entregados a clientes.</p></div>
+      <div class="project-grid">
+        <a class="project-card project-large" href="https://niebla-catalogo-digital.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <div class="project-screen screen-catalog"><div class="mock-top"><span>ATELIER / MARKET</span><span>COLLECTION 2026</span></div><div class="mock-title">Objetos para<br><i>vivir mejor.</i></div><div class="mock-products"><span class="mock-product product-a"></span><span class="mock-product product-b"></span><span class="mock-product product-c"></span></div><div class="mock-foot">CATÁLOGO DIGITAL / DEMO</div></div>
+          <div class="project-info"><div><span class="project-type">DEMO CONCEPTUAL / 01</span><h3>Catálogo digital</h3><p>Productos, categorías y administración desde un solo lugar.</p></div><span class="project-arrow">↗</span></div>
+        </a>
+        <a class="project-card" href="https://niebla-sistema-gestion.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <div class="project-screen screen-dashboard"><div class="dash-sidebar"><b>n.</b><span></span><span></span><span></span><span></span></div><div class="dash-main"><div class="dash-heading">Overview <small>Workspace / 2026</small></div><div class="dash-stats"><i></i><i></i><i></i></div><div class="dash-chart"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="dash-rows"><i></i><i></i><i></i></div></div></div>
+          <div class="project-info"><div><span class="project-type">DEMO CONCEPTUAL / 02</span><h3>Sistema de gestión</h3><p>Una interfaz para organizar información y operaciones.</p></div><span class="project-arrow">↗</span></div>
+        </a>
+        <a class="project-card" href="https://niebla-sistema-reservas.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <div class="project-screen screen-booking"><div class="booking-head"><span>RESERVA / STUDIO</span><b>01—2026</b></div><div class="booking-title">Tu tiempo,<br><i>bien organizado.</i></div><div class="booking-calendar"><div class="calendar-row"><b>LU</b><b>MA</b><b>MI</b><b>JU</b><b>VI</b><b>SA</b><b>DO</b></div><div class="calendar-row"><span>09</span><span>10</span><span class="selected">11</span><span>12</span><span>13</span><span>14</span><span>15</span></div><div class="calendar-slots"><i></i><i></i><i></i></div></div></div>
+          <div class="project-info"><div><span class="project-type">DEMO CONCEPTUAL / 03</span><h3>Sistema de reservas</h3><p>Disponibilidad, horarios y solicitudes en una experiencia.</p></div><span class="project-arrow">↗</span></div>
+        </a>
       </div>
-      <div class="service-outcomes">
-        <div class="service-outcomes-intro">
-          <p class="eyebrow"><span></span> Nuestra promesa de trabajo</p>
-          <h3>Combinamos crecimiento, eficiencia y diseño para mejorar los negocios.</h3>
-          <p>No son tres paquetes ni resultados garantizados. Son tres criterios para evaluar si una solución tiene sentido: ayudar a comunicar una oferta, ordenar una operación y hacer que la experiencia sea clara y fácil de utilizar.</p>
-        </div>
-        <div class="outcome-grid">
-          <article class="outcome-card"><span>01 / CRECIMIENTO</span><h4>Que la propuesta se entienda.</h4><p>Una web debe explicar qué ofrece el negocio, para quién es y cómo dar el siguiente paso. La captación y las ventas también dependen de la oferta, el mercado y el tráfico.</p><small>Propuesta · Contenido · Contacto</small></article>
-          <article class="outcome-card"><span>02 / EFICIENCIA</span><h4>Que la información sea útil.</h4><p>Un sistema puede reunir registros, estados y tareas que hoy están repartidos. Su alcance debe responder al proceso real, no a una lista de funciones de moda.</p><small>Gestión · Datos · Automatización viable</small></article>
-          <article class="outcome-card"><span>03 / DISEÑO</span><h4>Que utilizarlo tenga sentido.</h4><p>El diseño atraviesa tanto las webs como el software: organiza la información, hace visibles las acciones y reduce la confusión de las personas que lo utilizan.</p><small>Interfaz · UX · Adaptación móvil</small></article>
-        </div>
-      </div>
+      <p class="project-disclaimer"><span>ⓘ</span> Estas demos utilizan datos ficticios y tienen fines demostrativos. Su disponibilidad no implica que todas las funciones estén conectadas a servicios reales.</p>
+    </div>
+  </section>
 
-      <header class="section-head" id="planes">
-        <p class="eyebrow"><span></span> Alcances por nivel</p>
-        <h2 id="plansTitle">Planes por servicio.</h2>
-        <p class="section-note">Cada servicio se organiza en tres niveles. Esencial resuelve lo fundamental; Profesional amplía capacidades; Avanzado incorpora procesos e integraciones de mayor alcance. El presupuesto final depende de los requisitos y queda definido por escrito antes de comenzar.</p>
-      </header>
-
-      <div class="plans-disclosure">
-        <strong>Cómo leer estos planes</strong>
-        <p>Los planes de catálogo muestran alcances de referencia. Para los demás servicios definimos las funciones, entregables y límites durante el diagnóstico; todo queda detallado en la propuesta antes de comenzar. El presupuesto depende del contenido, las integraciones y la complejidad.</p>
-      </div>
-
-      <div class="plan-services">
-        <details class="plan-service" open>
-          <summary><span class="plan-index">01</span><span class="plan-service-name">Catálogos digitales</span><span class="plan-status">Alcance definido por proyecto</span><span class="plan-toggle" aria-hidden="true">+</span></summary>
-          <div class="plan-cards">
-            <article class="plan-card"><span class="plan-level">ESENCIAL</span><h3>Tu catálogo, bajo control.</h3><ul><li>Catálogo personalizado.</li><li>Panel administrativo.</li><li>Crear, editar y eliminar productos.</li><li>Gestionar precios e imágenes.</li><li>Diseño adaptable a móviles.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">PROFESIONAL</span><h3>Más formas de explorar.</h3><ul><li>Todo lo incluido en Esencial.</li><li>Categorías de productos.</li><li>Productos destacados.</li><li>Buscador y filtros.</li><li>Integración con WhatsApp.</li><li>Estadísticas básicas.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">AVANZADO</span><h3>Más control operativo.</h3><ul><li>Todo lo incluido en Profesional.</li><li>Gestión de pedidos.</li><li>Control de inventario.</li><li>Variantes de productos.</li><li>Funciones adicionales definidas según el negocio.</li></ul></article>
-          </div>
-        </details>
-
-        <details class="plan-service">
-          <summary><span class="plan-index">02</span><span class="plan-service-name">Landing pages</span><span class="plan-status">Alcance según proyecto</span><span class="plan-toggle" aria-hidden="true">+</span></summary>
-          <div class="plan-cards">
-            <article class="plan-card"><span class="plan-level">ESENCIAL</span><h3>Una oferta, bien presentada.</h3><ul><li>Una landing page de diseño personalizado.</li><li>Hasta 5 secciones.</li><li>Adaptación a móviles.</li><li>Botón de WhatsApp o formulario de contacto.</li><li>SEO básico.</li><li>Configuración y publicación en el hosting y dominio contratados por el cliente.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">PROFESIONAL</span><h3>Más interacción y medición.</h3><ul><li>Todo lo incluido en Esencial.</li><li>Hasta 8 secciones.</li><li>Animaciones e interacciones.</li><li>Formularios personalizados.</li><li>Integración con herramientas de analítica.</li><li>Optimización de rendimiento.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">AVANZADO</span><h3>Captación conectada.</h3><ul><li>Todo lo incluido en Profesional.</li><li>Formularios avanzados.</li><li>Integraciones con servicios externos, según viabilidad y alcance.</li><li>Automatización básica de contactos y notificaciones.</li><li>Seguimiento de conversiones, cuando se acuerde la herramienta.</li></ul></article>
-          </div>
-        </details>
-
-        <details class="plan-service">
-          <summary><span class="plan-index">03</span><span class="plan-service-name">Sitios web corporativos</span><span class="plan-status">Alcance según proyecto</span><span class="plan-toggle" aria-hidden="true">+</span></summary>
-          <div class="plan-cards">
-            <article class="plan-card"><span class="plan-level">ESENCIAL</span><h3>La presencia de tu empresa.</h3><ul><li>Sitio web de hasta 5 páginas.</li><li>Diseño personalizado y adaptación a móviles.</li><li>Formulario de contacto.</li><li>Secciones de empresa y servicios.</li><li>SEO básico.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">PROFESIONAL</span><h3>Contenido que puedes gestionar.</h3><ul><li>Todo lo incluido en Esencial.</li><li>Hasta 10 páginas.</li><li>Panel administrativo para editar contenido.</li><li>Blog o noticias.</li><li>Galería de proyectos.</li><li>Integración con redes sociales.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">AVANZADO</span><h3>Una presencia más completa.</h3><ul><li>Todo lo incluido en Profesional.</li><li>Sitio multidioma.</li><li>Secciones y módulos personalizados.</li><li>Integraciones con servicios externos.</li><li>Gestión avanzada de contenido.</li></ul></article>
-          </div>
-        </details>
-
-        <details class="plan-service">
-          <summary><span class="plan-index">04</span><span class="plan-service-name">Sistemas de gestión</span><span class="plan-status">Cotización por alcance</span><span class="plan-toggle" aria-hidden="true">+</span></summary>
-          <div class="plan-cards">
-            <article class="plan-card"><span class="plan-level">ESENCIAL</span><h3>Una operación centralizada.</h3><ul><li>Inicio de sesión.</li><li>Panel administrativo.</li><li>Gestión de un tipo de registro (clientes, productos, empleados u otro).</li><li>Crear, editar y eliminar registros.</li><li>Base de datos.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">PROFESIONAL</span><h3>Más módulos y control.</h3><ul><li>Todo lo incluido en Esencial.</li><li>Gestión de varios módulos.</li><li>Diferentes roles de usuarios.</li><li>Búsquedas y filtros.</li><li>Reportes básicos.</li><li>Exportación de información.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">AVANZADO</span><h3>Procesos conectados.</h3><ul><li>Todo lo incluido en Profesional.</li><li>Flujos de trabajo personalizados.</li><li>Notificaciones.</li><li>Automatizaciones.</li><li>Integraciones externas.</li><li>Reportes personalizados.</li></ul></article>
-          </div>
-        </details>
-
-        <details class="plan-service">
-          <summary><span class="plan-index">05</span><span class="plan-service-name">Sistemas de reservas</span><span class="plan-status">Cotización por alcance</span><span class="plan-toggle" aria-hidden="true">+</span></summary>
-          <div class="plan-cards">
-            <article class="plan-card"><span class="plan-level">ESENCIAL</span><h3>Reservas organizadas.</h3><ul><li>Página de reservas.</li><li>Calendario de disponibilidad.</li><li>Panel administrativo.</li><li>Crear, confirmar y cancelar reservas.</li><li>Gestión de horarios.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">PROFESIONAL</span><h3>Recursos y seguimiento.</h3><ul><li>Todo lo incluido en Esencial.</li><li>Gestión de empleados o recursos.</li><li>Recordatorios por correo.</li><li>Historial de reservas.</li><li>Diferentes servicios y duraciones.</li><li>Gestión de clientes.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">AVANZADO</span><h3>Reglas y conexiones.</h3><ul><li>Todo lo incluido en Profesional.</li><li>Pagos en línea.</li><li>Reglas de disponibilidad personalizadas.</li><li>Reservas recurrentes.</li><li>Integraciones externas.</li></ul></article>
-          </div>
-        </details>
-
-        <details class="plan-service">
-          <summary><span class="plan-index">06</span><span class="plan-service-name">Aplicaciones web a medida</span><span class="plan-status">Cotización individual</span><span class="plan-toggle" aria-hidden="true">+</span></summary>
-          <div class="plan-cards">
-            <article class="plan-card"><span class="plan-level">ESENCIAL</span><h3>Una función principal.</h3><ul><li>Una función principal definida.</li><li>Herramientas necesarias para utilizarla.</li><li>Alcance y criterios de aceptación acordados.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">PROFESIONAL</span><h3>Varios módulos conectados.</h3><ul><li>Varios módulos funcionales.</li><li>Usuarios y permisos.</li><li>Flujos de trabajo definidos para el proyecto.</li></ul></article>
-            <article class="plan-card"><span class="plan-level">AVANZADO</span><h3>Procesos de mayor complejidad.</h3><ul><li>Procesos complejos.</li><li>Integraciones externas.</li><li>Automatizaciones.</li><li>Alcance diseñado a partir de requisitos específicos.</li></ul></article>
-          </div>
-        </details>
-      </div>
-
-      <div class="plans-foot">
-        <p>Los niveles no sustituyen el diagnóstico. Pagos en línea, integraciones, automatizaciones y servicios de terceros se revisan por viabilidad y se describen expresamente en la propuesta. Hosting, licencias y otros servicios externos se cotizan por separado.</p>
-        <a class="btn btn-primary" href="#contacto">Consultar un plan <span aria-hidden="true">↗</span></a>
+  <section class="approach section-pad" id="proceso">
+    <div class="wrap">
+      <div class="section-heading"><div><p class="eyebrow">04 / CÓMO TRABAJAMOS</p><h2>De la necesidad<br>al <em>producto.</em></h2></div><p class="section-aside">Un proceso claro evita construir a ciegas. Cada etapa tiene un objetivo y una decisión que validar.</p></div>
+      <div class="process-list">
+        <article><span class="process-no">01</span><div><h3>Entender</h3><p>Conocemos tu negocio, el problema, las personas involucradas y lo que quieres conseguir.</p></div><span class="process-output">CONTEXTO</span></article>
+        <article><span class="process-no">02</span><div><h3>Definir</h3><p>Establecemos la solución, las funcionalidades, el alcance, los entregables y las prioridades.</p></div><span class="process-output">PLAN</span></article>
+        <article><span class="process-no">03</span><div><h3>Desarrollar</h3><p>Diseñamos y construimos la solución, compartiendo avances para validar las decisiones importantes.</p></div><span class="process-output">CONSTRUCCIÓN</span></article>
+        <article><span class="process-no">04</span><div><h3>Validar y entregar</h3><p>Probamos los flujos acordados, corregimos defectos y entregamos el proyecto con sus accesos e indicaciones.</p></div><span class="process-output">ENTREGA</span></article>
       </div>
     </div>
   </section>
 
-  <section class="section" id="soluciones" aria-labelledby="solutionsTitle">
-    <div class="container">
-      <header class="section-head">
-        <p class="eyebrow"><span></span> De la necesidad a la herramienta</p>
-        <h2 id="solutionsTitle">No todos los negocios necesitan lo mismo.</h2>
-        <p class="section-note">La tecnología adecuada depende de dónde aparece el problema. Estos escenarios ayudan a reconocer qué tipo de solución podría encajar; el alcance final se define después de conocer el negocio y sus procesos.</p>
-      </header>
-      <div class="method-grid solution-grid">
-        <article class="method-step"><span>01 / PRESENTAR</span><h3>Cuando tu oferta no se entiende de un vistazo</h3><p>Una landing page o un sitio corporativo organiza servicios, ventajas, información clave y vías de contacto. Es útil cuando la presencia digital está repartida entre redes, documentos o mensajes y hace falta una referencia clara para compartir.</p><p><strong>Puede incluir:</strong> páginas y secciones, formularios, contenido estructurado, galería, información de servicios y SEO técnico básico, según el alcance.</p></article>
-        <article class="method-step"><span>02 / MOSTRAR Y ACTUALIZAR</span><h3>Cuando tus productos cambian con frecuencia</h3><p>Un catálogo digital permite reunir productos, imágenes, precios y categorías en un solo lugar. El panel administrativo evita depender de editar el código para cada actualización de producto.</p><p><strong>Puede incluir:</strong> administración de productos, categorías, búsqueda, filtros, destacados y contacto por WhatsApp. Pedidos e inventario requieren definir reglas concretas.</p></article>
-        <article class="method-step"><span>03 / ORGANIZAR</span><h3>Cuando los datos y tareas están dispersos</h3><p>Un sistema de gestión puede centralizar registros y facilitar su consulta, actualización y seguimiento. Antes de desarrollarlo hay que conocer quién lo usa, qué información maneja y qué decisiones necesita apoyar.</p><p><strong>Puede incluir:</strong> usuarios, roles, módulos, filtros, reportes y exportaciones, siempre sujetos a requisitos y permisos definidos.</p></article>
-        <article class="method-step"><span>04 / COORDINAR</span><h3>Cuando dependes de horarios y disponibilidad</h3><p>Una solución de reservas organiza servicios, horarios, recursos y estados para que el equipo y sus clientes consulten la disponibilidad de forma coherente.</p><p><strong>Hay que definir:</strong> duración, capacidad, cancelaciones, confirmaciones, responsables, recordatorios y si se requieren pagos o calendarios externos.</p></article>
-        <article class="method-step"><span>05 / ADAPTAR</span><h3>Cuando el proceso no encaja en una herramienta estándar</h3><p>Una aplicación web a medida se estudia cuando existe una necesidad específica que no se resuelve adecuadamente con una web informativa o un módulo sencillo.</p><p><strong>Primero se analiza:</strong> usuarios, tareas, datos, reglas, integraciones, riesgos y mantenimiento. No se promete una solución compleja antes de validar su viabilidad.</p></article>
-        <article class="method-step"><span>06 / ELEGIR BIEN</span><h3>Cuando todavía no sabes qué necesitas</h3><p>No tienes que llegar con una arquitectura ni con una lista de funciones. Podemos revisar cómo trabajas, identificar el punto de fricción y determinar si basta con una página, un catálogo o si realmente hace falta software.</p><p><strong>El objetivo:</strong> evitar construir algo más costoso o complejo de lo necesario.</p></article>
-      </div>
-      <p class="method-footnote">Las funciones enumeradas son posibilidades, no inclusiones automáticas. Cada propuesta especifica módulos, límites, integraciones, entregables y exclusiones.</p>
+  <section class="about section-pad" id="agencia">
+    <div class="wrap about-wrap">
+      <div class="about-top"><p class="eyebrow">05 / NIEBLA STUDIOS</p><span class="about-coordinate">INDEPENDENT DIGITAL STUDIO<br>BASED IN DOMINICAN REPUBLIC</span></div>
+      <h2>No hacemos tecnología<br>por hacerla. <em>La hacemos útil.</em></h2>
+      <div class="about-bottom"><p>Niebla Studios es una agencia independiente de desarrollo web y software. Combinamos desarrollo, diseño y visión de negocio para crear soluciones digitales con un propósito claro.</p><div class="about-values"><div><b>01</b><span>Claridad antes que complejidad.</span></div><div><b>02</b><span>Diseño que ayuda a utilizar.</span></div><div><b>03</b><span>Soluciones que responden al contexto.</span></div></div></div>
+      <div class="team-strip"><div><span class="team-label">EL EQUIPO FUNDADOR</span><p>Dos perfiles complementarios, un mismo compromiso con cada proyecto.</p></div><div class="team-role"><span>JEREMIAS</span><strong>Backend &amp; gestión de proyectos</strong></div><div class="team-role"><span>NELXUS</span><strong>Frontend &amp; marketing</strong></div></div>
     </div>
   </section>
 
-
-  
-
-  <section class="section method-section" id="enfoque" aria-labelledby="methodTitle" data-pose='{"x":0.88,"y":-0.08,"zoom":0.82,"ry":1.65,"a":0.76}'>
-    <div class="container">
-      <div class="method-intro">
-        <p class="eyebrow"><span></span> Nuestro enfoque y proceso / 02</p>
-        <h2 id="methodTitle">No empezamos por el código. Empezamos por el problema.</h2>
-        <p class="section-note">El objetivo no es añadir tecnología porque sí. Es entregar una herramienta que encaje con el trabajo que necesitas hacer, con límites claros y decisiones acordadas antes de desarrollar.</p>
-      </div>
-      <div class="method-grid">
-        <article class="method-step"><span>01 / DESCUBRIMIENTO</span><h3>Entendemos el contexto antes de proponer</h3><p>Conversamos sobre el negocio, sus usuarios y la forma actual de trabajar. Revisamos qué información se presenta, qué tareas se repiten y dónde se producen errores, retrasos o confusión.</p><p><strong>Necesitamos del cliente:</strong> contexto, objetivos, ejemplos del proceso actual y acceso a los materiales que pueda compartir.</p><p><strong>Resultado:</strong> un diagnóstico inicial del problema y de las personas involucradas.</p></article>
-        <article class="method-step"><span>02 / ALCANCE Y DISEÑO</span><h3>Convertimos la necesidad en un plan concreto</h3><p>Definimos estructura, pantallas, módulos, funciones, contenido, integraciones y prioridades. También identificamos dependencias, exclusiones y qué puede quedar para una fase posterior.</p><p><strong>Necesitamos del cliente:</strong> revisar la propuesta, facilitar contenido y resolver dudas de negocio.</p><p><strong>Resultado:</strong> propuesta con alcance, entregables, precio, plazo estimado y condiciones.</p></article>
-        <article class="method-step"><span>03 / DESARROLLO</span><h3>Construimos lo que fue aprobado</h3><p>Implementamos la interfaz y la lógica acordadas. Compartimos avances en los puntos definidos para revisar el funcionamiento y detectar diferencias antes de la entrega.</p><p><strong>Necesitamos del cliente:</strong> comentarios consolidados, decisiones oportunas y validación de los datos y textos de su negocio.</p><p><strong>Resultado:</strong> una versión funcional que puede revisarse frente al alcance aprobado.</p></article>
-        <article class="method-step"><span>04 / VALIDACIÓN Y ENTREGA</span><h3>Comprobamos los flujos y transferimos el proyecto</h3><p>Probamos las funciones incluidas, la adaptación a dispositivos y los criterios de aceptación acordados. Corregimos defectos cubiertos y preparamos la publicación y transferencia.</p><p><strong>Recibes:</strong> proyecto publicado cuando corresponda, accesos e instrucciones básicas; capacitación cuando existe un panel administrativo. La garantía es de 30 días para errores de desarrollo dentro del alcance.</p></article>
-      </div>
-      <div class="method-decision"><strong>Cómo protegemos el alcance:</strong><p>Una función nueva, una integración o un cambio de reglas después de aprobar la propuesta puede afectar precio y plazo. Se evalúa y cotiza antes de incorporarse. Los servicios externos y sus licencias se identifican por separado.</p></div>
-    </div>
-  </section>
-
-  
-
-  <section class="section glass" id="nosotros" aria-labelledby="aboutTitle" data-pose='{"x":0.92,"y":0.02,"zoom":0.84,"ry":3.4,"a":0.76}'>
-    <div class="container about-grid">
-      <h2 id="aboutTitle">Desarrollo con criterio de negocio, no por acumular funciones.</h2>
-      <div class="about-body">
-        <p>Niebla Studios es una agencia independiente de desarrollo web y software con base en República Dominicana. Trabajamos en español con negocios que necesitan presentar mejor sus servicios, ordenar información o convertir procesos manuales en herramientas digitales.</p>
-        <p>No creemos que una web tenga que convertirse en una aplicación ni que cada operación necesite un sistema a medida. Una página, un catálogo administrable y un panel interno resuelven problemas distintos. Recomendamos lo que encaja con el proceso, el presupuesto y la capacidad de mantenerlo; si algo no aporta valor o no es viable, lo decimos antes de construirlo.</p>
-      </div>
-    </div>
-    <div class="container studio-content">
-      <div class="studio-direction"><p class="eyebrow"><span></span> Nuestra dirección</p><h3>Una marca con mirada internacional. Un trabajo que se demuestra proyecto a proyecto.</h3><p>Aspiramos a construir una empresa tecnológica reconocida más allá de nuestras fronteras. Esa ambición exige algo más que una imagen: procesos consistentes, calidad verificable, comunicación clara y capacidad real para cumplir lo acordado.</p></div>
-      <div class="studio-principles">
-        <article><span>01</span><h3>Primero entender</h3><p>Escuchamos el contexto antes de recomendar una tecnología.</p></article>
-        <article><span>02</span><h3>Diseñar con intención</h3><p>Cada decisión visual debe mejorar comprensión, uso o identidad.</p></article>
-        <article><span>03</span><h3>Construir con criterio</h3><p>Elegimos funciones y arquitectura según el problema y su viabilidad.</p></article>
-        <article><span>04</span><h3>Entregar con claridad</h3><p>El cliente debe conocer el alcance, los accesos y cómo utilizar lo recibido.</p></article>
-      </div>
-      <div class="standards">
-        <div class="standards-heading"><p class="eyebrow"><span></span> Cómo entendemos la calidad</p><h3>Diez criterios que guían el trabajo, no frases para decorar una web.</h3><p>Se aplican según el tipo de proyecto y el alcance contratado. Su cumplimiento debe comprobarse en cada entrega; no representan certificaciones ni resultados históricos.</p></div>
-        <ol class="standards-grid">
-          <li><b>01</b><span><strong>Diseño personalizado</strong><small>La estructura visual responde al negocio y al contenido real.</small></span></li>
-          <li><b>02</b><span><strong>Experiencia responsive</strong><small>La interfaz se adapta a móvil, tablet y escritorio.</small></span></li>
-          <li><b>03</b><span><strong>Rendimiento cuidado</strong><small>Se revisan recursos y tiempos de carga relevantes.</small></span></li>
-          <li><b>04</b><span><strong>SEO técnico básico</strong><small>Se prepara la estructura técnica; no se garantizan posiciones.</small></span></li>
-          <li><b>05</b><span><strong>Verificación funcional</strong><small>Se revisan las acciones acordadas y se registran sus criterios de aceptación antes de entregar.</small></span></li>
-          <li><b>06</b><span><strong>Experiencia de usuario</strong><small>Las tareas y la información deben ser comprensibles.</small></span></li>
-          <li><b>07</b><span><strong>Código mantenible</strong><small>La solución debe poder revisarse y evolucionar razonablemente.</small></span></li>
-          <li><b>08</b><span><strong>Seguridad y datos</strong><small>Se consideran accesos, permisos y datos manejados por el proyecto.</small></span></li>
-          <li><b>09</b><span><strong>Documentación y orientación</strong><small>El cliente recibe indicaciones para utilizar lo entregado.</small></span></li>
-          <li><b>10</b><span><strong>Seguimiento posterior</strong><small>Se aclaran garantía, soporte y opciones de mantenimiento.</small></span></li>
-        </ol>
+  <section class="faq section-pad" id="preguntas">
+    <div class="wrap faq-grid">
+      <div><p class="eyebrow">06 / PREGUNTAS FRECUENTES</p><h2>Antes de<br><em>empezar.</em></h2><p class="faq-intro">Lo esencial para saber cómo trabajamos. Los detalles de cada proyecto quedan establecidos en su propuesta.</p></div>
+      <div class="faq-list">
+        <details><summary>¿Cuánto cuesta desarrollar un proyecto?<span>+</span></summary><p>Depende del alcance, las funcionalidades, el contenido y las integraciones. Primero entendemos qué necesitas y luego preparamos una propuesta con precio y entregables definidos.</p></details>
+        <details><summary>¿Cuánto tiempo toma?<span>+</span></summary><p>El plazo depende de la complejidad y de la disponibilidad de materiales y aprobaciones. Lo estimamos después de revisar los requisitos.</p></details>
+        <details><summary>¿Cómo se realizan los pagos?<span>+</span></summary><p>La condición general es 50% para iniciar y 50% antes de la entrega final. Cualquier condición particular queda por escrito en la propuesta.</p></details>
+        <details><summary>¿El dominio y el hosting están incluidos?<span>+</span></summary><p>El hosting no está incluido por defecto. En los proyectos donde aplique, el primer año del dominio puede estar incluido y se registra a nombre del cliente. Las renovaciones y servicios externos se detallan en la propuesta.</p></details>
+        <details><summary>¿Puedo solicitar cambios durante el desarrollo?<span>+</span></summary><p>Los ajustes dentro del alcance aprobado se revisan durante el proceso. Las nuevas funciones o cambios que amplíen ese alcance se evalúan y cotizan antes de incorporarse.</p></details>
+        <details><summary>¿Qué sucede después de la entrega?<span>+</span></summary><p>Entregamos accesos e indicaciones básicas. Los proyectos incluyen 30 días de garantía para corregir errores de desarrollo dentro del alcance. El mantenimiento posterior es opcional y se acuerda por separado.</p></details>
       </div>
     </div>
   </section>
 
-  <section class="section" id="preguntas" aria-labelledby="faqTitle">
-    <div class="container">
-      <header class="section-head">
-        <p class="eyebrow"><span></span> Información antes de comenzar</p>
-        <h2 id="faqTitle">Preguntas que conviene resolver desde el principio.</h2>
-        <p class="section-note">Cada proyecto tiene particularidades. Estas respuestas explican las reglas generales; la propuesta y el alcance aprobado determinan las condiciones concretas.</p>
-      </header>
-      <div class="method-grid faq-grid">
-        <article class="method-step"><span>01 / PRESUPUESTO</span><h3>¿Cuánto cuesta un proyecto?</h3><p>No existe un precio único para todas las webs y sistemas. El presupuesto depende del tipo de solución, sus páginas o módulos, las funciones, las integraciones, el contenido y la complejidad. La propuesta debe indicar el precio y el plazo estimado antes de iniciar.</p></article>
-        <article class="method-step"><span>02 / PLAZOS</span><h3>¿Cuánto tarda el desarrollo?</h3><p>Depende del alcance y de la disponibilidad de materiales, accesos y aprobaciones. Después de revisar la necesidad, indicamos un plazo estimado. No se fija una fecha responsablemente sin conocer qué hay que construir.</p></article>
-        <article class="method-step"><span>03 / PAGOS</span><h3>¿Cómo se realizan los pagos?</h3><p>La condición general acordada es 50% para iniciar y 50% antes de la entrega final. Cualquier condición particular debe quedar escrita en la propuesta correspondiente.</p></article>
-        <article class="method-step"><span>04 / DOMINIO</span><h3>¿Quién es dueño del dominio?</h3><p>En los planes donde aplica, el primer año está incluido y el dominio se registra a nombre del cliente. Desde el segundo año, el cliente asume la renovación. Si contrata mantenimiento, Niebla Studios puede gestionar ese trámite.</p></article>
-        <article class="method-step"><span>05 / INFRAESTRUCTURA</span><h3>¿El hosting está incluido?</h3><p>No por defecto. Hosting, licencias, correo, APIs y otros servicios externos se presupuestan por separado, salvo que la propuesta indique expresamente lo contrario.</p></article>
-        <article class="method-step"><span>06 / CAMBIOS</span><h3>¿Puedo pedir funciones después?</h3><p>Sí, pero una función, página, integración o cambio de reglas que no esté en el alcance aprobado se evalúa y cotiza aparte. Los defectos que incumplan el alcance se tratan según la garantía aplicable.</p></article>
-        <article class="method-step"><span>07 / GARANTÍA</span><h3>¿Qué cubre la garantía?</h3><p>Se ofrecen 30 días de garantía para corregir errores de desarrollo dentro del alcance acordado. No equivale a cambios de funcionalidades, ampliaciones ni servicios de terceros fuera del control del equipo.</p></article>
-        <article class="method-step"><span>08 / MANTENIMIENTO</span><h3>¿Tengo que contratar mantenimiento?</h3><p>No. El mantenimiento es opcional y se acuerda por separado. Su alcance, frecuencia, soporte y precio deben aparecer en una propuesta específica; no se ofrece soporte ilimitado por defecto.</p></article>
-        <article class="method-step"><span>09 / ADMINISTRACIÓN</span><h3>¿Podré actualizar el contenido?</h3><p>Depende del tipo de proyecto. Los planes de catálogo digital aprobados incluyen panel administrativo; otros sitios o sistemas incorporan administración cuando forma parte del alcance. Cuando hay panel, se contempla capacitación básica.</p></article>
-        <article class="method-step"><span>10 / PROPIEDAD</span><h3>¿Quién conserva el código y los derechos?</h3><p>La titularidad y los derechos de uso se establecen en el contrato según el tipo de proyecto y los componentes utilizados. No asumimos una transferencia universal sin que quede definida por escrito.</p></article>
-        <article class="method-step"><span>11 / MATERIALES</span><h3>¿Debo tener todo preparado?</h3><p>No para la primera conversación. Para desarrollar sí necesitaremos los textos, imágenes, logotipo, datos y accesos que correspondan. La propuesta especificará qué materiales aporta cada parte y qué carga inicial está incluida.</p></article>
-      </div>
+  <section class="contact section-pad" id="contacto">
+    <div class="wrap contact-wrap">
+      <p class="eyebrow"><span class="live-dot"></span> 07 / EMPECEMOS</p>
+      <h2>¿Qué quieres<br><em>construir?</em></h2>
+      <div class="contact-bottom"><p>Cuéntanos qué necesita tu negocio. No tienes que llegar con la solución definida; podemos empezar por entender el problema.</p><div class="contact-actions"><a class="button button-blue" id="emailCta" href="mailto:nieblastudiosrd@gmail.com?subject=Proyecto%20-%20Niebla%20Studios">Hablemos de tu proyecto <span>↗</span></a><a class="contact-mail" href="mailto:nieblastudiosrd@gmail.com">nieblastudiosrd@gmail.com</a><a class="contact-social" href="https://www.instagram.com/nieblastudios/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div>
     </div>
   </section>
-
-  <section class="section" id="contacto" aria-labelledby="contactTitle" data-pose='{"x":0.9,"y":0.04,"zoom":0.82,"ry":5.2,"a":0.76}'>
-    <div class="container"><div class="contact-grid">
-      <header class="section-head">
-        <h2 id="contactTitle">Empecemos por lo que hoy te está haciendo falta.</h2>
-        <p class="lead">¿Necesitas presentar un servicio, mantener un catálogo actualizado o dejar de coordinar una operación desde varios sitios? Cuéntanos cómo lo haces hoy y qué te gustaría cambiar. No hace falta que llegues con una solución técnica decidida.</p>
-        <p class="section-note">Antes de iniciar recibirás una propuesta con el alcance, los entregables, el precio y el plazo estimado. La forma general de pago es 50% al comenzar y 50% antes de la entrega final.</p>
-        
-        <div class="contact-channels">
-          <a class="btn btn-ghost" id="whatsappLink" hidden>WhatsApp</a>
-          <a class="btn btn-ghost" href="https://www.instagram.com/nieblastudios/" target="_blank" rel="noopener noreferrer" aria-label="Visitar Instagram de Niebla Studios">Instagram <span aria-hidden="true">↗</span></a>
-        </div>
-      </header>
-      <div class="form contact-card">
-        <p class="muted">CONTACTO DIRECTO</p>
-        <h3>Hablemos de tu proyecto.</h3>
-        <p>Escríbenos con el tipo de negocio, el problema que quieres resolver y cualquier función que consideres importante. Te responderemos para aclarar el alcance antes de hablar de desarrollo.</p>
-        <div class="contact-actions"><a class="btn btn-primary" id="emailLink" href="mailto:nieblastudiosrd@gmail.com">Escribir por correo <span aria-hidden="true">↗</span></a><button class="btn btn-ghost" id="copyEmail" type="button">Copiar correo</button></div><p class="copy-email-status muted" id="copyEmailStatus" role="status" aria-live="polite"></p>
-      </div>
-      </div>
-      <div class="contact-start">
-        <div class="contact-start-heading"><p class="eyebrow"><span></span> Cómo iniciar</p><h3>No necesitas tener todas las respuestas para escribirnos.</h3><p>Con una primera descripción podemos identificar qué información falta y si tiene sentido avanzar.</p></div>
-        <ol class="contact-start-steps">
-          <li><b>01</b><div><strong>Cuéntanos el contexto</strong><p>Qué hace tu negocio, qué ofreces y cómo trabajas actualmente.</p></div></li>
-          <li><b>02</b><div><strong>Describe el reto</strong><p>Qué te gustaría presentar mejor, organizar, automatizar o construir.</p></div></li>
-          <li><b>03</b><div><strong>Revisamos la viabilidad</strong><p>Conversamos sobre alcance, prioridades, recursos y próximos pasos antes de preparar una propuesta.</p></div></li>
-        </ol>
-      </div>
-    </div>
-  </section>
-
 </main>
-
-<footer class="site-footer" id="pie">
-  <div class="container footer-grid">
-    <div class="footer-brand">
-      <span class="brand-mark brand-mark-lg" aria-hidden="true">
-        <img src="assets/simbolo.svg" alt="" width="48" height="48">
-      </span>
-      <p class="brand-name">Niebla Studios</p>
-      <p class="muted">Webs para explicar mejor. Sistemas para trabajar con más orden.</p>
-    </div>
-    <nav aria-label="Navegación del pie"><h2 class="footer-title">Navegación</h2>
-      <ul><li><a href="#servicios">Servicios</a></li><li><a href="#planes">Planes</a></li><li><a href="#soluciones">Soluciones</a></li><li><a href="#enfoque">Proceso</a></li><li><a href="#nosotros">Nosotros</a></li><li><a href="#preguntas">Preguntas frecuentes</a></li><li><a href="#contacto">Contacto</a></li></ul></nav>
-    <div><h2 class="footer-title">Servicios</h2>
-      <ul><li>Landing pages</li><li>Catálogos digitales</li><li>Sitios corporativos</li><li>Sistemas de gestión</li><li>Sistemas de reservas</li><li>Aplicaciones a medida</li></ul></div>
-    <div><h2 class="footer-title">Contacto</h2>
-      <ul><li><a id="footerEmail" href="mailto:nieblastudiosrd@gmail.com">nieblastudiosrd@gmail.com</a></li><li id="footerWhatsappItem" hidden><a id="footerWhatsapp" hidden>WhatsApp</a></li><li><a href="https://www.instagram.com/nieblastudios/" target="_blank" rel="noopener noreferrer">Instagram: @nieblastudios ↗</a></li></ul></div>
-  </div>
-  <div class="container footer-bottom">
-    <p class="wordmark" aria-hidden="true">Niebla Studios</p>
-    <p class="muted">© <span id="year">2026</span> Niebla Studios. Todos los derechos reservados.</p>
-    <p class="muted"><a href="mailto:nieblastudiosrd@gmail.com?subject=Reporte%20de%20accesibilidad">Reportar una barrera de accesibilidad</a></p>
-  </div>
-</footer>
-
-<aside class="accessibility-widget" id="accessibilityWidget" aria-label="Preferencias de visualización y movimiento">
-  <button class="accessibility-trigger" id="accessibilityToggle" type="button" aria-expanded="false" aria-controls="accessibilityPanel" aria-label="Abrir opciones de accesibilidad">
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4.5" r="2"></circle><path d="M4 8.5h16M12 8.5v11m0-7-5 6m5-6 5 6"></path></svg>
-    <span>Accesibilidad</span>
-  </button>
-  <section class="accessibility-panel" id="accessibilityPanel" aria-labelledby="accessibilityTitle" role="region" hidden>
-    <div class="accessibility-panel-head">
-      <h2 id="accessibilityTitle">Preferencias de accesibilidad</h2>
-      <button class="accessibility-close" id="accessibilityClose" type="button" aria-label="Cerrar opciones de accesibilidad">×</button>
-    </div>
-    <div class="accessibility-control">
-      <span id="textSizeLabel">Escala del texto</span>
-      <div class="accessibility-button-row">
-        <button type="button" data-a11y-action="text-smaller" aria-label="A− Reducir escala del texto">A−</button>
-        <output id="textSizeValue" aria-live="polite">100%</output>
-        <button type="button" data-a11y-action="text-larger" aria-label="A+ Aumentar escala del texto">A+</button>
-      </div>
-    </div>
-    <div class="accessibility-options">
-      <button type="button" data-a11y-action="contrast" aria-pressed="false">Alto contraste</button>
-      <button type="button" data-a11y-action="links" aria-pressed="false">Subrayar enlaces</button>
-      <button type="button" data-a11y-action="motion" aria-pressed="false">Reducir movimiento</button>
-    </div>
-    <button class="accessibility-reset" type="button" data-a11y-action="reset">Restablecer preferencias</button>
-    <p class="accessibility-status" id="accessibilityStatus" role="status" aria-live="polite"></p>
-  </section>
-</aside>
-
+<footer class="footer"><div class="wrap footer-main"><a class="brand" href="#inicio"><img src="assets/simbolo.svg" alt="" width="34" height="34"><span>NIEBLA<span class="brand-light">STUDIOS</span></span></a><p>Desarrollo web y software.<br>República Dominicana.</p><div class="footer-links"><a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#proceso">Proceso</a><a href="#contacto">Contacto</a><a href="https://www.instagram.com/nieblastudios/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div><div class="wrap footer-bottom"><span>© <span id="year">2026</span> NIEBLA STUDIOS</span><span>DISEÑADO PARA CONSTRUIR LO QUE SIGUE.</span><a href="#top">VOLVER ARRIBA ↑</a></div></footer>
 <script src="./config.js"></script>
-<script src="./symbol-3d.js" defer></script>
-<script src="./main.js" defer></script>
+<script src="./redesign.js" defer></script>
 </body>
 </html>
