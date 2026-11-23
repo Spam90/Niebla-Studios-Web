@@ -26,6 +26,7 @@
 .stage.no-webgl .stage-fallback{display:block}
 .site-header{position:sticky;z-index:80}
 .hero,.services,.manifesto,.capabilities,.process,.studio,.faq,.contact,.site-footer{position:relative}
+.hero{isolation:auto}.hero-grid-lines{z-index:0}
 .hero-inner,.hero-bottomline,.section-top,.service-feature,.services-foot,.manifesto-label,.manifesto-content,.cap-header,.cap-title,.capabilities-grid,.process-heading,.process-track,.studio-top,.studio-main,.studio-team,.faq-heading,.faq-items,.contact-grid,.footer-main,.footer-bottom{position:relative;z-index:2}
 @media(max-width:860px){.stage{height:100svh}.stage-fallback{right:-5vw;width:58vw;opacity:.16}}
 @media(max-width:600px){.stage-fallback{right:-12vw;width:70vw;opacity:.12}}
