@@ -9,7 +9,7 @@ test("homepage clearly presents Niebla Studios as a web and software agency", as
   await expect(page.locator("#servicios")).toContainText("Catálogos digitales");
   await expect(page.locator("#servicios")).toContainText("Sistemas de gestión");
   await expect(page.locator("#proyectos")).toContainText("DEMO CONCEPTUAL");
-  await expect(page.locator("#agencia")).not.toContainText(/JEREMIAS|NELXUS/i);
+  await expect(page.locator(".team-strip")).toHaveCount(0);
   await expect(page.locator('#contacto a.contact-mail')).toHaveAttribute("href", /nieblastudiosrd@gmail.com/);
 });
 
