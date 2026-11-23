@@ -135,3 +135,25 @@ main,.footer{position:relative;z-index:1}
 .hero h1 .c{transition:color .4s}
 .about h2,.intro h2{max-width:none}
 @media(prefers-reduced-motion:reduce){.progress{display:none}.js .rule:not(.in)::before{transform:none}}
+
+
+/* planes y cotización */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
+.pricing-card{position:relative;display:flex;flex-direction:column;min-width:0;padding:30px 26px 26px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(155deg,rgba(255,255,255,.035),rgba(255,255,255,.012));}
+.pricing-featured{border-color:rgba(96,165,250,.55);background:linear-gradient(155deg,rgba(37,99,235,.16),rgba(15,19,28,.72))}
+.pricing-kicker{display:block;color:var(--sky);font-size:.76rem;letter-spacing:.12em;font-weight:500}
+.pricing-card h3{font-size:clamp(1.8rem,3vw,2.5rem);margin-top:14px}
+.pricing-price{margin-top:22px;color:#fff;font-size:clamp(1.8rem,3vw,2.55rem);letter-spacing:-.045em;font-weight:500;line-height:1.1}
+.pricing-price small{display:block;margin-bottom:7px;color:var(--slate);font-size:.82rem;letter-spacing:0;font-weight:400}
+.pricing-desc{margin-top:18px;min-height:78px}
+.pricing-card ul{list-style:none;padding:0;margin:22px 0 28px}
+.pricing-card li{position:relative;padding:11px 0 11px 22px;border-top:1px solid var(--line);color:#d4dbe7;font-size:.94rem}
+.pricing-card li::before{content:"↗";position:absolute;left:0;color:var(--sky)}
+.pricing-link{margin-top:auto;padding-top:16px;border-top:1px solid var(--line);color:var(--sky);font-weight:500;width:fit-content}
+.pricing-link:hover{color:#fff}
+.pricing-custom{display:grid;grid-template-columns:1fr 1.4fr auto;gap:24px;align-items:center;margin-top:22px;padding:28px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.pricing-custom h3{margin-top:8px;font-size:clamp(1.5rem,2.8vw,2.2rem)}
+.pricing-custom p{max-width:48ch}
+.pricing-custom .button{white-space:nowrap}
+.pricing-disclaimer{margin-top:22px;font-size:.9rem;max-width:100ch}
+@media(max-width:900px){.pricing-grid{grid-template-columns:1fr}.pricing-desc{min-height:0}.pricing-custom{grid-template-columns:1fr;align-items:start}.pricing-custom .button{width:fit-content}}
