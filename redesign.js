@@ -71,27 +71,49 @@
   }
 
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  if (finePointer) {
-    const orb = document.querySelector(".hero-orb");
-    if (orb) {
+  const visual = document.querySelector(".hero-visual");
+  if (visual) {
+    const particlePositions = [
+      ["-34%", "-25%", "55px", "8s", "0s"],
+      ["31%", "-36%", "-20px", "11s", "-3s"],
+      ["38%", "24%", "70px", "9s", "-5s"],
+      ["-29%", "36%", "-35px", "12s", "-2s"],
+      ["4%", "-47%", "30px", "10s", "-6s"],
+      ["-48%", "4%", "15px", "13s", "-4s"],
+      ["48%", "-5%", "-10px", "8.5s", "-1s"],
+      ["3%", "48%", "45px", "11s", "-7s"]
+    ];
+    particlePositions.forEach(([x, y, z, duration, delay]) => {
+      const particle = document.createElement("span");
+      particle.className = "hero-particle";
+      particle.setAttribute("aria-hidden", "true");
+      particle.style.setProperty("--x", x);
+      particle.style.setProperty("--y", y);
+      particle.style.setProperty("--z", z);
+      particle.style.setProperty("--duration", duration);
+      particle.style.setProperty("--delay", delay);
+      visual.appendChild(particle);
+    });
+
+    if (finePointer) {
       let frame = 0;
-      const hero = document.querySelector(".hero");
-      hero?.addEventListener("pointermove", event => {
+      visual.addEventListener("pointermove", event => {
         if (frame) cancelAnimationFrame(frame);
         frame = requestAnimationFrame(() => {
-          const bounds = hero.getBoundingClientRect();
+          const bounds = visual.getBoundingClientRect();
           const x = (event.clientX - bounds.left) / bounds.width - 0.5;
           const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-          orb.style.marginLeft = (x * 13).toFixed(1) + "px";
-          orb.style.marginTop = (y * 13).toFixed(1) + "px";
+          visual.style.transform = "translateY(-52%) rotateX(" + (-y * 7).toFixed(2) + "deg) rotateY(" + (x * 9).toFixed(2) + "deg)";
         });
       });
-      hero?.addEventListener("pointerleave", () => {
+      visual.addEventListener("pointerleave", () => {
         if (frame) cancelAnimationFrame(frame);
-        orb.style.margin = "";
+        visual.style.transform = "";
       });
     }
+  }
 
+  if (finePointer) {
     document.querySelectorAll("[data-tilt]").forEach(card => {
       let frame = 0;
       card.addEventListener("pointermove", event => {
