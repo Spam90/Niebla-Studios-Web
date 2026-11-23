@@ -17,31 +17,16 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1!important;transform:none!important}}
 
 
-/* Restored original Niebla 3D motion system */
-.hero-inner{z-index:2}
-.hero-visual{position:absolute;z-index:1;right:0;top:50%;transform:translateY(-52%);width:43%;aspect-ratio:1;display:grid;place-items:center;perspective:1100px;transform-style:preserve-3d;will-change:transform;transition:transform .18s ease-out}
-.hero-visual::before{content:"";position:absolute;width:78%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.23),rgba(37,99,235,.07) 42%,transparent 70%);filter:blur(20px);transform:translateZ(-90px);pointer-events:none;animation:glowPulse 8s ease-in-out infinite}
-.visual-orbit{position:absolute;border:1px solid rgba(96,165,250,.25);border-radius:50%;transform-style:preserve-3d;backface-visibility:hidden}
-.orbit-one{width:92%;height:48%;transform:rotate(-28deg);box-shadow:0 0 70px rgba(37,99,235,.1);animation:orbitDrift 18s linear infinite}
-.orbit-two{width:72%;height:100%;transform:rotate(48deg);border-color:rgba(255,255,255,.18);animation:orbitDriftReverse 24s linear infinite}
-.visual-core{position:relative;z-index:2;width:43%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#293e67,#101827 60%,#080b12);box-shadow:0 0 100px rgba(37,99,235,.3),inset 0 0 35px rgba(96,165,250,.2);border:1px solid rgba(150,190,255,.38);transform-style:preserve-3d;will-change:transform;animation:coreHover 6s ease-in-out infinite}
-.visual-core::before,.visual-core::after{content:"";position:absolute;inset:-20%;border:1px solid rgba(96,165,250,.58);border-radius:48%;pointer-events:none;transform-style:preserve-3d}
-.visual-core::before{transform:rotateX(72deg) rotateZ(-22deg);box-shadow:0 0 24px rgba(37,99,235,.2),inset 0 0 22px rgba(96,165,250,.08);animation:coreRing 11s linear infinite}
-.visual-core::after{inset:-31%;border-color:rgba(255,255,255,.25);transform:rotateY(68deg) rotateX(18deg);animation:coreRingReverse 15s linear infinite}
-.visual-core img{position:relative;z-index:2;width:55%;filter:drop-shadow(0 0 20px rgba(96,165,250,.45));transform:translateZ(24px);animation:logoBreath 4s ease-in-out infinite}
-.visual-tag,.visual-index{position:absolute;z-index:3;font:9px var(--mono);letter-spacing:.12em;color:#b8cbea;white-space:nowrap}
-.tag-top{top:15%;right:1%;display:flex;align-items:center;gap:9px;transform:translateZ(45px)}
-.tag-bottom{bottom:13%;left:2%;transform:translateZ(45px)}
-.visual-index{right:8%;bottom:28%;color:#7894bd;transform:translateZ(35px)}
-.hero-particle{position:absolute;z-index:2;left:calc(50% + var(--x));top:calc(50% + var(--y));width:4px;height:4px;border-radius:50%;background:#b7d5ff;box-shadow:0 0 14px 3px rgba(96,165,250,.75);pointer-events:none;animation:particleDrift var(--duration,9s) ease-in-out infinite;animation-delay:var(--delay,0s);transform:translateZ(var(--z,0px))}
-@keyframes coreHover{0%,100%{transform:translate3d(0,0,0) rotateX(-4deg) rotateY(7deg)}50%{transform:translate3d(0,-13px,0) rotateX(5deg) rotateY(-7deg)}}
-@keyframes coreRing{from{transform:rotateX(72deg) rotateZ(-22deg) rotateY(0)}to{transform:rotateX(72deg) rotateZ(-22deg) rotateY(360deg)}}
-@keyframes coreRingReverse{from{transform:rotateY(68deg) rotateX(18deg) rotateZ(0)}to{transform:rotateY(68deg) rotateX(18deg) rotateZ(-360deg)}}
-@keyframes orbitDrift{from{transform:rotate(-28deg) rotateZ(0)}to{transform:rotate(-28deg) rotateZ(360deg)}}
-@keyframes orbitDriftReverse{from{transform:rotate(48deg) rotateZ(360deg)}to{transform:rotate(48deg) rotateZ(0)}}
-@keyframes logoBreath{0%,100%{filter:drop-shadow(0 0 14px rgba(96,165,250,.3));transform:translateZ(24px) scale(1)}50%{filter:drop-shadow(0 0 26px rgba(96,165,250,.7));transform:translateZ(34px) scale(1.045)}}
-@keyframes particleDrift{0%,100%{opacity:.25;translate:0 0}50%{opacity:1;translate:7px -12px}}
-@keyframes glowPulse{0%,100%{opacity:.7;transform:scale(.94)}50%{opacity:1;transform:scale(1.08)}}
-@media(max-width:1050px){.hero-visual{right:-4%;width:45%}}
-@media(max-width:720px){.hero-visual{width:76vw;right:-24%;top:63%;opacity:.5}.visual-tag,.visual-index{font-size:7px}.hero-particle{display:none}}
-@media(prefers-reduced-motion:reduce){.hero-visual,.visual-core,.visual-core::before,.visual-core::after,.visual-core img,.visual-orbit,.hero-particle{animation:none!important;transition:none!important}.hero-visual{transform:none!important}}
+
+/* Niebla original 3D brand symbol — real WebGL geometry, not a CSS illustration */
+.stage{position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none;overflow:hidden}
+.stage-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;filter:drop-shadow(0 28px 70px rgba(220,228,240,.18))}
+.stage-fallback{position:absolute;right:3%;top:50%;width:min(43vw,620px);transform:translateY(-50%);opacity:.3;display:none;filter:drop-shadow(0 20px 80px rgba(37,99,235,.32))}
+.stage.no-webgl .stage-canvas{display:none}
+.stage.no-webgl .stage-fallback{display:block}
+.site-header{position:sticky;z-index:80}
+.hero,.services,.manifesto,.capabilities,.process,.studio,.faq,.contact,.site-footer{position:relative}
+.hero-inner,.hero-bottomline,.section-top,.service-feature,.services-foot,.manifesto-label,.manifesto-content,.cap-header,.cap-title,.capabilities-grid,.process-heading,.process-track,.studio-top,.studio-main,.studio-team,.faq-heading,.faq-items,.contact-grid,.footer-main,.footer-bottom{position:relative;z-index:2}
+@media(max-width:860px){.stage{height:100svh}.stage-fallback{right:-5vw;width:58vw;opacity:.16}}
+@media(max-width:600px){.stage-fallback{right:-12vw;width:70vw;opacity:.12}}
+@media(prefers-reduced-motion:reduce){.stage-canvas{filter:none}}
