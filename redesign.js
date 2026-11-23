@@ -44,34 +44,6 @@
     });
   }, { passive: true });
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion) return;
-
-  const revealTargets = document.querySelectorAll(
-    ".manifesto-label, .manifesto-content, .section-top, .service-feature, .services-foot, " +
-    ".cap-header, .cap-title, .principles article, .process-heading, .process-track article, " +
-    ".studio-top, .studio-main, .team-intro, .team-member, .faq-heading, .faq-items details, " +
-    ".contact-top, .contact h2, .contact-bottom"
-  );
-
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver((entries, currentObserver) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("visible");
-        currentObserver.unobserve(entry.target);
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -35px 0px" });
-
-    revealTargets.forEach((element, index) => {
-      element.classList.add("reveal");
-      element.style.transitionDelay = (index % 4) * 65 + "ms";
-      observer.observe(element);
-    });
-  }
-
-  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
   // Original Niebla WebGL 3D mark. The same canvas stays mounted while its
   // pose changes with the active section; no CSS sphere or image substitute.
   const stage = document.getElementById("stage");
@@ -113,6 +85,34 @@
       stage.classList.add("no-webgl");
     }
   }
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) return;
+
+  const revealTargets = document.querySelectorAll(
+    ".manifesto-label, .manifesto-content, .section-top, .service-feature, .services-foot, " +
+    ".cap-header, .cap-title, .principles article, .process-heading, .process-track article, " +
+    ".studio-top, .studio-main, .team-intro, .team-member, .faq-heading, .faq-items details, " +
+    ".contact-top, .contact h2, .contact-bottom"
+  );
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
+        currentObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -35px 0px" });
+
+    revealTargets.forEach((element, index) => {
+      element.classList.add("reveal");
+      element.style.transitionDelay = (index % 4) * 65 + "ms";
+      observer.observe(element);
+    });
+  }
+
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   if (finePointer) {
     document.querySelectorAll("[data-tilt]").forEach(card => {
