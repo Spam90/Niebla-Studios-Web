@@ -8,10 +8,8 @@ test("homepage clearly presents Niebla Studios as a web and software agency", as
   await expect(page.getByRole("heading", { name: /Desarrollo de software/ })).toBeVisible();
   await expect(page.locator("#servicios")).toContainText("Catálogos digitales");
   await expect(page.locator("#servicios")).toContainText("Sistemas de gestión");
-  await expect(page.locator("#planes")).toContainText("RD$18,000");
-  await expect(page.locator("#planes")).toContainText("RD$28,000");
-  await expect(page.locator("#planes")).toContainText("RD$45,000");
   await expect(page.locator("#planes")).toContainText("Desarrollo personalizado");
+  await expect(page.locator("#planes")).not.toContainText("RD$");
   await expect(page.locator("#planes")).toContainText("Dominio, hosting y mantenimiento continuo se cotizan por separado");
   await expect(page.locator("#proyectos")).toContainText("DEMO CONCEPTUAL");
   await expect(page.locator(".team-strip")).toHaveCount(0);
