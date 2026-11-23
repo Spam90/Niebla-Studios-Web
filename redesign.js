@@ -71,45 +71,46 @@
   }
 
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  const visual = document.querySelector(".hero-visual");
-  if (visual) {
-    const particlePositions = [
-      ["-34%", "-25%", "55px", "8s", "0s"],
-      ["31%", "-36%", "-20px", "11s", "-3s"],
-      ["38%", "24%", "70px", "9s", "-5s"],
-      ["-29%", "36%", "-35px", "12s", "-2s"],
-      ["4%", "-47%", "30px", "10s", "-6s"],
-      ["-48%", "4%", "15px", "13s", "-4s"],
-      ["48%", "-5%", "-10px", "8.5s", "-1s"],
-      ["3%", "48%", "45px", "11s", "-7s"]
-    ];
-    particlePositions.forEach(([x, y, z, duration, delay]) => {
-      const particle = document.createElement("span");
-      particle.className = "hero-particle";
-      particle.setAttribute("aria-hidden", "true");
-      particle.style.setProperty("--x", x);
-      particle.style.setProperty("--y", y);
-      particle.style.setProperty("--z", z);
-      particle.style.setProperty("--duration", duration);
-      particle.style.setProperty("--delay", delay);
-      visual.appendChild(particle);
-    });
 
-    if (finePointer) {
-      let frame = 0;
-      visual.addEventListener("pointermove", event => {
-        if (frame) cancelAnimationFrame(frame);
-        frame = requestAnimationFrame(() => {
-          const bounds = visual.getBoundingClientRect();
-          const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-          const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-          visual.style.transform = "translateY(-52%) rotateX(" + (-y * 7).toFixed(2) + "deg) rotateY(" + (x * 9).toFixed(2) + "deg)";
-        });
-      });
-      visual.addEventListener("pointerleave", () => {
-        if (frame) cancelAnimationFrame(frame);
-        visual.style.transform = "";
-      });
+  // Original Niebla WebGL 3D mark. The same canvas stays mounted while its
+  // pose changes with the active section; no CSS sphere or image substitute.
+  const stage = document.getElementById("stage");
+  const canvas = document.getElementById("heroCanvas");
+  if (stage && canvas) {
+    try {
+      const api = window.NieblaSymbol?.init(canvas, { scroll: 0.0012, stage: true });
+      if (!api) stage.classList.add("no-webgl");
+      else {
+        const sections = [...document.querySelectorAll("[data-pose]")];
+        let active = sections[0] || null;
+        const applyPose = section => {
+          if (!section) return;
+          const pose = JSON.parse(section.dataset.pose);
+          if (window.innerWidth < 860) {
+            pose.x = 1.25;
+            pose.y = -0.55;
+            pose.zoom *= 0.62;
+            pose.a = Math.min(pose.a, 0.48);
+          }
+          api.pose(pose);
+        };
+        applyPose(active);
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(entries => {
+            const visible = entries.filter(entry => entry.isIntersecting)
+              .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (visible && visible.target !== active) {
+              active = visible.target;
+              applyPose(active);
+            }
+          }, { threshold: [0.2, 0.4, 0.6] });
+          sections.forEach(section => observer.observe(section));
+        }
+        window.addEventListener("resize", () => applyPose(active), { passive: true });
+      }
+    } catch (error) {
+      console.error("Niebla WebGL 3D:", error);
+      stage.classList.add("no-webgl");
     }
   }
 
