@@ -11,13 +11,13 @@ test("homepage clearly presents Niebla Studios as a web and software agency", as
   await expect(page.locator("#proyectos")).toContainText("DEMO CONCEPTUAL");
   await expect(page.locator("#agencia")).toContainText("JEREMIAS");
   await expect(page.locator("#agencia")).toContainText("NELXUS");
-  await expect(page.locator("#contacto a[href^='mailto:']")).toHaveAttribute("href", /nieblastudiosrd@gmail.com/);
+  await expect(page.locator('#contacto a.contact-mail')).toHaveAttribute("href", /nieblastudiosrd@gmail.com/);
 });
 
 test("homepage metadata and canonical URL are configured", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Niebla Studios/);
-  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /desarrollo.*software/i);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /desarrollo web y software/i);
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", /Niebla Studios/);
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", "https://nieblastudio.devs.surf/assets/logo.jpg");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://nieblastudio.devs.surf/");
