@@ -26,6 +26,7 @@
 <body>
 <a class="skip" href="#contenido">Saltar al contenido</a>
 <div class="grain" aria-hidden="true"></div>
+<div class="stage" id="stage" aria-hidden="true"><canvas id="heroCanvas" class="stage-canvas"></canvas><img class="stage-fallback" src="assets/logo.png" alt="" width="1254" height="1254"></div>
 <header class="site-header" id="top">
   <div class="nav-shell">
     <a class="brand" href="#inicio" aria-label="Niebla Studios, inicio">
@@ -44,9 +45,9 @@
 </header>
 
 <main id="contenido">
-  <section class="hero" id="inicio">
+  <section class="hero" id="inicio" data-pose='{"x":0.72,"y":0.05,"zoom":1.12,"ry":0,"a":0.88}'>
     <div class="hero-grid-lines" aria-hidden="true"></div>
-    <div class="hero-visual" aria-hidden="true"><div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div><div class="visual-core"><img src="assets/simbolo.svg" alt=""></div><span class="visual-tag tag-top"><i class="pulse"></i> DIGITAL SYSTEM / 01</span><span class="visual-tag tag-bottom">DESIGN IN MOTION</span><span class="visual-index">NS—3D / 2026</span></div>
+    
     <div class="hero-inner">
       <div class="hero-kicker"><span class="pulse"></span> DISEÑO · TECNOLOGÍA · INGENIERÍA <span class="kicker-index">NS—2026</span></div>
       <h1>Hacemos que<br>lo complejo<br><span class="hero-word">funcione.</span></h1>
@@ -68,7 +69,7 @@
     <div class="manifesto-mark" aria-hidden="true">N<span>.</span></div>
   </section>
 
-  <section class="services section" id="servicios">
+  <section class="services section" id="servicios" data-pose='{"x":1.08,"y":0.02,"zoom":0.78,"ry":0.9,"a":0.76}'>
     <div class="section-top"><div><span class="section-index">02 / LO QUE CONSTRUIMOS</span><h2>Dos caminos.<br><em>Un mismo estándar.</em></h2></div><p class="section-intro">No vendemos tecnología por catálogo. Entendemos el reto y construimos la solución adecuada, desde la primera pantalla hasta la lógica que la hace funcionar.</p></div>
     <div class="service-stack">
       <article class="service-feature service-web" data-tilt>
@@ -95,7 +96,7 @@
     <div class="services-foot"><span>¿NO SABES QUÉ TIPO DE SOLUCIÓN NECESITAS?</span><a href="#contacto">Empecemos por el problema. <b>↗</b></a></div>
   </section>
 
-  <section class="capabilities section" id="enfoque">
+  <section class="capabilities section" id="enfoque" data-pose='{"x":0.88,"y":-0.08,"zoom":0.82,"ry":1.65,"a":0.76}'>
     <div class="cap-header"><span class="section-index">03 / CÓMO PENSAMOS</span><span class="cap-coord">DESDE LA IDEA HASTA LA IMPLEMENTACIÓN</span></div>
     <div class="cap-title"><h2>No se trata de<br>hacer más. <em>Se trata<br>de hacerlo mejor.</em></h2><p>El resultado importa, pero también cómo llegamos a él: decisiones claras, alcance definido y atención a los detalles que hacen que un producto sea útil de verdad.</p></div>
     <div class="principles">
@@ -116,13 +117,13 @@
     </div>
   </section>
 
-  <section class="studio section" id="estudio">
+  <section class="studio section" id="estudio" data-pose='{"x":1.12,"y":0.06,"zoom":0.8,"ry":2.5,"a":0.76}'>
     <div class="studio-top"><span class="section-index">05 / EL ESTUDIO</span><span class="studio-location">INDEPENDENT DIGITAL STUDIO<br>SANTO DOMINGO, DOMINICAN REPUBLIC</span></div>
     <div class="studio-main"><div class="studio-symbol"><img src="assets/simbolo.svg" alt="Símbolo de Niebla Studios"></div><div><h2>Pequeño equipo.<br><em>Ambición grande.</em></h2><p>Niebla Studios es un estudio independiente de desarrollo web y software. Unimos desarrollo, diseño y visión de negocio para crear herramientas digitales con propósito.</p></div></div>
     <div class="studio-team"><div class="team-intro"><span>EL EQUIPO FUNDADOR</span><p>Dos perfiles complementarios trabajando de forma cercana en cada proyecto.</p></div><div class="team-member"><span>01 / JEREMIAS</span><b>Backend & gestión de proyectos</b></div><div class="team-member"><span>02 / NELXUS</span><b>Frontend & marketing</b></div></div>
   </section>
 
-  <section class="faq section" id="preguntas">
+  <section class="faq section" id="preguntas" data-pose='{"x":0.92,"y":0.02,"zoom":0.84,"ry":3.4,"a":0.76}'>
     <div class="faq-heading"><span class="section-index">06 / PREGUNTAS FRECUENTES</span><h2>Lo que conviene<br><em>saber.</em></h2><p>Si tienes otra pregunta, podemos resolverla antes de empezar.</p></div>
     <div class="faq-items">
       <details><summary>¿Cuánto cuesta un proyecto?<b>+</b></summary><p>Depende de su alcance, funcionalidades, contenido e integraciones. Primero entendemos qué necesitas y luego preparamos una propuesta con precio y entregables definidos.</p></details>
@@ -134,7 +135,7 @@
     </div>
   </section>
 
-  <section class="contact section" id="contacto">
+  <section class="contact section" id="contacto" data-pose='{"x":1.12,"y":-0.06,"zoom":0.78,"ry":4.35,"a":0.76}'>
     <div class="contact-grid" aria-hidden="true"></div>
     <div class="contact-top"><span class="section-index"><i class="pulse"></i> 07 / EL SIGUIENTE PASO</span><span>¿TIENES ALGO EN MENTE?</span></div>
     <h2>Hagamos que<br><em>pase.</em></h2>
@@ -147,6 +148,7 @@
   <div class="footer-bottom"><span>© <span id="year">2026</span> NIEBLA STUDIOS</span><span>DISEÑADO Y DESARROLLADO CON INTENCIÓN.</span><a href="#top">VOLVER ARRIBA ↑</a></div>
 </footer>
 <script src="./config.js"></script>
+<script src="./symbol-3d.js" defer></script>
 <script src="./redesign.js" defer></script>
 </body>
 </html>
