@@ -17,108 +17,99 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./redesign.css">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"ProfessionalService","name":"Niebla Studios","url":"https://nieblastudio.devs.surf/","logo":"https://nieblastudio.devs.surf/assets/simbolo.svg","email":"nieblastudiosrd@gmail.com","areaServed":{"@type":"Country","name":"República Dominicana"},"serviceType":["Desarrollo web","Desarrollo de software"]}
   </script>
 </head>
 <body>
+<canvas id="fog" aria-hidden="true"></canvas>
+<div class="progress" aria-hidden="true"></div>
 <a class="skip" href="#contenido">Saltar al contenido</a>
-<div class="noise" aria-hidden="true"></div>
 <header class="header" id="top">
   <div class="wrap nav">
     <a class="brand" href="#inicio" aria-label="Niebla Studios, inicio"><img src="assets/simbolo.svg" alt="" width="38" height="38"><span>NIEBLA <span class="brand-light">STUDIOS</span></span></a>
     <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><i></i><i></i></button>
     <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
       <a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#proceso">Proceso</a><a href="#agencia">Agencia</a>
-      <a class="nav-cta" href="#contacto">Hablemos <span>↗</span></a>
+      <a class="nav-cta" href="#contacto">Hablemos </a>
     </nav>
   </div>
 </header>
 <main id="contenido" tabindex="-1">
-  <section class="hero section-wrap" id="inicio">
-    <div class="hero-grid"></div><div class="hero-glow"></div>
-    <div class="hero-content">
-      <p class="eyebrow"><span class="live-dot"></span> ESTUDIO DE DESARROLLO DIGITAL <span class="eyebrow-line"></span> REPÚBLICA DOMINICANA</p>
-      <h1>Ideas que toman forma.<br><span class="outline">Software que</span><br><span class="blue-word">hace avanzar.</span></h1>
+  <section class="hero" id="inicio">
+    <img class="hero-symbol" src="assets/simbolo.svg" alt="" width="260" height="430">
+    <div class="wrap hero-content">
+      <h1>Ideas que toman forma.<br>Software que hace avanzar.</h1>
       <div class="hero-bottom">
         <p class="hero-copy">Diseñamos y desarrollamos sitios web, plataformas y sistemas a medida. Tecnología pensada para resolver necesidades reales de tu negocio.</p>
-        <div class="hero-actions"><a class="button button-blue" href="#contacto">Cuéntanos tu proyecto <span>↗</span></a><a class="text-link" href="#servicios">Conoce lo que hacemos <span>↓</span></a></div>
+        <div class="hero-actions"><a class="button" href="#contacto">Cuéntanos tu proyecto</a><a class="text-link" href="#servicios">Conoce lo que hacemos</a></div>
       </div>
     </div>
-    <div class="hero-visual" aria-hidden="true">
-      <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
-      <div class="visual-core"><img src="assets/simbolo.svg" alt=""></div>
-      <div class="visual-tag tag-top"><span class="tag-dot"></span> DIGITAL / ENGINEERING</div>
-      <div class="visual-tag tag-bottom">18° 29' N&nbsp;&nbsp; 69° 54' W</div>
-      <div class="visual-index">NS—001</div>
-    </div>
-    <div class="hero-meta"><span>DESARROLLO WEB + SOFTWARE</span><span>REPÚBLICA DOMINICANA</span><a href="#servicios">DESCUBRIR <b>↓</b></a></div>
   </section>
 
   <section class="intro section-pad">
     <div class="wrap intro-grid">
-      <p class="eyebrow">01 / LO QUE HACEMOS</p>
       <div><h2>Construimos la parte digital que tu negocio <em>necesita.</em></h2><p class="intro-text">Desde una presencia web clara hasta una aplicación que organiza operaciones. Nos involucramos en entender el objetivo, definir el alcance y desarrollar una solución que tenga sentido usar y mantener.</p></div>
     </div>
   </section>
 
   <section class="services section-pad" id="servicios">
     <div class="wrap">
-      <div class="section-heading"><div><p class="eyebrow">02 / CAPACIDADES</p><h2>Dos disciplinas.<br><em>Un mismo objetivo.</em></h2></div><p class="section-aside">No partimos de una plantilla de servicios. Partimos de lo que necesitas conseguir y elegimos la solución adecuada.</p></div>
+      <div class="section-heading"><div><h2>Dos disciplinas.<br><em>Un mismo objetivo.</em></h2></div><p class="section-aside">No partimos de una plantilla de servicios. Partimos de lo que necesitas conseguir y elegimos la solución adecuada.</p></div>
       <div class="service-columns">
         <article class="service-panel">
-          <div class="service-top"><span class="service-number">01</span><span class="service-icon">↗</span></div>
-          <p class="service-kicker">WEB DEVELOPMENT</p><h3>Desarrollo<br>web</h3>
+          
+          <h3>Desarrollo<br>web</h3>
           <p class="service-desc">Experiencias digitales que presentan tu negocio, comunican tu propuesta y facilitan que las personas den el siguiente paso.</p>
           <ul class="service-list">
-            <li><span>01</span><div><strong>Landing pages</strong><small>Páginas enfocadas en una oferta, servicio o campaña.</small></div></li>
-            <li><span>02</span><div><strong>Catálogos digitales</strong><small>Productos organizados y editables desde un panel.</small></div></li>
-            <li><span>03</span><div><strong>Sitios corporativos</strong><small>Presencia digital completa para tu empresa.</small></div></li>
+            <li><div><strong>Landing pages</strong><small>Páginas enfocadas en una oferta, servicio o campaña.</small></div></li>
+            <li><div><strong>Catálogos digitales</strong><small>Productos organizados y editables desde un panel.</small></div></li>
+            <li><div><strong>Sitios corporativos</strong><small>Presencia digital completa para tu empresa.</small></div></li>
           </ul>
-          <a class="service-link" href="#contacto">Hablemos de tu web <span>↗</span></a>
+          <a class="service-link" href="#contacto">Hablemos de tu web </a>
         </article>
         <article class="service-panel service-panel-dark">
-          <div class="service-top"><span class="service-number">02</span><span class="service-icon">⌘</span></div>
-          <p class="service-kicker">SOFTWARE ENGINEERING</p><h3>Desarrollo de<br><em>software</em></h3>
+          
+          <h3>Desarrollo de<br><em>software</em></h3>
           <p class="service-desc">Herramientas digitales diseñadas alrededor de tus procesos, tus usuarios y la información que tu operación necesita.</p>
           <ul class="service-list">
-            <li><span>01</span><div><strong>Sistemas de gestión</strong><small>Centraliza registros, usuarios y operaciones.</small></div></li>
-            <li><span>02</span><div><strong>Sistemas de reservas</strong><small>Administra disponibilidad, horarios y solicitudes.</small></div></li>
-            <li><span>03</span><div><strong>Aplicaciones a medida</strong><small>Software creado para necesidades específicas.</small></div></li>
+            <li><div><strong>Sistemas de gestión</strong><small>Centraliza registros, usuarios y operaciones.</small></div></li>
+            <li><div><strong>Sistemas de reservas</strong><small>Administra disponibilidad, horarios y solicitudes.</small></div></li>
+            <li><div><strong>Aplicaciones a medida</strong><small>Software creado para necesidades específicas.</small></div></li>
           </ul>
-          <a class="service-link" href="#contacto">Hablemos de tu sistema <span>↗</span></a>
+          <a class="service-link" href="#contacto">Hablemos de tu sistema </a>
         </article>
       </div>
-      <div class="service-note"><span class="note-mark">+</span><p><strong>¿No sabes qué necesitas?</strong> Cuéntanos cómo funciona tu negocio. Te ayudamos a identificar si lo adecuado es una web, un sistema o algo más sencillo.</p></div>
+      <div class="service-note"><p><strong>¿No sabes qué necesitas?</strong> Cuéntanos cómo funciona tu negocio. Te ayudamos a identificar si lo adecuado es una web, un sistema o algo más sencillo.</p></div>
     </div>
   </section>
 
   <section class="projects section-pad" id="proyectos">
     <div class="wrap">
-      <div class="section-heading"><div><p class="eyebrow">03 / EXPLORACIÓN</p><h2>Ideas convertidas<br>en <em>experiencias.</em></h2></div><p class="section-aside">Demostraciones conceptuales para mostrar distintos tipos de soluciones que podemos desarrollar. No son proyectos entregados a clientes.</p></div>
+      <div class="section-heading"><div><h2>Ideas convertidas<br>en <em>experiencias.</em></h2></div><p class="section-aside">Demostraciones conceptuales para mostrar distintos tipos de soluciones que podemos desarrollar. No son proyectos entregados a clientes.</p></div>
       <div class="project-grid">
         <a class="project-card project-large" href="https://niebla-catalogo-digital.vercel.app/" target="_blank" rel="noopener noreferrer">
           <div class="project-screen screen-catalog"><div class="mock-top"><span>ATELIER / MARKET</span><span>COLLECTION 2026</span></div><div class="mock-title">Objetos para<br><i>vivir mejor.</i></div><div class="mock-products"><span class="mock-product product-a"></span><span class="mock-product product-b"></span><span class="mock-product product-c"></span></div><div class="mock-foot">CATÁLOGO DIGITAL / DEMO</div></div>
-          <div class="project-info"><div><span class="project-type">DEMO CONCEPTUAL / 01</span><h3>Catálogo digital</h3><p>Productos, categorías y administración desde un solo lugar.</p></div><span class="project-arrow">↗</span></div>
+          <div class="project-info"><div><span class="project-type">DEMO CONCEPTUAL</span><h3>Catálogo digital</h3><p>Productos, categorías y administración desde un solo lugar.</p></div></div>
         </a>
         <a class="project-card" href="https://niebla-sistema-gestion.vercel.app/" target="_blank" rel="noopener noreferrer">
           <div class="project-screen screen-dashboard"><div class="dash-sidebar"><b>n.</b><span></span><span></span><span></span><span></span></div><div class="dash-main"><div class="dash-heading">Overview <small>Workspace / 2026</small></div><div class="dash-stats"><i></i><i></i><i></i></div><div class="dash-chart"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="dash-rows"><i></i><i></i><i></i></div></div></div>
-          <div class="project-info"><div><span class="project-type">DEMO CONCEPTUAL / 02</span><h3>Sistema de gestión</h3><p>Una interfaz para organizar información y operaciones.</p></div><span class="project-arrow">↗</span></div>
+          <div class="project-info"><div><span class="project-type">DEMO CONCEPTUAL</span><h3>Sistema de gestión</h3><p>Una interfaz para organizar información y operaciones.</p></div></div>
         </a>
         <a class="project-card" href="https://niebla-sistema-reservas.vercel.app/" target="_blank" rel="noopener noreferrer">
           <div class="project-screen screen-booking"><div class="booking-head"><span>RESERVA / STUDIO</span><b>01—2026</b></div><div class="booking-title">Tu tiempo,<br><i>bien organizado.</i></div><div class="booking-calendar"><div class="calendar-row"><b>LU</b><b>MA</b><b>MI</b><b>JU</b><b>VI</b><b>SA</b><b>DO</b></div><div class="calendar-row"><span>09</span><span>10</span><span class="selected">11</span><span>12</span><span>13</span><span>14</span><span>15</span></div><div class="calendar-slots"><i></i><i></i><i></i></div></div></div>
-          <div class="project-info"><div><span class="project-type">DEMO CONCEPTUAL / 03</span><h3>Sistema de reservas</h3><p>Disponibilidad, horarios y solicitudes en una experiencia.</p></div><span class="project-arrow">↗</span></div>
+          <div class="project-info"><div><span class="project-type">DEMO CONCEPTUAL</span><h3>Sistema de reservas</h3><p>Disponibilidad, horarios y solicitudes en una experiencia.</p></div></div>
         </a>
       </div>
-      <p class="project-disclaimer"><span>ⓘ</span> Estas demos utilizan datos ficticios y tienen fines demostrativos. Su disponibilidad no implica que todas las funciones estén conectadas a servicios reales.</p>
+      <p class="project-disclaimer">Estas demos utilizan datos ficticios y tienen fines demostrativos. Su disponibilidad no implica que todas las funciones estén conectadas a servicios reales.</p>
     </div>
   </section>
 
   <section class="approach section-pad" id="proceso">
     <div class="wrap">
-      <div class="section-heading"><div><p class="eyebrow">04 / CÓMO TRABAJAMOS</p><h2>De la necesidad<br>al <em>producto.</em></h2></div><p class="section-aside">Un proceso claro evita construir a ciegas. Cada etapa tiene un objetivo y una decisión que validar.</p></div>
+      <div class="section-heading"><div><h2>De la necesidad<br>al <em>producto.</em></h2></div><p class="section-aside">Un proceso claro evita construir a ciegas. Cada etapa tiene un objetivo y una decisión que validar.</p></div>
       <div class="process-list">
         <article><span class="process-no">01</span><div><h3>Entender</h3><p>Conocemos tu negocio, el problema, las personas involucradas y lo que quieres conseguir.</p></div><span class="process-output">CONTEXTO</span></article>
         <article><span class="process-no">02</span><div><h3>Definir</h3><p>Establecemos la solución, las funcionalidades, el alcance, los entregables y las prioridades.</p></div><span class="process-output">PLAN</span></article>
@@ -130,16 +121,16 @@
 
   <section class="about section-pad" id="agencia">
     <div class="wrap about-wrap">
-      <div class="about-top"><p class="eyebrow">05 / NIEBLA STUDIOS</p><span class="about-coordinate">INDEPENDENT DIGITAL STUDIO<br>BASED IN DOMINICAN REPUBLIC</span></div>
+      
       <h2>No hacemos tecnología<br>por hacerla. <em>La hacemos útil.</em></h2>
-      <div class="about-bottom"><p>Niebla Studios es una agencia independiente de desarrollo web y software. Combinamos desarrollo, diseño y visión de negocio para crear soluciones digitales con un propósito claro.</p><div class="about-values"><div><b>01</b><span>Claridad antes que complejidad.</span></div><div><b>02</b><span>Diseño que ayuda a utilizar.</span></div><div><b>03</b><span>Soluciones que responden al contexto.</span></div></div></div>
+      <div class="about-bottom"><p>Niebla Studios es una agencia independiente de desarrollo web y software. Combinamos desarrollo, diseño y visión de negocio para crear soluciones digitales con un propósito claro.</p><div class="about-values"><div><span>Claridad antes que complejidad.</span></div><div><span>Diseño que ayuda a utilizar.</span></div><div><span>Soluciones que responden al contexto.</span></div></div></div>
       <div class="team-strip"><div><span class="team-label">EL EQUIPO FUNDADOR</span><p>Dos perfiles complementarios, un mismo compromiso con cada proyecto.</p></div><div class="team-role"><span>JEREMIAS</span><strong>Backend &amp; gestión de proyectos</strong></div><div class="team-role"><span>NELXUS</span><strong>Frontend &amp; marketing</strong></div></div>
     </div>
   </section>
 
   <section class="faq section-pad" id="preguntas">
     <div class="wrap faq-grid">
-      <div><p class="eyebrow">06 / PREGUNTAS FRECUENTES</p><h2>Antes de<br><em>empezar.</em></h2><p class="faq-intro">Lo esencial para saber cómo trabajamos. Los detalles de cada proyecto quedan establecidos en su propuesta.</p></div>
+      <div><h2>Antes de<br><em>empezar.</em></h2><p class="faq-intro">Lo esencial para saber cómo trabajamos. Los detalles de cada proyecto quedan establecidos en su propuesta.</p></div>
       <div class="faq-list">
         <details><summary>¿Cuánto cuesta desarrollar un proyecto?<span>+</span></summary><p>Depende del alcance, las funcionalidades, el contenido y las integraciones. Primero entendemos qué necesitas y luego preparamos una propuesta con precio y entregables definidos.</p></details>
         <details><summary>¿Cuánto tiempo toma?<span>+</span></summary><p>El plazo depende de la complejidad y de la disponibilidad de materiales y aprobaciones. Lo estimamos después de revisar los requisitos.</p></details>
@@ -153,13 +144,12 @@
 
   <section class="contact section-pad" id="contacto">
     <div class="wrap contact-wrap">
-      <p class="eyebrow"><span class="live-dot"></span> 07 / EMPECEMOS</p>
       <h2>¿Qué quieres<br><em>construir?</em></h2>
-      <div class="contact-bottom"><p>Cuéntanos qué necesita tu negocio. No tienes que llegar con la solución definida; podemos empezar por entender el problema.</p><div class="contact-actions"><a class="button button-blue" id="emailCta" href="mailto:nieblastudiosrd@gmail.com?subject=Proyecto%20-%20Niebla%20Studios">Hablemos de tu proyecto <span>↗</span></a><a class="contact-mail" href="mailto:nieblastudiosrd@gmail.com">nieblastudiosrd@gmail.com</a><a class="contact-social" href="https://www.instagram.com/nieblastudios/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div>
+      <div class="contact-bottom"><p>Cuéntanos qué necesita tu negocio. No tienes que llegar con la solución definida; podemos empezar por entender el problema.</p><div class="contact-actions"><a class="button button-blue" id="emailCta" href="mailto:nieblastudiosrd@gmail.com?subject=Proyecto%20-%20Niebla%20Studios">Hablemos de tu proyecto </a><a class="contact-mail" href="mailto:nieblastudiosrd@gmail.com">nieblastudiosrd@gmail.com</a><a class="contact-social" href="https://www.instagram.com/nieblastudios/" target="_blank" rel="noopener noreferrer">Instagram</a></div></div>
     </div>
   </section>
 </main>
-<footer class="footer"><div class="wrap footer-main"><a class="brand" href="#inicio"><img src="assets/simbolo.svg" alt="" width="34" height="34"><span>NIEBLA<span class="brand-light">STUDIOS</span></span></a><p>Desarrollo web y software.<br>República Dominicana.</p><div class="footer-links"><a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#proceso">Proceso</a><a href="#contacto">Contacto</a><a href="https://www.instagram.com/nieblastudios/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></div><div class="wrap footer-bottom"><span>© <span id="year">2026</span> NIEBLA STUDIOS</span><span>DISEÑADO PARA CONSTRUIR LO QUE SIGUE.</span><a href="#top">VOLVER ARRIBA ↑</a></div></footer>
+<footer class="footer"><div class="wrap footer-main"><a class="brand" href="#inicio"><img src="assets/simbolo.svg" alt="" width="34" height="34"><span>NIEBLA<span class="brand-light">STUDIOS</span></span></a><p>Desarrollo web y software.<br>República Dominicana.</p><div class="footer-links"><a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#proceso">Proceso</a><a href="#contacto">Contacto</a><a href="https://www.instagram.com/nieblastudios/" target="_blank" rel="noopener noreferrer">Instagram</a></div></div><div class="wrap footer-bottom"><span>© <span id="year">2026</span> Niebla Studios</span><span>Diseñado para construir lo que sigue.</span><a href="#top">Volver arriba</a></div></footer>
 <script src="./config.js"></script>
 <script src="./redesign.js" defer></script>
 </body>
